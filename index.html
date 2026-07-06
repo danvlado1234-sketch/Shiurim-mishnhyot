@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סדר משניות · שיעור יומי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE3CC;
+    --paper-deep:#E1D3B2;
+    --ink:#241F16;
+    --ink-soft:#463C2C;
+    --wine:#7A2A28;
+    --wine-deep:#551C1B;
+    --brass:#A9812F;
+    --brass-light:#C9A653;
+    --ghost:#8C8370;
+    --ghost-bg:#E7DCC2;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Heebo', sans-serif;
+  }
+
+  body {
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px);
+    min-height: 100vh;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ---------- Header ---------- */
+
+  header.hero {
+    padding: 56px 20px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--paper-deep);
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900;
+    font-size: clamp(32px, 6vw, 52px);
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: 0.5px;
+  }
+
+  .hero .tagline {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--wine);
+    font-size: clamp(16px, 2.6vw, 20px);
+    margin: 0 0 18px;
+  }
+
+  .hero .meta {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .hero .meta strong {
+    color: var(--brass);
+    font-weight: 700;
+  }
+
+  /* ---------- Shelf view ---------- */
+
+  .seder-block {
+    margin-bottom: 34px;
+  }
+
+  .seder-label {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink-soft);
+    letter-spacing: 2px;
+    margin: 0 0 10px 2px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .seder-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--paper-deep);
+  }
+
+  .shelf {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .volume {
+    all: unset;
+    cursor: pointer;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    padding: 14px 10px 12px;
+    min-width: 96px;
+    flex: 1 1 96px;
+    max-width: 140px;
+    border-radius: 3px;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .volume { transition: none; }
+  }
+
+  .volume:focus-visible {
+    outline: 3px solid var(--brass);
+    outline-offset: 2px;
+  }
+
+  .volume.has-shiur {
+    background: var(--wine);
+    color: var(--brass-light);
+    box-shadow: 0 2px 0 var(--wine-deep), 0 6px 10px rgba(30,15,10,0.18);
+    border-top: 3px double var(--brass);
+    border-bottom: 3px double var(--brass);
+  }
+
+  .volume.has-shiur:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 0 var(--wine-deep), 0 10px 16px rgba(30,15,10,0.22);
+  }
+
+  .volume.empty {
+    background: var(--ghost-bg);
+    color: var(--ghost);
+    border: 1px dashed var(--ghost);
+  }
+
+  .volume.empty:hover {
+    background: #ded2ae;
+  }
+
+  .volume .count {
+    display: block;
+    font-family: 'Heebo', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+
+  /* ---------- Detail view ---------- */
+
+  .breadcrumb {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb button {
+    all: unset;
+    cursor: pointer;
+    color: var(--wine);
+    font-weight: 700;
+    border-bottom: 1px solid var(--wine);
+  }
+
+  .breadcrumb button:focus-visible {
+    outline: 2px solid var(--brass);
+  }
+
+  .masechet-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 900;
+    margin: 0 0 4px;
+  }
+
+  .masechet-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .perek-block {
+    margin-bottom: 28px;
+  }
+
+  .perek-heading {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--wine);
+    margin: 0 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--paper-deep);
+  }
+
+  .mishna-row {
+    background: #F6EFDD;
+    border: 1px solid var(--paper-deep);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+
+  .mishna-row .mishna-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .mishna-row .mishna-num {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .mishna-row .mishna-date {
+    font-size: 12px;
+    color: var(--ghost);
+    font-weight: 300;
+  }
+
+  audio {
+    width: 100%;
+    height: 36px;
+  }
+
+  .empty-state {
+    background: var(--ghost-bg);
+    border: 1px dashed var(--ghost);
+    border-radius: 4px;
+    padding: 28px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Setup / errors ---------- */
+
+  .notice {
+    background: #F6EFDD;
+    border: 1px solid var(--brass);
+    border-radius: 4px;
+    padding: 22px 24px;
+    line-height: 1.8;
+  }
+
+  .notice h2 {
+    font-family: 'Frank Ruhl Libre', serif;
+    margin-top: 0;
+  }
+
+  .notice code {
+    background: var(--paper-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+
+  .unmatched {
+    margin-top: 40px;
+    font-size: 13px;
+    color: var(--ghost);
+  }
+
+  .unmatched summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .refresh-row {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .refresh-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--wine);
+    border: 1px solid var(--wine);
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  .refresh-btn:hover { background: var(--wine); color: var(--paper); }
+  .refresh-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ghost);
+    padding: 30px 20px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>סדר משניות · שיעור יומי</h1>
+  <p class="tagline">״יוֹם לְיוֹם יַבִּיעַ אֹמֶר״</p>
+  <p class="meta" id="headerMeta">טוען…</p>
+</header>
+
+<div class="wrap">
+  <div class="refresh-row">
+    <button class="refresh-btn" id="refreshBtn">בדוק שיעורים חדשים</button>
+  </div>
+  <main id="app"></main>
+</div>
+
+<footer>נבנה באהבה עבור ארכיון השיעורים היומי</footer>
+
+<script>
+(function(){
+
+  // ============================================================
+  // הגדרות - יש לערוך פעם אחת אחרי יצירת המאגר ב-GitHub
+  // ============================================================
+  const CONFIG = {
+    owner: "your-github-username",   // שם המשתמש שלך ב-GitHub
+    repo: "your-repo-name",          // שם המאגר (repository)
+    branch: "main",                  // בדרך כלל "main"
+    folder: "shiurim"                // שם התיקייה עם קבצי ה-mp3 (לא לשנות)
+  };
+  // ============================================================
+
+  const SEDARIM = [
+    { name: "זרעים", masechtot: ["ברכות","פאה","דמאי","כלאים","שביעית","תרומות","מעשרות","מעשר שני","חלה","ערלה","ביכורים"] },
+    { name: "מועד", masechtot: ["שבת","עירובין","פסחים","שקלים","יומא","סוכה","ביצה","ראש השנה","תענית","מגילה","מועד קטן","חגיגה"] },
+    { name: "נשים", masechtot: ["יבמות","כתובות","נדרים","נזיר","סוטה","גיטין","קידושין"] },
+    { name: "נזיקין", masechtot: ["בבא קמא","בבא מציעא","בבא בתרא","סנהדרין","מכות","שבועות","עדיות","עבודה זרה","אבות","הוריות"] },
+    { name: "קדשים", masechtot: ["זבחים","מנחות","חולין","בכורות","ערכין","תמורה","כריתות","מעילה","תמיד","מידות","קינים"] },
+    { name: "טהרות", masechtot: ["כלים","אהלות","נגעים","פרה","טהרות","מקוואות","נדה","מכשירין","זבים","טבול יום","ידים","עוקצין"] }
+  ];
+
+  const app = document.getElementById('app');
+  const headerMeta = document.getElementById('headerMeta');
+  const refreshBtn = document.getElementById('refreshBtn');
+
+  let index = {};      // { masechet: { perek: [ {mishna, date, url, filename} ] } }
+  let unmatched = [];
+  let view = { type: 'shelf' };
+
+  function normalize(s){
+    return (s||'').replace(/[\u0591-\u05C7]/g,'').replace(/\s+/g,'').trim();
+  }
+
+  function findCanonical(name){
+    const n = normalize(name);
+    for (const seder of SEDARIM){
+      for (const m of seder.masechtot){
+        if (normalize(m) === n) return m;
+      }
+    }
+    return null;
+  }
+
+  function parseFilename(filename){
+    const base = filename.replace(/\.mp3$/i, '');
+    const parts = base.split('_');
+    if (parts.length !== 4) return null;
+    const [masechetRaw, perekRaw, mishnaRaw, dateRaw] = parts;
+    const masechet = findCanonical(masechetRaw.trim());
+    const perek = parseInt(perekRaw.trim(), 10);
+    const mishna = parseInt(mishnaRaw.trim(), 10);
+    if (!masechet || isNaN(perek) || isNaN(mishna)) return null;
+    return { masechet, perek, mishna, date: dateRaw.trim() };
+  }
+
+  function formatDate(d){
+    const parts = (d||'').split('-');
+    if (parts.length !== 3) return d || '';
+    const [y,m,day] = parts;
+    return `${day}.${m}.${y}`;
+  }
+
+  async function fetchFileList(){
+    const url = `https://data.jsdelivr.com/v1/packages/gh/${CONFIG.owner}/${CONFIG.repo}@${CONFIG.branch}?_=${Date.now()}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('repo-not-found');
+    const data = await res.json();
+    const root = data.files || [];
+    const folder = root.find(f => f.name === CONFIG.folder && f.type === 'directory');
+    if (!folder) return [];
+    return (folder.files || []).filter(f => f.type === 'file' && /\.mp3$/i.test(f.name));
+  }
+
+  function fileUrl(filename){
+    return `https://cdn.jsdelivr.net/gh/${CONFIG.owner}/${CONFIG.repo}@${CONFIG.branch}/${CONFIG.folder}/${encodeURIComponent(filename)}`;
+  }
+
+  function buildIndex(files){
+    index = {};
+    unmatched = [];
+    for (const f of files){
+      const parsed = parseFilename(f.name);
+      if (!parsed){
+        unmatched.push(f.name);
+        continue;
+      }
+      if (!index[parsed.masechet]) index[parsed.masechet] = {};
+      if (!index[parsed.masechet][parsed.perek]) index[parsed.masechet][parsed.perek] = [];
+      index[parsed.masechet][parsed.perek].push({
+        mishna: parsed.mishna,
+        date: parsed.date,
+        url: fileUrl(f.name),
+        filename: f.name
+      });
+    }
+    // מיון
+    for (const masechet in index){
+      for (const perek in index[masechet]){
+        index[masechet][perek].sort((a,b) => a.mishna - b.mishna);
+      }
+    }
+  }
+
+  function totalCount(){
+    let n = 0;
+    for (const masechet in index){
+      for (const perek in index[masechet]){
+        n += index[masechet][perek].length;
+      }
+    }
+    return n;
+  }
+
+  function render(){
+    if (view.type === 'setup') return renderSetup();
+    if (view.type === 'error') return renderError();
+    if (view.type === 'masechet') return renderMasechet(view.name);
+    return renderShelf();
+  }
+
+  function renderShelf(){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    let html = '';
+    for (const seder of SEDARIM){
+      html += `<div class="seder-block"><div class="seder-label">סדר ${seder.name}</div><div class="shelf">`;
+      for (const m of seder.masechtot){
+        const perakim = index[m];
+        const has = !!perakim;
+        let count = 0;
+        if (has){ for (const p in perakim) count += perakim[p].length; }
+        html += `<button class="volume ${has ? 'has-shiur' : 'empty'}" data-masechet="${m}">
+          ${m}${has ? `<span class="count">${count} שיעורים</span>` : `<span class="count">טרם הוקלט</span>`}
+        </button>`;
+      }
+      html += `</div></div>`;
+    }
+    if (unmatched.length){
+      html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>`;
+      for (const u of unmatched) html += `<li>${u}</li>`;
+      html += `</ul><p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_משנה_תאריך.mp3</p></details>`;
+    }
+    app.innerHTML = html;
+    app.querySelectorAll('.volume').forEach(btn => {
+      btn.addEventListener('click', () => {
+        view = { type: 'masechet', name: btn.dataset.masechet };
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }
+
+  function renderMasechet(name){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const seder = SEDARIM.find(s => s.masechtot.includes(name));
+    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לארון הספרים</button></div>
+      <h2 class="masechet-title">מסכת ${name}</h2>
+      <p class="masechet-sub">סדר ${seder ? seder.name : ''}</p>`;
+
+    const perakim = index[name];
+    if (!perakim){
+      html += `<div class="empty-state">עדיין לא הוקלטו שיעורים במסכת זו — יום אחד בבוא הזמן ⁠תמצא אותם כאן.</div>`;
+    } else {
+      const perekNums = Object.keys(perakim).map(Number).sort((a,b) => a-b);
+      for (const p of perekNums){
+        html += `<div class="perek-block"><h3 class="perek-heading">פרק ${p}</h3>`;
+        for (const shiur of perakim[p]){
+          html += `<div class="mishna-row">
+            <div class="mishna-head">
+              <span class="mishna-num">משנה ${shiur.mishna}</span>
+              <span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>
+            </div>
+            <audio controls preload="none" src="${shiur.url}"></audio>
+          </div>`;
+        }
+        html += `</div>`;
+      }
+    }
+    app.innerHTML = html;
+    document.getElementById('backBtn').addEventListener('click', () => {
+      view = { type: 'shelf' };
+      render();
+    });
+  }
+
+  function renderSetup(){
+    headerMeta.textContent = '';
+    app.innerHTML = `<div class="notice">
+      <h2>שלב הקמה אחרון</h2>
+      <p>האתר מוכן, אבל עדיין לא מחובר למאגר שבו יישמרו קבצי ההקלטה.</p>
+      <p>פתחו את קובץ <code>index.html</code>, חפשו את החלק שנקרא <code>CONFIG</code> בתחילת הקוד, והזינו שם את:</p>
+      <p><code>owner</code> — שם המשתמש שלכם ב-GitHub<br><code>repo</code> — שם המאגר (repository) שיצרתם</p>
+      <p>לאחר מכן שמרו והעלו מחדש. זו פעולה חד-פעמית בלבד.</p>
+    </div>`;
+  }
+
+  function renderError(){
+    headerMeta.textContent = '';
+    app.innerHTML = `<div class="notice">
+      <h2>לא הצלחנו למצוא את המאגר</h2>
+      <p>בדקו שהשמות ב-CONFIG (owner ו-repo) תואמים בדיוק למאגר שיצרתם ב-GitHub, ושהמאגר ציבורי (public).</p>
+      <button class="refresh-btn" id="retryBtn">נסה שוב</button>
+    </div>`;
+    document.getElementById('retryBtn').addEventListener('click', load);
+  }
+
+  async function load(){
+    if (CONFIG.owner === 'your-github-username' || CONFIG.repo === 'your-repo-name'){
+      view = { type: 'setup' };
+      render();
+      return;
+    }
+    try {
+      const files = await fetchFileList();
+      buildIndex(files);
+      view = view.type === 'masechet' ? view : { type: 'shelf' };
+      render();
+    } catch (e){
+      view = { type: 'error' };
+      render();
+    }
+  }
+
+  refreshBtn.addEventListener('click', () => {
+    // ניסיון לרענן את מטמון ה-CDN, ואז טעינה מחדש
+    fetch(`https://purge.jsdelivr.net/gh/${CONFIG.owner}/${CONFIG.repo}@${CONFIG.branch}`).catch(()=>{});
+    load();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
