@@ -511,7 +511,7 @@
               <span class="mishna-num">משנה ${shiur.mishna}</span>
               <span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>
             </div>
-            <audio controls preload="none" src="${shiur.url}"></audio>
+            <audio controls preload="none"><source src="${shiur.url}" type="audio/mpeg"></audio>
           </div>`;
         }
         html += `</div>`;
