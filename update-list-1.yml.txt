@@ -1,0 +1,39 @@
+name: עדכון רשימת שיעורים
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'shiurim/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate list.json
+        run: |
+          python3 - << 'EOF'
+          import json, os
+          folder = 'shiurim'
+          files = []
+          if os.path.isdir(folder):
+              files = sorted(f for f in os.listdir(folder) if f.lower().endswith('.mp3'))
+          with open('list.json', 'w', encoding='utf-8') as out:
+              json.dump(files, out, ensure_ascii=False, indent=1)
+          print(f'נמצאו {len(files)} שיעורים')
+          EOF
+
+      - name: Commit list.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add list.json
+          git diff --cached --quiet || git commit -m "עדכון אוטומטי של רשימת השיעורים"
+          git push
