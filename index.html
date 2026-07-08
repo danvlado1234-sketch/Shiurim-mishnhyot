@@ -311,6 +311,36 @@
   .refresh-btn:hover { background: var(--wine); color: var(--paper); }
   .refresh-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 
+  .search-row {
+    margin-bottom: 24px;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Heebo', sans-serif;
+    font-size: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--paper-deep);
+    border-radius: 20px;
+    background: #F6EFDD;
+    color: var(--ink);
+  }
+
+  .search-input::placeholder { color: var(--ghost); }
+
+  .search-input:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 1px;
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--ghost);
+    padding: 30px 10px;
+    font-size: 14px;
+  }
+
   footer {
     text-align: center;
     font-size: 12px;
@@ -330,6 +360,9 @@
 <div class="wrap">
   <div class="refresh-row">
     <button class="refresh-btn" id="refreshBtn">בדוק שיעורים חדשים</button>
+  </div>
+  <div class="search-row">
+    <input type="text" class="search-input" id="searchInput" placeholder="חיפוש מסכת... (למשל: ברכות)">
   </div>
   <main id="app"></main>
 </div>
@@ -362,10 +395,12 @@
   const app = document.getElementById('app');
   const headerMeta = document.getElementById('headerMeta');
   const refreshBtn = document.getElementById('refreshBtn');
+  const searchInput = document.getElementById('searchInput');
 
   let index = {};      // { masechet: { perek: [ {mishna, date, url, filename} ] } }
   let unmatched = [];
   let view = { type: 'shelf' };
+  let searchQuery = '';
 
   function normalize(s){
     return (s||'').replace(/[\u0591-\u05C7]/g,'').replace(/\s+/g,'').trim();
@@ -462,10 +497,15 @@
 
   function renderShelf(){
     headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const q = normalize(searchQuery);
     let html = '';
+    let anyMatch = false;
     for (const seder of SEDARIM){
+      const visibleMasechtot = q ? seder.masechtot.filter(m => normalize(m).includes(q)) : seder.masechtot;
+      if (!visibleMasechtot.length) continue;
+      anyMatch = true;
       html += `<div class="seder-block"><div class="seder-label">סדר ${seder.name}</div><div class="shelf">`;
-      for (const m of seder.masechtot){
+      for (const m of visibleMasechtot){
         const perakim = index[m];
         const has = !!perakim;
         let count = 0;
@@ -476,7 +516,10 @@
       }
       html += `</div></div>`;
     }
-    if (unmatched.length){
+    if (!anyMatch){
+      html += `<div class="no-results">לא נמצאה מסכת בשם "${searchQuery}"</div>`;
+    }
+    if (!q && unmatched.length){
       html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>`;
       for (const u of unmatched) html += `<li>${u}</li>`;
       html += `</ul><p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_משנה_תאריך.mp3</p></details>`;
@@ -563,6 +606,14 @@
   }
 
   refreshBtn.addEventListener('click', load);
+
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim();
+    if (view.type === 'masechet' || view.type === 'error' || view.type === 'setup'){
+      view = { type: 'shelf' };
+    }
+    render();
+  });
 
   load();
 })();
