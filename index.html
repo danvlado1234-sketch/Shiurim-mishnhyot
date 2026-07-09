@@ -514,13 +514,20 @@
   async function fetchFileList(){
     // קריאת רשימת השיעורים מקובץ list.json שנבנה אוטומטית ע"י GitHub Action.
     // הקובץ מוגש מאותו דומיין של האתר (GitHub Pages) - בלי הגבלות קצב ובלי תלות בשרתים חיצוניים.
-    const res = await fetch(`list.json?_=${Date.now()}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('list-not-found');
-    const names = await res.json();
-    if (!Array.isArray(names)) return [];
-    return names
-      .filter(n => /\.mp3$/i.test(n))
-      .map(n => ({ name: n, url: `${CONFIG.folder}/${encodeURIComponent(n)}` }));
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000); // מבטל אחרי 8 שניות אם תקוע
+    try {
+      const res = await fetch(`list.json?_=${Date.now()}`, { cache: 'no-store', signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error('list-not-found');
+      const names = await res.json();
+      if (!Array.isArray(names)) return [];
+      return names
+        .filter(n => /\.mp3$/i.test(n))
+        .map(n => ({ name: n, url: `${CONFIG.folder}/${encodeURIComponent(n)}` }));
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   function fileUrl(file){
@@ -670,7 +677,7 @@
       <p>אם זו הפעם הראשונה: ודאו שקובץ ה-Action הועלה (ראו הוראות) ושהועלה לפחות שיעור אחד לתיקיית shiurim. הרשימה נבנית אוטומטית תוך כדקה מהעלאת שיעור.</p>
       <button class="refresh-btn" id="retryBtn">נסה שוב</button>
     </div>`;
-    document.getElementById('retryBtn').addEventListener('click', load);
+    document.getElementById('retryBtn').addEventListener('click', () => load());
   }
 
   const CACHE_KEY = 'shiurim-cache-v1';
@@ -678,17 +685,4 @@
   function saveCache(files){
     try {
       localStorage.setItem(CACHE_KEY, JSON.stringify({ files, savedAt: Date.now() }));
-    } catch (e){ /* לא קריטי אם זה נכשל */ }
-  }
-
-  function loadCache(){
-    try {
-      const raw = localStorage.getItem(CACHE_KEY);
-      return raw ? JSON.parse(raw).files : null;
-    } catch (e){
-      return null;
-    }
-  }
-
-  async function load(retryCount){
-    retryCount = ret
+    } ca
