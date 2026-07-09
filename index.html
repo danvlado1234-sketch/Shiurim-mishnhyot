@@ -341,6 +341,16 @@
     font-size: 14px;
   }
 
+  .perek-block.highlight .perek-heading {
+    color: var(--wine);
+  }
+
+  .mishna-row.highlight {
+    border-color: var(--brass);
+    box-shadow: 0 0 0 2px var(--brass);
+    background: #FBF6E9;
+  }
+
   footer {
     text-align: center;
     font-size: 12px;
@@ -362,7 +372,7 @@
     <button class="refresh-btn" id="refreshBtn">בדוק שיעורים חדשים</button>
   </div>
   <div class="search-row">
-    <input type="text" class="search-input" id="searchInput" placeholder="חיפוש מסכת... (למשל: ברכות)">
+    <input type="text" class="search-input" id="searchInput" placeholder="חיפוש: ברכות · ברכות פרק א · ברכות פרק א משנה ב">
   </div>
   <main id="app"></main>
 </div>
@@ -406,6 +416,45 @@
     return (s||'').replace(/[\u0591-\u05C7]/g,'').replace(/\s+/g,'').trim();
   }
 
+  // ממיר מספר לאותיות גימטריה (1 -> א, 15 -> טו, 21 -> כא)
+  function toHebrewNumeral(num){
+    if (!num || num < 1) return String(num);
+    const ones = ['','א','ב','ג','ד','ה','ו','ז','ח','ט'];
+    const tens = ['','י','כ','ל','מ','נ','ס','ע','פ','צ'];
+    const hundreds = ['','ק','ר','ש','ת'];
+    let n = num, out = '';
+    out += hundreds[Math.floor(n/100)] || '';
+    n = n % 100;
+    // טיפול מיוחד ב-15 (טו) ו-16 (טז) כדי לא לכתוב שם השם
+    if (n === 15) { out += 'טו'; n = 0; }
+    else if (n === 16) { out += 'טז'; n = 0; }
+    else {
+      out += tens[Math.floor(n/10)] || '';
+      n = n % 10;
+      out += ones[n] || '';
+    }
+    return out;
+  }
+
+  // ממיר אות גימטריה או מספר-כתוב-במילים למספר. מחזיר null אם לא מספר.
+  const HEB_VALUES = {'א':1,'ב':2,'ג':3,'ד':4,'ה':5,'ו':6,'ז':7,'ח':8,'ט':9,
+                      'י':10,'כ':20,'ל':30,'מ':40,'נ':50,'ס':60,'ע':70,'פ':80,'צ':90,
+                      'ק':100,'ר':200,'ש':300,'ת':400,'ך':20,'ם':40,'ן':50,'ף':80,'ץ':90};
+  function parseHebrewNumber(token){
+    if (!token) return null;
+    if (/^\d+$/.test(token)) return parseInt(token, 10); // מספר רגיל
+    // אות/אותיות גימטריה
+    if (/^[א-ת]+$/.test(token)){
+      let sum = 0;
+      for (const ch of token){
+        if (!(ch in HEB_VALUES)) return null;
+        sum += HEB_VALUES[ch];
+      }
+      return sum > 0 ? sum : null;
+    }
+    return null;
+  }
+
   function findCanonical(name){
     const n = normalize(name);
     for (const seder of SEDARIM){
@@ -414,6 +463,33 @@
       }
     }
     return null;
+  }
+
+  // מנתח שאילתת חיפוש: "ברכות פרק א משנה ב" / "ברכות א ב" / "ברכות 1 2" / "ברכות"
+  // מחזיר { masechet, perek, mishna } - כל שדה שלא זוהה יהיה null
+  function parseSearchQuery(raw){
+    const result = { masechet: null, perek: null, mishna: null, masechetPartial: '' };
+    if (!raw) return result;
+    // מסירים את מילות המפתch "פרק" ו"משנה" ומפרקים למילים
+    let tokens = raw.replace(/[\u0591-\u05C7]/g,'').split(/\s+/).filter(Boolean);
+    const numbers = [];
+    const words = [];
+    for (const t of tokens){
+      if (t === 'פרק' || t === 'משנה' || t === "פ'" || t === "מ'") continue; // מילות עזר
+      const num = parseHebrewNumber(t);
+      // מילה שהיא כולה מספר/אות בודדת -> מספר. אחרת -> חלק משם המסכת
+      if (num !== null && (/^\d+$/.test(t) || t.length <= 2) && words.length > 0){
+        numbers.push(num);
+      } else {
+        words.push(t);
+      }
+    }
+    const masechetText = words.join(' ');
+    result.masechetPartial = masechetText;
+    result.masechet = findCanonical(masechetText);
+    if (numbers.length >= 1) result.perek = numbers[0];
+    if (numbers.length >= 2) result.mishna = numbers[1];
+    return result;
   }
 
   function parseFilename(filename){
@@ -496,7 +572,7 @@
 
   function renderShelf(){
     headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    const q = normalize(searchQuery);
+    const q = normalize(parseSearchQuery(searchQuery).masechetPartial);
     let html = '';
     let anyMatch = false;
     for (const seder of SEDARIM){
@@ -536,6 +612,8 @@
   function renderMasechet(name){
     headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
     const seder = SEDARIM.find(s => s.masechtot.includes(name));
+    const targetPerek = view.perek || null;
+    const targetMishna = view.mishna || null;
     let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לארון הספרים</button></div>
       <h2 class="masechet-title">מסכת ${name}</h2>
       <p class="masechet-sub">סדר ${seder ? seder.name : ''}</p>`;
@@ -546,11 +624,14 @@
     } else {
       const perekNums = Object.keys(perakim).map(Number).sort((a,b) => a-b);
       for (const p of perekNums){
-        html += `<div class="perek-block"><h3 class="perek-heading">פרק ${p}</h3>`;
+        const perekHi = targetPerek === p ? ' highlight' : '';
+        html += `<div class="perek-block${perekHi}"><h3 class="perek-heading">פרק ${toHebrewNumeral(p)}</h3>`;
         for (const shiur of perakim[p]){
-          html += `<div class="mishna-row">
+          const mishnaHi = (targetPerek === p && targetMishna === shiur.mishna) ? ' highlight' : '';
+          const anchor = (targetPerek === p && targetMishna === shiur.mishna) ? ' id="target-mishna"' : '';
+          html += `<div class="mishna-row${mishnaHi}"${anchor}>
             <div class="mishna-head">
-              <span class="mishna-num">משנה ${shiur.mishna}</span>
+              <span class="mishna-num">משנה ${toHebrewNumeral(shiur.mishna)}</span>
               <span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>
             </div>
             <audio controls preload="none"><source src="${shiur.url}" type="audio/mpeg"></audio>
@@ -564,6 +645,11 @@
       view = { type: 'shelf' };
       render();
     });
+    // גלילה אל המשנה שנמצאה בחיפוש
+    const target = document.getElementById('target-mishna');
+    if (target){
+      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
   }
 
   function renderSetup(){
@@ -605,44 +691,4 @@
   }
 
   async function load(retryCount){
-    retryCount = retryCount || 0;
-    try {
-      const files = await fetchFileList();
-      buildIndex(files);
-      saveCache(files);
-      view = view.type === 'masechet' ? view : { type: 'shelf' };
-      render();
-    } catch (e){
-      // ניסיון חוזר אוטומטי פעם אחת אחרי כשל זמני (למשל הגבלת קצב של GitHub)
-      if (retryCount < 1){
-        setTimeout(() => load(retryCount + 1), 3000);
-        return;
-      }
-      // אם יש נתונים שמורים מקודם - נציג אותם במקום מסך שגיאה
-      const cached = loadCache();
-      if (cached){
-        buildIndex(cached);
-        view = view.type === 'masechet' ? view : { type: 'shelf' };
-        render();
-        return;
-      }
-      view = { type: 'error' };
-      render();
-    }
-  }
-
-  refreshBtn.addEventListener('click', load);
-
-  searchInput.addEventListener('input', () => {
-    searchQuery = searchInput.value.trim();
-    if (view.type === 'masechet' || view.type === 'error' || view.type === 'setup'){
-      view = { type: 'shelf' };
-    }
-    render();
-  });
-
-  load();
-})();
-</script>
-</body>
-</html>
+    retryCount = ret
