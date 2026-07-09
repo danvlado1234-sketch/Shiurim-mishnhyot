@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סדר משניות · שיעור יומי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE3CC;
+    --paper-deep:#E1D3B2;
+    --ink:#241F16;
+    --ink-soft:#463C2C;
+    --wine:#7A2A28;
+    --wine-deep:#551C1B;
+    --brass:#A9812F;
+    --brass-light:#C9A653;
+    --ghost:#8C8370;
+    --ghost-bg:#E7DCC2;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Heebo', sans-serif;
+  }
+
+  body {
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px);
+    min-height: 100vh;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ---------- Header ---------- */
+
+  header.hero {
+    padding: 56px 20px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--paper-deep);
+    margin-bottom: 40px;
+  }
+
+  .hero h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900;
+    font-size: clamp(32px, 6vw, 52px);
+    margin: 0 0 10px;
+    color: var(--ink);
+    letter-spacing: 0.5px;
+  }
+
+  .hero .tagline {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--wine);
+    font-size: clamp(16px, 2.6vw, 20px);
+    margin: 0 0 18px;
+  }
+
+  .hero .meta {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .hero .meta strong {
+    color: var(--brass);
+    font-weight: 700;
+  }
+
+  /* ---------- Shelf view ---------- */
+
+  .seder-block {
+    margin-bottom: 34px;
+  }
+
+  .seder-label {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink-soft);
+    letter-spacing: 2px;
+    margin: 0 0 10px 2px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .seder-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--paper-deep);
+  }
+
+  .shelf {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .volume {
+    all: unset;
+    cursor: pointer;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    padding: 14px 10px 12px;
+    min-width: 96px;
+    flex: 1 1 96px;
+    max-width: 140px;
+    border-radius: 3px;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .volume { transition: none; }
+  }
+
+  .volume:focus-visible {
+    outline: 3px solid var(--brass);
+    outline-offset: 2px;
+  }
+
+  .volume.has-shiur {
+    background: var(--wine);
+    color: var(--brass-light);
+    box-shadow: 0 2px 0 var(--wine-deep), 0 6px 10px rgba(30,15,10,0.18);
+    border-top: 3px double var(--brass);
+    border-bottom: 3px double var(--brass);
+  }
+
+  .volume.has-shiur:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 0 var(--wine-deep), 0 10px 16px rgba(30,15,10,0.22);
+  }
+
+  .volume.empty {
+    background: var(--ghost-bg);
+    color: var(--ghost);
+    border: 1px dashed var(--ghost);
+  }
+
+  .volume.empty:hover {
+    background: #ded2ae;
+  }
+
+  .volume .count {
+    display: block;
+    font-family: 'Heebo', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    margin-top: 4px;
+    opacity: 0.85;
+  }
+
+  /* ---------- Detail view ---------- */
+
+  .breadcrumb {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb button {
+    all: unset;
+    cursor: pointer;
+    color: var(--wine);
+    font-weight: 700;
+    border-bottom: 1px solid var(--wine);
+  }
+
+  .breadcrumb button:focus-visible {
+    outline: 2px solid var(--brass);
+  }
+
+  .masechet-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 900;
+    margin: 0 0 4px;
+  }
+
+  .masechet-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .perek-block {
+    margin-bottom: 28px;
+  }
+
+  .perek-heading {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--wine);
+    margin: 0 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--paper-deep);
+  }
+
+  .mishna-row {
+    background: #F6EFDD;
+    border: 1px solid var(--paper-deep);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+
+  .mishna-row .mishna-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .mishna-row .mishna-num {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .mishna-row .mishna-date {
+    font-size: 12px;
+    color: var(--ghost);
+    font-weight: 300;
+  }
+
+  audio {
+    width: 100%;
+    height: 36px;
+  }
+
+  .empty-state {
+    background: var(--ghost-bg);
+    border: 1px dashed var(--ghost);
+    border-radius: 4px;
+    padding: 28px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Setup / errors ---------- */
+
+  .notice {
+    background: #F6EFDD;
+    border: 1px solid var(--brass);
+    border-radius: 4px;
+    padding: 22px 24px;
+    line-height: 1.8;
+  }
+
+  .notice h2 {
+    font-family: 'Frank Ruhl Libre', serif;
+    margin-top: 0;
+  }
+
+  .notice code {
+    background: var(--paper-deep);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+
+  .unmatched {
+    margin-top: 40px;
+    font-size: 13px;
+    color: var(--ghost);
+  }
+
+  .unmatched summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  .refresh-row {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .refresh-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--wine);
+    border: 1px solid var(--wine);
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  .refresh-btn:hover { background: var(--wine); color: var(--paper); }
+  .refresh-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  .search-row {
+    margin-bottom: 24px;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Heebo', sans-serif;
+    font-size: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--paper-deep);
+    border-radius: 20px;
+    background: #F6EFDD;
+    color: var(--ink);
+  }
+
+  .search-input::placeholder { color: var(--ghost); }
+
+  .search-input:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 1px;
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--ghost);
+    padding: 30px 10px;
+    font-size: 14px;
+  }
+
+  .perek-block.highlight .perek-heading {
+    color: var(--wine);
+  }
+
+  .mishna-row.highlight {
+    border-color: var(--brass);
+    box-shadow: 0 0 0 2px var(--brass);
+    background: #FBF6E9;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ghost);
+    padding: 30px 20px;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>סדר משניות · שיעור יומי</h1>
+  <p class="tagline">״יוֹם לְיוֹם יַבִּיעַ אֹמֶר״</p>
+  <p class="meta" id="headerMeta">טוען…</p>
+</header>
+
+<div class="wrap">
+  <div class="refresh-row">
+    <button class="refresh-btn" id="refreshBtn">בדוק שיעורים חדשים</button>
+  </div>
+  <div class="search-row">
+    <input type="text" class="search-input" id="searchInput" placeholder="חיפוש: ברכות · ברכות פרק א · ברכות פרק א משנה ב">
+  </div>
+  <main id="app"></main>
+</div>
+
+<footer>נבנה באהבה עבור ארכיון השיעורים היומי</footer>
+
+<script>
+// ===== לוכד שגיאות לצורכי אבחון =====
+window.addEventListener('error', function(e){
+  var box = document.createElement('pre');
+  box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#7A2A28;color:#fff;padding:16px;font-size:15px;white-space:pre-wrap;margin:0;direction:ltr;text-align:left';
+  box.textContent = 'שגיאה נתפסה:\n' + (e.message||'') + '\n\nבקובץ: ' + (e.filename||'') + '\nשורה: ' + (e.lineno||'') + ' עמודה: ' + (e.colno||'') + '\n\n' + (e.error && e.error.stack ? e.error.stack : '');
+  document.body.appendChild(box);
+});
+window.addEventListener('unhandledrejection', function(e){
+  var box = document.createElement('pre');
+  box.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#551C1B;color:#fff;padding:16px;font-size:15px;white-space:pre-wrap;margin:0;direction:ltr;text-align:left';
+  box.textContent = 'שגיאת Promise:\n' + (e.reason && e.reason.message ? e.reason.message : e.reason) + '\n\n' + (e.reason && e.reason.stack ? e.reason.stack : '');
+  document.body.appendChild(box);
+});
+// =====================================
+(function(){
+
+  // ============================================================
+  // הגדרות - יש לערוך פעם אחת אחרי יצירת המאגר ב-GitHub
+  // ============================================================
+  const CONFIG = {
+    owner: "danvlado1234-sketch",     // שם המשתמש שלך ב-GitHub
+    repo: "Shiurim-mishnhyot",        // שם המאגר (repository)
+    branch: "main",                   // בדרך כלל "main"
+    folder: "shiurim"                 // שם התיקייה עם קבצי ה-mp3 (לא לשנות)
+  };
+  // ============================================================
+
+  const SEDARIM = [
+    { name: "זרעים", masechtot: ["ברכות","פאה","דמאי","כלאים","שביעית","תרומות","מעשרות","מעשר שני","חלה","ערלה","ביכורים"] },
+    { name: "מועד", masechtot: ["שבת","עירובין","פסחים","שקלים","יומא","סוכה","ביצה","ראש השנה","תענית","מגילה","מועד קטן","חגיגה"] },
+    { name: "נשים", masechtot: ["יבמות","כתובות","נדרים","נזיר","סוטה","גיטין","קידושין"] },
+    { name: "נזיקין", masechtot: ["בבא קמא","בבא מציעא","בבא בתרא","סנהדרין","מכות","שבועות","עדיות","עבודה זרה","אבות","הוריות"] },
+    { name: "קדשים", masechtot: ["זבחים","מנחות","חולין","בכורות","ערכין","תמורה","כריתות","מעילה","תמיד","מידות","קינים"] },
+    { name: "טהרות", masechtot: ["כלים","אהלות","נגעים","פרה","טהרות","מקוואות","נדה","מכשירין","זבים","טבול יום","ידים","עוקצין"] }
+  ];
+
+  const app = document.getElementById('app');
+  const headerMeta = document.getElementById('headerMeta');
+  const refreshBtn = document.getElementById('refreshBtn');
+  const searchInput = document.getElementById('searchInput');
+
+  let index = {};      // { masechet: { perek: [ {mishna, date, url, filename} ] } }
+  let unmatched = [];
+  let view = { type: 'shelf' };
+  let searchQuery = '';
+
+  function normalize(s){
+    return (s||'').replace(/[\u0591-\u05C7]/g,'').replace(/\s+/g,'').trim();
+  }
+
+  // ממיר מספר לאותיות גימטריה (1 -> א, 15 -> טו, 21 -> כא)
+  function toHebrewNumeral(num){
+    if (!num || num < 1) return String(num);
+    const ones = ['','א','ב','ג','ד','ה','ו','ז','ח','ט'];
+    const tens = ['','י','כ','ל','מ','נ','ס','ע','פ','צ'];
+    const hundreds = ['','ק','ר','ש','ת'];
+    let n = num, out = '';
+    out += hundreds[Math.floor(n/100)] || '';
+    n = n % 100;
+    // טיפול מיוחד ב-15 (טו) ו-16 (טז) כדי לא לכתוב שם השם
+    if (n === 15) { out += 'טו'; n = 0; }
+    else if (n === 16) { out += 'טז'; n = 0; }
+    else {
+      out += tens[Math.floor(n/10)] || '';
+      n = n % 10;
+      out += ones[n] || '';
+    }
+    return out;
+  }
+
+  // ממיר אות גימטריה או מספר-כתוב-במילים למספר. מחזיר null אם לא מספר.
+  const HEB_VALUES = {'א':1,'ב':2,'ג':3,'ד':4,'ה':5,'ו':6,'ז':7,'ח':8,'ט':9,
+                      'י':10,'כ':20,'ל':30,'מ':40,'נ':50,'ס':60,'ע':70,'פ':80,'צ':90,
+                      'ק':100,'ר':200,'ש':300,'ת':400,'ך':20,'ם':40,'ן':50,'ף':80,'ץ':90};
+  function parseHebrewNumber(token){
+    if (!token) return null;
+    if (/^\d+$/.test(token)) return parseInt(token, 10); // מספר רגיל
+    // אות/אותיות גימטריה
+    if (/^[א-ת]+$/.test(token)){
+      let sum = 0;
+      for (const ch of token){
+        if (!(ch in HEB_VALUES)) return null;
+        sum += HEB_VALUES[ch];
+      }
+      return sum > 0 ? sum : null;
+    }
+    return null;
+  }
+
+  function findCanonical(name){
+    const n = normalize(name);
+    for (const seder of SEDARIM){
+      for (const m of seder.masechtot){
+        if (normalize(m) === n) return m;
+      }
+    }
+    return null;
+  }
+
+  // מנתח שאילתת חיפוש: "ברכות פרק א משנה ב" / "ברכות א ב" / "ברכות 1 2" / "ברכות"
+  // מחזיר { masechet, perek, mishna } - כל שדה שלא זוהה יהיה null
+  function parseSearchQuery(raw){
+    const result = { masechet: null, perek: null, mishna: null, masechetPartial: '' };
+    if (!raw) return result;
+    // מסירים את מילות המפתch "פרק" ו"משנה" ומפרקים למילים
+    let tokens = raw.replace(/[\u0591-\u05C7]/g,'').split(/\s+/).filter(Boolean);
+    const numbers = [];
+    const words = [];
+    for (const t of tokens){
+      if (t === 'פרק' || t === 'משנה' || t === "פ'" || t === "מ'") continue; // מילות עזר
+      const num = parseHebrewNumber(t);
+      // מילה שהיא כולה מספר/אות בודדת -> מספר. אחרת -> חלק משם המסכת
+      if (num !== null && (/^\d+$/.test(t) || t.length <= 2) && words.length > 0){
+        numbers.push(num);
+      } else {
+        words.push(t);
+      }
+    }
+    const masechetText = words.join(' ');
+    result.masechetPartial = masechetText;
+    result.masechet = findCanonical(masechetText);
+    if (numbers.length >= 1) result.perek = numbers[0];
+    if (numbers.length >= 2) result.mishna = numbers[1];
+    return result;
+  }
+
+  function parseFilename(filename){
+    const base = filename.replace(/\.mp3$/i, '');
+    const parts = base.split('_');
+    if (parts.length !== 4) return null;
+    const [masechetRaw, perekRaw, mishnaRaw, dateRaw] = parts;
+    const masechet = findCanonical(masechetRaw.trim());
+    const perek = parseInt(perekRaw.trim(), 10);
+    const mishna = parseInt(mishnaRaw.trim(), 10);
+    if (!masechet || isNaN(perek) || isNaN(mishna)) return null;
+    return { masechet, perek, mishna, date: dateRaw.trim() };
+  }
+
+  function formatDate(d){
+    const parts = (d||'').split('-');
+    if (parts.length !== 3) return d || '';
+    const [y,m,day] = parts;
+    return `${day}.${m}.${y}`;
+  }
+
+  async function fetchFileList(){
+    // קריאת רשימת השיעורים מקובץ list.json שנבנה אוטומטית ע"י GitHub Action.
+    // הקובץ מוגש מאותו דומיין של האתר (GitHub Pages) - בלי הגבלות קצב ובלי תלות בשרתים חיצוניים.
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000); // מבטל אחרי 8 שניות אם תקוע
+    try {
+      const res = await fetch(`list.json?_=${Date.now()}`, { cache: 'no-store', signal: controller.signal });
+      clearTimeout(timeout);
+      if (!res.ok) throw new Error('list-not-found');
+      const names = await res.json();
+      if (!Array.isArray(names)) return [];
+      return names
+        .filter(n => /\.mp3$/i.test(n))
+        .map(n => ({ name: n, url: `${CONFIG.folder}/${encodeURIComponent(n)}` }));
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  function fileUrl(file){
+    return file.url;
+  }
+
+  function buildIndex(files){
+    index = {};
+    unmatched = [];
+    for (const f of files){
+      const parsed = parseFilename(f.name);
+      if (!parsed){
+        unmatched.push(f.name);
+        continue;
+      }
+      if (!index[parsed.masechet]) index[parsed.masechet] = {};
+      if (!index[parsed.masechet][parsed.perek]) index[parsed.masechet][parsed.perek] = [];
+      index[parsed.masechet][parsed.perek].push({
+        mishna: parsed.mishna,
+        date: parsed.date,
+        url: fileUrl(f),
+        filename: f.name
+      });
+    }
+    // מיון
+    for (const masechet in index){
+      for (const perek in index[masechet]){
+        index[masechet][perek].sort((a,b) => a.mishna - b.mishna);
+      }
+    }
+  }
+
+  function totalCount(){
+    let n = 0;
+    for (const masechet in index){
+      for (const perek in index[masechet]){
+        n += index[masechet][perek].length;
+      }
+    }
+    return n;
+  }
+
+  function render(){
+    if (view.type === 'setup') return renderSetup();
+    if (view.type === 'error') return renderError();
+    if (view.type === 'masechet') return renderMasechet(view.name);
+    return renderShelf();
+  }
+
+  function renderShelf(){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const q = normalize(parseSearchQuery(searchQuery).masechetPartial);
+    let html = '';
+    let anyMatch = false;
+    for (const seder of SEDARIM){
+      const visibleMasechtot = q ? seder.masechtot.filter(m => normalize(m).includes(q)) : seder.masechtot;
+      if (!visibleMasechtot.length) continue;
+      anyMatch = true;
+      html += `<div class="seder-block"><div class="seder-label">סדר ${seder.name}</div><div class="shelf">`;
+      for (const m of visibleMasechtot){
+        const perakim = index[m];
+        const has = !!perakim;
+        let count = 0;
+        if (has){ for (const p in perakim) count += perakim[p].length; }
+        html += `<button class="volume ${has ? 'has-shiur' : 'empty'}" data-masechet="${m}">
+          ${m}${has ? `<span class="count">${count} שיעורים</span>` : `<span class="count">טרם הוקלט</span>`}
+        </button>`;
+      }
+      html += `</div></div>`;
+    }
+    if (!anyMatch){
+      html += `<div class="no-results">לא נמצאה מסכת בשם "${searchQuery}"</div>`;
+    }
+    if (!q && unmatched.length){
+      html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>`;
+      for (const u of unmatched) html += `<li>${u}</li>`;
+      html += `</ul><p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_משנה_תאריך.mp3</p></details>`;
+    }
+    app.innerHTML = html;
+    app.querySelectorAll('.volume').forEach(btn => {
+      btn.addEventListener('click', () => {
+        view = { type: 'masechet', name: btn.dataset.masechet };
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }
+
+  function renderMasechet(name){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const seder = SEDARIM.find(s => s.masechtot.includes(name));
+    const targetPerek = view.perek || null;
+    const targetMishna = view.mishna || null;
+    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לארון הספרים</button></div>
+      <h2 class="masechet-title">מסכת ${name}</h2>
+      <p class="masechet-sub">סדר ${seder ? seder.name : ''}</p>`;
+
+    const perakim = index[name];
+    if (!perakim){
+      html += `<div class="empty-state">עדיין לא הוקלטו שיעורים במסכת זו — יום אחד בבוא הזמן ⁠תמצא אותם כאן.</div>`;
+    } else {
+      const perekNums = Object.keys(perakim).map(Number).sort((a,b) => a-b);
+      for (const p of perekNums){
+        const perekHi = targetPerek === p ? ' highlight' : '';
+        html += `<div class="perek-block${perekHi}"><h3 class="perek-heading">פרק ${toHebrewNumeral(p)}</h3>`;
+        for (const shiur of perakim[p]){
+          const mishnaHi = (targetPerek === p && targetMishna === shiur.mishna) ? ' highlight' : '';
+          const anchor = (targetPerek === p && targetMishna === shiur.mishna) ? ' id="target-mishna"' : '';
+          html += `<div class="mishna-row${mishnaHi}"${anchor}>
+            <div class="mishna-head">
+              <span class="mishna-num">משנה ${toHebrewNumeral(shiur.mishna)}</span>
+              <span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>
+            </div>
+            <audio controls preload="none"><source src="${shiur.url}" type="audio/mpeg"></audio>
+          </div>`;
+        }
+        html += `</div>`;
+      }
+    }
+    app.innerHTML = html;
+    document.getElementById('backBtn').addEventListener('click', () => {
+      view = { type: 'shelf' };
+      render();
+    });
+    // גלילה אל המשנה שנמצאה בחיפוש
+    const target = document.getElementById('target-mishna');
+    if (target){
+      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
+  }
+
+  function renderSetup(){
+    headerMeta.textContent = '';
+    app.innerHTML = `<div class="notice">
+      <h2>שלב הקמה אחרון</h2>
+      <p>האתר מוכן, אבל עדיין לא מחובר למאגר שבו יישמרו קבצי ההקלטה.</p>
+      <p>פתחו את קובץ <code>index.html</code>, חפשו את החלק שנקרא <code>CONFIG</code> בתחילת הקוד, והזינו שם את:</p>
+      <p><code>owner</code> — שם המשתמש שלכם ב-GitHub<br><code>repo</code> — שם המאגר (repository) שיצרתם</p>
+      <p>לאחר מכן שמרו והעלו מחדש. זו פעולה חד-פעמית בלבד.</p>
+    </div>`;
+  }
+
+  function renderError(){
+    headerMeta.textContent = '';
+    app.innerHTML = `<div class="notice">
+      <h2>רשימת השיעורים עדיין לא נבנתה</h2>
+      <p>אם זו הפעם הראשונה: ודאו שקובץ ה-Action הועלה (ראו הוראות) ושהועלה לפחות שיעור אחד לתיקיית shiurim. הרשימה נבנית אוטומטית תוך כדקה מהעלאת שיעור.</p>
+      <button class="refresh-btn" id="retryBtn">נסה שוב</button>
+    </div>`;
+    document.getElementById('retryBtn').addEventListener('click', () => load());
+  }
+
+  const CACHE_KEY = 'shiurim-cache-v1';
+
+  function saveCache(files){
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ files, savedAt: Date.now() }));
+    } catch (e){ /* לא קריטי אם זה נכשל */ }
+  }
+
+  function loadCache(){
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      return raw ? JSON.parse(raw).files : null;
+    } catch (e){
+      return null;
+    }
+  }
+
+  async function load(retryCount){
+    retryCount = (typeof retryCount === 'number') ? retryCount : 0;
+    try {
+      const files = await fetchFileList();
+      buildIndex(files);
+      saveCache(files);
+      view = view.type === 'masechet' ? view : { type: 'shelf' };
+      render();
+    } catch (e){
+      // ניסיון חוזר אוטומטי פעם אחת אחרי כשל זמני (למשל הגבלת קצב של GitHub)
+      if (retryCount < 1){
+        setTimeout(() => load(retryCount + 1), 3000);
+        return;
+      }
+      // אם יש נתונים שמורים מקודם - נציג אותם במקום מסך שגיאה
+      const cached = loadCache();
+      if (cached){
+        buildIndex(cached);
+        view = view.type === 'masechet' ? view : { type: 'shelf' };
+        render();
+        return;
+      }
+      view = { type: 'error' };
+      render();
+    }
+  }
+
+  refreshBtn.addEventListener('click', () => load());
+
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim();
+    const parsed = parseSearchQuery(searchQuery);
+    // אם זוהתה מסכת מדויקת שיש בה שיעורים - קופצים אליה (עם הדגשת פרק/משנה)
+    if (parsed.masechet && index[parsed.masechet]){
+      view = { type: 'masechet', name: parsed.masechet, perek: parsed.perek, mishna: parsed.mishna };
+      render();
+      return;
+    }
+    // אחרת - מסננים את הארון לפי הטקסט שהוקלד
+    if (view.type === 'masechet' || view.type === 'error' || view.type === 'setup'){
+      view = { type: 'shelf' };
+    }
+    render();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
