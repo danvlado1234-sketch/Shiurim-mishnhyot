@@ -24,7 +24,7 @@ jobs:
           folder = 'shiurim'
           files = []
           if os.path.isdir(folder):
-              files = sorted(f for f in os.listdir(folder) if f.lower().endswith('.mp3'))
+              files = sorted(f for f in os.listdir(folder) if f.lower().endswith(('.mp3', '.m4a')))
           with open('list.json', 'w', encoding='utf-8') as out:
               json.dump(files, out, ensure_ascii=False, indent=1)
           print(f'נמצאו {len(files)} שיעורים')
