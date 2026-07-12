@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בדיקת R2</title>
+<style>
+  body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#EDE3CC;color:#3a2a1a;margin:0;padding:24px;line-height:1.6}
+  .card{background:#fff;border:2px solid #A9812F;border-radius:14px;padding:20px;max-width:560px;margin:0 auto;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+  h1{color:#7A2A28;font-size:1.35rem;margin:0 0 6px}
+  p{margin:8px 0}
+  audio{width:100%;margin:14px 0}
+  .status{font-weight:700;padding:10px 14px;border-radius:10px;margin-top:12px}
+  .ok{background:#e7f4e4;color:#1f6b1f;border:1px solid #7bbf6a}
+  .fail{background:#fdeaea;color:#8a1f1f;border:1px solid #d98a8a}
+  .wait{background:#fdf6e3;color:#7a5a1a;border:1px solid #d9c07a}
+  code{background:#f2ead6;padding:2px 6px;border-radius:6px;font-size:.85em;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>בדיקת ניגון מ־R2 (חוצה־דומיין)</h1>
+  <p>העמוד הזה מדמה מה שיקרה כשהאתר ב־GitHub Pages ינגן קובץ מ־R2. אם הנגן למטה עובד והסטטוס ירוק — CORS מוגדר נכון ואפשר להתקדם.</p>
+
+  <audio id="player" controls preload="metadata">
+    <source src="https://pub-ebfc0fe34f6e49f5a45ba2d358d2ae0d.r2.dev/בכורות_2_1_12-07-2026.m4a" type="audio/mp4">
+  </audio>
+
+  <div id="status" class="status wait">⏳ טוען… לחץ Play בנגן למעלה</div>
+
+  <p style="font-size:.8rem;color:#7a6a55;margin-top:16px">בדיקה טכנית נוספת (fetch):</p>
+  <div id="fetchStatus" class="status wait">⏳ בודק גישת fetch…</div>
+</div>
+
+<script>
+  const player = document.getElementById('player');
+  const status = document.getElementById('status');
+  const url = "https://pub-ebfc0fe34f6e49f5a45ba2d358d2ae0d.r2.dev/בכורות_2_1_12-07-2026.m4a";
+
+  player.addEventListener('loadedmetadata', () => {
+    if (player.duration && player.duration > 0) {
+      status.className = 'status ok';
+      status.textContent = '✅ הנגן טען את הקובץ בהצלחה (משך: ' + Math.round(player.duration) + ' שניות). לחץ Play כדי לשמוע.';
+    }
+  });
+  player.addEventListener('playing', () => {
+    status.className = 'status ok';
+    status.textContent = '✅ מתנגן! הכל עובד — אפשר להתקדם.';
+  });
+  player.addEventListener('error', () => {
+    status.className = 'status fail';
+    status.textContent = '❌ הנגן נכשל לטעון את הקובץ. ייתכן שצריך להגדיר CORS.';
+  });
+
+  // Explicit CORS fetch test
+  const fs = document.getElementById('fetchStatus');
+  fetch(url, {method:'GET', headers:{'Range':'bytes=0-1'}})
+    .then(r => {
+      if (r.ok || r.status === 206) {
+        fs.className = 'status ok';
+        fs.textContent = '✅ גישת fetch עובדת (CORS תקין) — סטטוס ' + r.status;
+      } else {
+        fs.className = 'status fail';
+        fs.textContent = '⚠️ הקובץ נגיש אך הוחזר סטטוס ' + r.status;
+      }
+    })
+    .catch(e => {
+      fs.className = 'status fail';
+      fs.textContent = '❌ fetch נחסם — כנראה צריך להגדיר CORS ב־bucket. (' + e.message + ')';
+    });
+</script>
+</body>
+</html>
