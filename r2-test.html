@@ -23,7 +23,7 @@
   <p>העמוד הזה מדמה מה שיקרה כשהאתר ב־GitHub Pages ינגן קובץ מ־R2. אם הנגן למטה עובד והסטטוס ירוק — CORS מוגדר נכון ואפשר להתקדם.</p>
 
   <audio id="player" controls preload="metadata">
-    <source src="https://pub-ebfc0fe34f6e49f5a45ba2d358d2ae0d.r2.dev/בכורות_2_1_12-07-2026.m4a" type="audio/mp4">
+    <source src="https://dash.cloudflare.com/54e13c8c03e647e88d738dd4d92309f5/r2/default/buckets/shiurim?prefix=%D7%A9%D7%91%D7%99%D7%A2%D7%99%D7%AA%2F" type="audio/mp4">
   </audio>
 
   <div id="status" class="status wait">⏳ טוען… לחץ Play בנגן למעלה</div>
@@ -35,7 +35,7 @@
 <script>
   const player = document.getElementById('player');
   const status = document.getElementById('status');
-  const url = "https://pub-ebfc0fe34f6e49f5a45ba2d358d2ae0d.r2.dev/בכורות_2_1_12-07-2026.m4a";
+  const url = "https://dash.cloudflare.com/54e13c8c03e647e88d738dd4d92309f5/r2/default/buckets/shiurim?prefix=%D7%A9%D7%91%D7%99%D7%A2%D7%99%D7%AA%2F";
 
   player.addEventListener('loadedmetadata', () => {
     if (player.duration && player.duration > 0) {
