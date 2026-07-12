@@ -493,7 +493,7 @@
   }
 
   function parseFilename(filename){
-    const base = filename.replace(/\.mp3$/i, '');
+    const base = filename.replace(/\.(mp3|m4a)$/i, '');
     const parts = base.split('_');
     if (parts.length !== 4) return null;
     const [masechetRaw, perekRaw, mishnaRaw, dateRaw] = parts;
@@ -523,7 +523,7 @@
       const names = await res.json();
       if (!Array.isArray(names)) return [];
       return names
-        .filter(n => /\.mp3$/i.test(n))
+        .filter(n => /\.(mp3|m4a)$/i.test(n))
         .map(n => ({ name: n, url: `${CONFIG.folder}/${encodeURIComponent(n)}` }));
     } finally {
       clearTimeout(timeout);
@@ -641,7 +641,7 @@
               <span class="mishna-num">משנה ${toHebrewNumeral(shiur.mishna)}</span>
               <span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>
             </div>
-            <audio controls preload="none"><source src="${shiur.url}" type="audio/mpeg"></audio>
+            <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
           </div>`;
         }
         html += `</div>`;
