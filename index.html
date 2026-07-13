@@ -493,8 +493,25 @@
     return result;
   }
 
+  // מפענח ערך משנה שעשוי להיות בודד ('ג') או מאוחד ('ג,ד' / 'ג-ד' / 'ג_ד').
+  // מחזיר { num, extra, label } - num למיון, label לתצוגה. null אם לא זוהה.
+  function parseMishnaValue(parts, startIdx){
+    // אוסף את כל האסימונים מ-startIdx והלאה, מנקה פסיקים/מקפים, ומפרק לאותיות
+    const raw = parts.slice(startIdx).join('_');
+    const pieces = raw.split(/[,\-_]+/).map(s => s.trim()).filter(Boolean);
+    if (!pieces.length) return null;
+    const nums = [];
+    for (const p of pieces){
+      const n = parseHebrewNumber(p);
+      if (n === null) return null;   // אם משהו לא מספר - נכשל
+      nums.push(n);
+    }
+    const label = nums.map(toHebrewNumeral).join('-');  // 'ג-ד'
+    return { num: nums[0], extra: nums.slice(1), label };
+  }
+
   // מפענח שם קובץ בשני פורמטים:
-  //   פורמט א' (של אבא): מסכת_פרק_א_משנה_יא.m4a  (אותיות גימטריה, סלחני לקווים תחתונים עודפים)
+  //   פורמט א' (של אבא): מסכת_פרק_א_משנה_יא.m4a  (אותיות גימטריה; תומך גם במשנה מאוחדת: משנה_ג,_ד)
   //   פורמט ב' (ישן):    מסכת_1_11_תאריך.mp3     (מספרים, עם או בלי תאריך)
   function parseFilename(filename){
     const nameOnly = filename.split('/').pop();  // תמיכה בקבצים בתוך תיקיות ב-R2
@@ -509,9 +526,9 @@
     if (iPerek > 0 && iMishna > iPerek && parts[iPerek + 1] && parts[iMishna + 1]){
       const masechet = findCanonical(parts.slice(0, iPerek).join(' '));
       const perek = parseHebrewNumber(parts[iPerek + 1]);
-      const mishna = parseHebrewNumber(parts[iMishna + 1]);
-      if (masechet && perek && mishna){
-        return { masechet, perek, mishna, date: '', source: 'r2' };
+      const mv = parseMishnaValue(parts, iMishna + 1);   // תומך גם במשנה מאוחדת
+      if (masechet && perek && mv){
+        return { masechet, perek, mishna: mv.num, mishnaLabel: mv.label, date: '', source: 'r2' };
       }
       return null;
     }
@@ -525,7 +542,7 @@
       const date = parts.slice(iNum + 2).join('_');
       if (masechet && !isNaN(perek) && !isNaN(mishna)){
         // קבצים ישנים עם תאריך יושבים ב-GitHub; קבצים בלי תאריך - ב-R2
-        return { masechet, perek, mishna, date, source: date ? 'github' : 'r2' };
+        return { masechet, perek, mishna, mishnaLabel: toHebrewNumeral(mishna), date, source: date ? 'github' : 'r2' };
       }
     }
     return null;
@@ -581,6 +598,7 @@
       if (!index[parsed.masechet][parsed.perek]) index[parsed.masechet][parsed.perek] = [];
       index[parsed.masechet][parsed.perek].push({
         mishna: parsed.mishna,
+        mishnaLabel: parsed.mishnaLabel,
         date: parsed.date,
         url: fileUrl(f, parsed),
         filename: f.name
@@ -672,7 +690,7 @@
           const anchor = (targetPerek === p && targetMishna === shiur.mishna) ? ' id="target-mishna"' : '';
           html += `<div class="mishna-row${mishnaHi}"${anchor}>
             <div class="mishna-head">
-              <span class="mishna-num">משנה ${toHebrewNumeral(shiur.mishna)}</span>
+              <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
               ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
             </div>
             <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
