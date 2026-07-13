@@ -497,7 +497,8 @@
   //   פורמט א' (של אבא): מסכת_פרק_א_משנה_יא.m4a  (אותיות גימטריה, סלחני לקווים תחתונים עודפים)
   //   פורמט ב' (ישן):    מסכת_1_11_תאריך.mp3     (מספרים, עם או בלי תאריך)
   function parseFilename(filename){
-    const base = filename
+    const nameOnly = filename.split('/').pop();  // תמיכה בקבצים בתוך תיקיות ב-R2
+    const base = nameOnly
       .replace(/\.(mp3|m4a)$/i, '')
       .replace(/^_+|_+$/g, '');            // מתעלמים מקווים תחתונים בתחילת/סוף השם
     const parts = base.split('_').filter(Boolean); // מתעלמים מקווים כפולים
@@ -562,7 +563,9 @@
     if (parsed.source === 'github'){
       return `${CONFIG.folder}/${encodeURIComponent(file.name)}`;
     }
-    return `${CONFIG.audioBase}/${encodeURIComponent(file.name)}`;
+    // קידוד כל חלק בנפרד כדי לשמר לוכסנים של תיקיות (כלאים/קובץ.m4a)
+    const encoded = file.name.split('/').map(encodeURIComponent).join('/');
+    return `${CONFIG.audioBase}/${encoded}`;
   }
 
   function buildIndex(files){
@@ -670,111 +673,4 @@
           html += `<div class="mishna-row${mishnaHi}"${anchor}>
             <div class="mishna-head">
               <span class="mishna-num">משנה ${toHebrewNumeral(shiur.mishna)}</span>
-              ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
-            </div>
-            <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
-          </div>`;
-        }
-        html += `</div>`;
-      }
-    }
-    app.innerHTML = html;
-    document.getElementById('backBtn').addEventListener('click', () => {
-      view = { type: 'shelf' };
-      render();
-    });
-    // גלילה אל המשנה שנמצאה בחיפוש
-    const target = document.getElementById('target-mishna');
-    if (target){
-      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-    }
-  }
-
-  function renderSetup(){
-    headerMeta.textContent = '';
-    app.innerHTML = `<div class="notice">
-      <h2>שלב הקמה אחרון</h2>
-      <p>האתר מוכן, אבל עדיין לא מחובר למאגר שבו יישמרו קבצי ההקלטה.</p>
-      <p>פתחו את קובץ <code>index.html</code>, חפשו את החלק שנקרא <code>CONFIG</code> בתחילת הקוד, והזינו שם את:</p>
-      <p><code>owner</code> — שם המשתמש שלכם ב-GitHub<br><code>repo</code> — שם המאגר (repository) שיצרתם</p>
-      <p>לאחר מכן שמרו והעלו מחדש. זו פעולה חד-פעמית בלבד.</p>
-    </div>`;
-  }
-
-  function renderError(){
-    headerMeta.textContent = '';
-    app.innerHTML = `<div class="notice">
-      <h2>רשימת השיעורים עדיין לא נבנתה</h2>
-      <p>אם זו הפעם הראשונה: ודאו שקובץ ה-Action הועלה (ראו הוראות) ושהועלה לפחות שיעור אחד לתיקיית shiurim. הרשימה נבנית אוטומטית תוך כדקה מהעלאת שיעור.</p>
-      <button class="refresh-btn" id="retryBtn">נסה שוב</button>
-    </div>`;
-    document.getElementById('retryBtn').addEventListener('click', () => load());
-  }
-
-  const CACHE_KEY = 'shiurim-cache-v1';
-
-  function saveCache(files){
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ files, savedAt: Date.now() }));
-    } catch (e){ /* לא קריטי אם זה נכשל */ }
-  }
-
-  function loadCache(){
-    try {
-      const raw = localStorage.getItem(CACHE_KEY);
-      return raw ? JSON.parse(raw).files : null;
-    } catch (e){
-      return null;
-    }
-  }
-
-  async function load(retryCount){
-    retryCount = (typeof retryCount === 'number') ? retryCount : 0;
-    try {
-      const files = await fetchFileList();
-      buildIndex(files);
-      saveCache(files);
-      view = view.type === 'masechet' ? view : { type: 'shelf' };
-      render();
-    } catch (e){
-      // ניסיון חוזר אוטומטי פעם אחת אחרי כשל זמני (למשל הגבלת קצב של GitHub)
-      if (retryCount < 1){
-        setTimeout(() => load(retryCount + 1), 3000);
-        return;
-      }
-      // אם יש נתונים שמורים מקודם - נציג אותם במקום מסך שגיאה
-      const cached = loadCache();
-      if (cached){
-        buildIndex(cached);
-        view = view.type === 'masechet' ? view : { type: 'shelf' };
-        render();
-        return;
-      }
-      view = { type: 'error' };
-      render();
-    }
-  }
-
-  refreshBtn.addEventListener('click', () => load());
-
-  searchInput.addEventListener('input', () => {
-    searchQuery = searchInput.value.trim();
-    const parsed = parseSearchQuery(searchQuery);
-    // אם זוהתה מסכת מדויקת שיש בה שיעורים - קופצים אליה (עם הדגשת פרק/משנה)
-    if (parsed.masechet && index[parsed.masechet]){
-      view = { type: 'masechet', name: parsed.masechet, perek: parsed.perek, mishna: parsed.mishna };
-      render();
-      return;
-    }
-    // אחרת - מסננים את הארון לפי הטקסט שהוקלד
-    if (view.type === 'masechet' || view.type === 'error' || view.type === 'setup'){
-      view = { type: 'shelf' };
-    }
-    render();
-  });
-
-  load();
-})();
-</script>
-</body>
-</html>
+              ${shi
