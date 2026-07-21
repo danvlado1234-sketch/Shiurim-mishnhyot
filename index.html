@@ -246,6 +246,22 @@
     font-weight: 300;
   }
 
+  .mishna-row .text-link {
+    font-size: 12px;
+    color: var(--accent, #7A2A28);
+    text-decoration: none;
+    border: 1px solid var(--accent, #7A2A28);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-weight: 400;
+    white-space: nowrap;
+    transition: background .15s, color .15s;
+  }
+  .mishna-row .text-link:hover {
+    background: var(--accent, #7A2A28);
+    color: #fff;
+  }
+
   audio {
     width: 100%;
     height: 36px;
@@ -402,6 +418,32 @@
     { name: "קדשים", masechtot: ["זבחים","מנחות","חולין","בכורות","ערכין","תמורה","כריתות","מעילה","תמיד","מידות","קינים"] },
     { name: "טהרות", masechtot: ["כלים","אהלות","נגעים","פרה","טהרות","מקוואות","נדה","מכשירין","זבים","טבול יום","ידים","עוקצין"] }
   ];
+
+  // מיפוי שם המסכת (עברית) -> שם ספריא (תעתיק אנגלי), לבניית קישור לטקסט המשנה
+  const SEFARIA_NAMES = {
+    "ברכות":"Berakhot","פאה":"Peah","דמאי":"Demai","כלאים":"Kilayim","שביעית":"Sheviit",
+    "תרומות":"Terumot","מעשרות":"Maasrot","מעשר שני":"Maaser Sheni","חלה":"Challah",
+    "ערלה":"Orlah","ביכורים":"Bikkurim","שבת":"Shabbat","עירובין":"Eruvin","פסחים":"Pesachim",
+    "שקלים":"Shekalim","יומא":"Yoma","סוכה":"Sukkah","ביצה":"Beitzah","ראש השנה":"Rosh Hashanah",
+    "תענית":"Taanit","מגילה":"Megillah","מועד קטן":"Moed Katan","חגיגה":"Chagigah",
+    "יבמות":"Yevamot","כתובות":"Ketubot","נדרים":"Nedarim","נזיר":"Nazir","סוטה":"Sotah",
+    "גיטין":"Gittin","קידושין":"Kiddushin","בבא קמא":"Bava Kamma","בבא מציעא":"Bava Metzia",
+    "בבא בתרא":"Bava Batra","סנהדרין":"Sanhedrin","מכות":"Makkot","שבועות":"Shevuot",
+    "עדיות":"Eduyot","עבודה זרה":"Avodah Zarah","אבות":"Avot","הוריות":"Horayot",
+    "זבחים":"Zevachim","מנחות":"Menachot","חולין":"Chullin","בכורות":"Bekhorot","ערכין":"Arakhin",
+    "תמורה":"Temurah","כריתות":"Keritot","מעילה":"Meilah","תמיד":"Tamid","מידות":"Middot",
+    "קינים":"Kinnim","כלים":"Kelim","אהלות":"Oholot","נגעים":"Negaim","פרה":"Parah",
+    "טהרות":"Tahorot","מקוואות":"Mikvaot","נדה":"Niddah","מכשירין":"Makhshirin","זבים":"Zavim",
+    "טבול יום":"Tevul Yom","ידים":"Yadayim","עוקצין":"Oktzin"
+  };
+
+  // בונה קישור לספריא לטקסט המשנה. מחזיר null אם המסכת לא במיפוי.
+  function sefariaLink(masechet, perek, mishna){
+    const name = SEFARIA_NAMES[masechet];
+    if (!name) return null;
+    const slug = name.replace(/ /g, '_');
+    return `https://www.sefaria.org.il/Mishnah_${slug}.${perek}.${mishna}`;
+  }
 
   const app = document.getElementById('app');
   const headerMeta = document.getElementById('headerMeta');
@@ -688,9 +730,11 @@
         for (const shiur of perakim[p]){
           const mishnaHi = (targetPerek === p && targetMishna === shiur.mishna) ? ' highlight' : '';
           const anchor = (targetPerek === p && targetMishna === shiur.mishna) ? ' id="target-mishna"' : '';
+          const sLink = sefariaLink(name, p, shiur.mishna);
           html += `<div class="mishna-row${mishnaHi}"${anchor}>
             <div class="mishna-head">
               <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
+              ${sLink ? `<a class="text-link" href="${sLink}" target="_blank" rel="noopener">📖 עיין בטקסט</a>` : ''}
               ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
             </div>
             <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
