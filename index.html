@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>סדר משניות · שיעור יומי</title>
+<title>שיעורי משנה · מאת הרה"ג רבי יצחק ולדומירסקי שליט"א</title>
+<meta name="description" content="שיעורי משנה יומיים מפי הרה&quot;ג רבי יצחק ולדומירסקי שליט&quot;א — האזנה חינם לפי סדר, מסכת, פרק ומשנה, עם קישור לטקסט המשנה.">
+<meta name="google-site-verification" content="zLVos3P_y084162czc-B3hqaWzkfjU33pjh7KxvIyCQ" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -329,10 +331,13 @@
 
   .search-row {
     margin-bottom: 24px;
+    display: flex;
+    gap: 10px;
   }
 
   .search-input {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     box-sizing: border-box;
     font-family: 'Heebo', sans-serif;
     font-size: 16px;
@@ -349,6 +354,21 @@
     outline: 2px solid var(--brass);
     outline-offset: 1px;
   }
+
+  .search-btn {
+    font-family: 'Heebo', sans-serif;
+    font-size: 15px;
+    padding: 12px 22px;
+    border: 1px solid var(--wine);
+    border-radius: 20px;
+    background: var(--wine);
+    color: var(--paper);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .search-btn:hover { opacity: .9; }
+  .search-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
 
   .no-results {
     text-align: center;
@@ -378,8 +398,8 @@
 <body>
 
 <header class="hero">
-  <h1>סדר משניות · שיעור יומי</h1>
-  <p class="tagline">״יוֹם לְיוֹם יַבִּיעַ אֹמֶר״</p>
+  <h1>שיעורי משנה</h1>
+  <p class="tagline">מאת הרה"ג רבי יצחק ולדומירסקי שליט"א</p>
   <p class="meta" id="headerMeta">טוען…</p>
 </header>
 
@@ -389,6 +409,7 @@
   </div>
   <div class="search-row">
     <input type="text" class="search-input" id="searchInput" placeholder="חיפוש: ברכות · ברכות פרק א · ברכות פרק א משנה ב">
+    <button class="search-btn" id="searchBtn">חפש</button>
   </div>
   <main id="app"></main>
 </div>
@@ -449,6 +470,7 @@
   const headerMeta = document.getElementById('headerMeta');
   const refreshBtn = document.getElementById('refreshBtn');
   const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
 
   let index = {};      // { masechet: { perek: [ {mishna, date, url, filename} ] } }
   let unmatched = [];
@@ -668,20 +690,16 @@
     if (view.type === 'setup') return renderSetup();
     if (view.type === 'error') return renderError();
     if (view.type === 'masechet') return renderMasechet(view.name);
+    if (view.type === 'results') return renderResults();
     return renderShelf();
   }
 
   function renderShelf(){
     headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    const q = normalize(parseSearchQuery(searchQuery).masechetPartial);
     let html = '';
-    let anyMatch = false;
     for (const seder of SEDARIM){
-      const visibleMasechtot = q ? seder.masechtot.filter(m => normalize(m).includes(q)) : seder.masechtot;
-      if (!visibleMasechtot.length) continue;
-      anyMatch = true;
       html += `<div class="seder-block"><div class="seder-label">סדר ${seder.name}</div><div class="shelf">`;
-      for (const m of visibleMasechtot){
+      for (const m of seder.masechtot){
         const perakim = index[m];
         const has = !!perakim;
         let count = 0;
@@ -692,10 +710,7 @@
       }
       html += `</div></div>`;
     }
-    if (!anyMatch){
-      html += `<div class="no-results">לא נמצאה מסכת בשם "${searchQuery}"</div>`;
-    }
-    if (!q && unmatched.length){
+    if (unmatched.length){
       html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>`;
       for (const u of unmatched) html += `<li>${u}</li>`;
       html += `</ul><p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_א_משנה_ב.m4a (שם המסכת חייב להתאים לשמות שבארון)</p></details>`;
@@ -753,6 +768,75 @@
     if (target){
       setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
     }
+  }
+
+  // דף תוצאות חיפוש עצמאי - מציג רק את המשניות שנמצאו, עם נגנים
+  function renderResults(){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const parsed = parseSearchQuery(searchQuery);
+    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לארון הספרים</button></div>
+      <h2 class="masechet-title">תוצאות חיפוש</h2>
+      <p class="masechet-sub">"${searchQuery}"</p>`;
+
+    // מזהים מסכת: שם מלא, או שם חלקי שמתאים בדיוק למסכת אחת שיש בה שיעורים
+    let masechet = (parsed.masechet && index[parsed.masechet]) ? parsed.masechet : null;
+    let candidates = [];
+    if (!masechet && parsed.masechetPartial){
+      const q = normalize(parsed.masechetPartial);
+      candidates = Object.keys(index).filter(m => normalize(m).includes(q));
+      if (candidates.length === 1) masechet = candidates[0];
+    }
+
+    if (masechet){
+      const perakim = index[masechet];
+      const perekNums = Object.keys(perakim).map(Number).sort((a,b) => a-b)
+        .filter(p => !parsed.perek || p === parsed.perek);
+      let found = 0;
+      for (const p of perekNums){
+        const rows = perakim[p].filter(s => !parsed.mishna || s.mishna === parsed.mishna);
+        if (!rows.length) continue;
+        html += `<div class="perek-block"><h3 class="perek-heading">מסכת ${masechet} · פרק ${toHebrewNumeral(p)}</h3>`;
+        for (const shiur of rows){
+          found++;
+          const sLink = sefariaLink(masechet, p, shiur.mishna);
+          html += `<div class="mishna-row">
+            <div class="mishna-head">
+              <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
+              ${sLink ? `<a class="text-link" href="${sLink}" target="_blank" rel="noopener">📖 עיין בטקסט</a>` : ''}
+              ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
+            </div>
+            <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
+          </div>`;
+        }
+        html += `</div>`;
+      }
+      if (!found){
+        html += `<div class="no-results">נמצאה מסכת ${masechet}, אבל אין שיעור שמתאים לפרק או למשנה שביקשת</div>`;
+      }
+    } else if (candidates.length > 1){
+      html += `<p class="masechet-sub">נמצאו כמה מסכתות מתאימות — בחר אחת:</p><div class="shelf">`;
+      for (const m of candidates){
+        let count = 0;
+        for (const p in index[m]) count += index[m][p].length;
+        html += `<button class="volume has-shiur" data-masechet="${m}">${m}<span class="count">${count} שיעורים</span></button>`;
+      }
+      html += `</div>`;
+    } else {
+      html += `<div class="no-results">לא נמצאו שיעורים עבור "${searchQuery}"</div>`;
+    }
+
+    app.innerHTML = html;
+    document.getElementById('backBtn').addEventListener('click', () => {
+      view = { type: 'shelf' };
+      render();
+    });
+    app.querySelectorAll('.volume').forEach(btn => {
+      btn.addEventListener('click', () => {
+        view = { type: 'masechet', name: btn.dataset.masechet };
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
   }
 
   function renderSetup(){
@@ -822,20 +906,24 @@
 
   refreshBtn.addEventListener('click', () => load());
 
-  searchInput.addEventListener('input', () => {
+  function runSearch(){
     searchQuery = searchInput.value.trim();
-    const parsed = parseSearchQuery(searchQuery);
-    // אם זוהתה מסכת מדויקת שיש בה שיעורים - קופצים אליה (עם הדגשת פרק/משנה)
-    if (parsed.masechet && index[parsed.masechet]){
-      view = { type: 'masechet', name: parsed.masechet, perek: parsed.perek, mishna: parsed.mishna };
+    if (!searchQuery){
+      view = { type: 'shelf' };
       render();
       return;
     }
-    // אחרת - מסננים את הארון לפי הטקסט שהוקלד
-    if (view.type === 'masechet' || view.type === 'error' || view.type === 'setup'){
-      view = { type: 'shelf' };
-    }
+    view = { type: 'results' };
     render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  searchBtn.addEventListener('click', runSearch);
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      runSearch();
+    }
   });
 
   load();
