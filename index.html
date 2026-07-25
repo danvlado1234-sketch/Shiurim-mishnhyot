@@ -929,5 +929,14 @@
   load();
 })();
 </script>
+  <script>
+document.addEventListener('play', function(e){
+  if (e.target.tagName === 'AUDIO'){
+    document.querySelectorAll('audio').forEach(function(a){
+      if (a !== e.target) a.pause();
+    });
+  }
+}, true);
+  </script>
 </body>
 </html>
