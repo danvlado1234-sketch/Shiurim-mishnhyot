@@ -156,8 +156,10 @@
 
   .volume.empty {
     background: var(--ghost-bg);
-    color: var(--ghost);
-    border: 1px dashed var(--ghost);
+    color: var(--ink-soft);
+    border: 1px solid var(--paper-deep);
+    border-top: 3px double var(--paper-deep);
+    border-bottom: 3px double var(--paper-deep);
   }
 
   .volume.empty:hover {
@@ -381,6 +383,10 @@
     color: var(--wine);
   }
 
+  .volume.highlight {
+    box-shadow: 0 0 0 3px var(--brass);
+  }
+
   .mishna-row.highlight {
     border-color: var(--brass);
     box-shadow: 0 0 0 2px var(--brass);
@@ -439,6 +445,21 @@
     { name: "קדשים", masechtot: ["זבחים","מנחות","חולין","בכורות","ערכין","תמורה","כריתות","מעילה","תמיד","מידות","קינים"] },
     { name: "טהרות", masechtot: ["כלים","אהלות","נגעים","פרה","טהרות","מקוואות","נדה","מכשירין","זבים","טבול יום","ידים","עוקצין"] }
   ];
+
+  // מספר הפרקים בכל מסכת - לפי חלוקת ספריא (אבות ו, תמיד ז, ביכורים ד)
+  const PEREK_COUNTS = {
+    "ברכות":9,"פאה":8,"דמאי":7,"כלאים":9,"שביעית":10,"תרומות":11,"מעשרות":5,"מעשר שני":5,
+    "חלה":4,"ערלה":3,"ביכורים":4,
+    "שבת":24,"עירובין":10,"פסחים":10,"שקלים":8,"יומא":8,"סוכה":5,"ביצה":5,"ראש השנה":4,
+    "תענית":4,"מגילה":4,"מועד קטן":3,"חגיגה":3,
+    "יבמות":16,"כתובות":13,"נדרים":11,"נזיר":9,"סוטה":9,"גיטין":9,"קידושין":4,
+    "בבא קמא":10,"בבא מציעא":10,"בבא בתרא":10,"סנהדרין":11,"מכות":3,"שבועות":8,"עדיות":8,
+    "עבודה זרה":5,"אבות":6,"הוריות":3,
+    "זבחים":14,"מנחות":13,"חולין":12,"בכורות":9,"ערכין":9,"תמורה":7,"כריתות":6,"מעילה":6,
+    "תמיד":7,"מידות":5,"קינים":3,
+    "כלים":30,"אהלות":18,"נגעים":14,"פרה":12,"טהרות":10,"מקוואות":10,"נדה":10,"מכשירין":6,
+    "זבים":5,"טבול יום":4,"ידים":4,"עוקצין":3
+  };
 
   // מיפוי שם המסכת (עברית) -> שם ספריא (תעתיק אנגלי), לבניית קישור לטקסט המשנה
   const SEFARIA_NAMES = {
@@ -689,33 +710,74 @@
   function render(){
     if (view.type === 'setup') return renderSetup();
     if (view.type === 'error') return renderError();
+    if (view.type === 'seder') return renderSeder(view.name);
     if (view.type === 'masechet') return renderMasechet(view.name);
+    if (view.type === 'perek') return renderPerek(view.name, view.perek);
     if (view.type === 'results') return renderResults();
     return renderShelf();
   }
 
+  // כמה שיעורים במסכת
+  function countMasechet(m){
+    const perakim = index[m];
+    if (!perakim) return 0;
+    let n = 0;
+    for (const p in perakim) n += perakim[p].length;
+    return n;
+  }
+
+  // כמה שיעורים בסדר שלם
+  function countSeder(seder){
+    let n = 0;
+    for (const m of seder.masechtot) n += countMasechet(m);
+    return n;
+  }
+
+  // חלון ראשון: ששת הסדרים
   function renderShelf(){
     headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    let html = '';
+    let html = '<div class="shelf">';
     for (const seder of SEDARIM){
-      html += `<div class="seder-block"><div class="seder-label">סדר ${seder.name}</div><div class="shelf">`;
-      for (const m of seder.masechtot){
-        const perakim = index[m];
-        const has = !!perakim;
-        let count = 0;
-        if (has){ for (const p in perakim) count += perakim[p].length; }
-        html += `<button class="volume ${has ? 'has-shiur' : 'empty'}" data-masechet="${m}">
-          ${m}${has ? `<span class="count">${count} שיעורים</span>` : `<span class="count">טרם הוקלט</span>`}
-        </button>`;
-      }
-      html += `</div></div>`;
+      const count = countSeder(seder);
+      html += `<button class="volume ${count ? 'has-shiur' : 'empty'}" data-seder="${seder.name}">
+        סדר ${seder.name}<span class="count">${count ? count + ' שיעורים' : 'טרם הוקלט'}</span>
+      </button>`;
     }
+    html += '</div>';
     if (unmatched.length){
       html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>`;
       for (const u of unmatched) html += `<li>${u}</li>`;
       html += `</ul><p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_א_משנה_ב.m4a (שם המסכת חייב להתאים לשמות שבארון)</p></details>`;
     }
     app.innerHTML = html;
+    app.querySelectorAll('.volume').forEach(btn => {
+      btn.addEventListener('click', () => {
+        view = { type: 'seder', name: btn.dataset.seder };
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }
+
+  // חלון שני: המסכתות שבסדר
+  function renderSeder(name){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const seder = SEDARIM.find(s => s.name === name);
+    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לסדרים</button></div>
+      <h2 class="masechet-title">סדר ${name}</h2>
+      <p class="masechet-sub">בחרו מסכת</p><div class="shelf">`;
+    for (const m of seder.masechtot){
+      const count = countMasechet(m);
+      html += `<button class="volume ${count ? 'has-shiur' : 'empty'}" data-masechet="${m}">
+        ${m}<span class="count">${count ? count + ' שיעורים' : 'טרם הוקלט'}</span>
+      </button>`;
+    }
+    html += '</div>';
+    app.innerHTML = html;
+    document.getElementById('backBtn').addEventListener('click', () => {
+      view = { type: 'shelf' };
+      render();
+    });
     app.querySelectorAll('.volume').forEach(btn => {
       btn.addEventListener('click', () => {
         view = { type: 'masechet', name: btn.dataset.masechet };
@@ -725,45 +787,86 @@
     });
   }
 
+  // חלון שלישי: רשימת הפרקים של המסכת
   function renderMasechet(name){
     headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
     const seder = SEDARIM.find(s => s.masechtot.includes(name));
-    const targetPerek = view.perek || null;
-    const targetMishna = view.mishna || null;
-    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לארון הספרים</button></div>
+    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לסדר ${seder ? seder.name : ''}</button></div>
       <h2 class="masechet-title">מסכת ${name}</h2>
       <p class="masechet-sub">סדר ${seder ? seder.name : ''}</p>`;
 
-    const perakim = index[name];
-    if (!perakim){
+    const perakim = index[name] || {};
+    // מציגים את כל פרקי המסכת - גם אלה שטרם הוקלטו
+    const total = PEREK_COUNTS[name] || 0;
+    const nums = [];
+    for (let i = 1; i <= total; i++) nums.push(i);
+    for (const p of Object.keys(perakim).map(Number)){   // ליתר ביטחון: פרק שקיים בקבצים ולא בטבלה
+      if (!nums.includes(p)) nums.push(p);
+    }
+    nums.sort((a,b) => a-b);
+    if (!nums.length){
       html += `<div class="empty-state">עדיין לא הוקלטו שיעורים במסכת זו — יום אחד בבוא הזמן ⁠תמצא אותם כאן.</div>`;
     } else {
-      const perekNums = Object.keys(perakim).map(Number).sort((a,b) => a-b);
-      for (const p of perekNums){
-        const perekHi = targetPerek === p ? ' highlight' : '';
-        html += `<div class="perek-block${perekHi}"><h3 class="perek-heading">פרק ${toHebrewNumeral(p)}</h3>`;
-        for (const shiur of perakim[p]){
-          const mishnaHi = (targetPerek === p && targetMishna === shiur.mishna) ? ' highlight' : '';
-          const anchor = (targetPerek === p && targetMishna === shiur.mishna) ? ' id="target-mishna"' : '';
-          const sLink = sefariaLink(name, p, shiur.mishna);
-          html += `<div class="mishna-row${mishnaHi}"${anchor}>
-            <div class="mishna-head">
-              <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
-              ${sLink ? `<a class="text-link" href="${sLink}" target="_blank" rel="noopener">📖 עיין בטקסט</a>` : ''}
-              ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
-            </div>
-            <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
-          </div>`;
-        }
-        html += `</div>`;
+      html += '<div class="shelf">';
+      const targetPerek = view.perek || null;
+      for (const p of nums){
+        const n = perakim[p] ? perakim[p].length : 0;
+        const hi = targetPerek === p ? ' highlight' : '';
+        const anchor = targetPerek === p ? ' id="target-perek"' : '';
+        html += `<button class="volume ${n ? 'has-shiur' : 'empty'}${hi}" data-perek="${p}"${anchor}>
+          פרק ${toHebrewNumeral(p)}<span class="count">${n ? n + ' משניות' : 'טרם הוקלט'}</span>
+        </button>`;
       }
+      html += '</div>';
     }
     app.innerHTML = html;
     document.getElementById('backBtn').addEventListener('click', () => {
-      view = { type: 'shelf' };
+      view = seder ? { type: 'seder', name: seder.name } : { type: 'shelf' };
       render();
     });
-    // גלילה אל המשנה שנמצאה בחיפוש
+    app.querySelectorAll('.volume').forEach(btn => {
+      btn.addEventListener('click', () => {
+        view = { type: 'perek', name: name, perek: Number(btn.dataset.perek) };
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+    // גלילה אל הפרק שנמצא בחיפוש
+    const targetEl = document.getElementById('target-perek');
+    if (targetEl){
+      setTimeout(() => targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
+  }
+
+  // חלון רביעי: המשניות של הפרק, עם הנגנים
+  function renderPerek(name, perek){
+    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
+    const targetMishna = view.mishna || null;
+    const rows = (index[name] && index[name][perek]) ? index[name][perek] : [];
+    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה למסכת ${name}</button></div>
+      <h2 class="masechet-title">מסכת ${name} · פרק ${toHebrewNumeral(perek)}</h2>
+      <p class="masechet-sub">${rows.length} שיעורים בפרק</p>`;
+    if (!rows.length){
+      html += `<div class="empty-state">עדיין לא הוקלטו שיעורים בפרק זה.</div>`;
+    }
+    for (const shiur of rows){
+      const hi = targetMishna === shiur.mishna ? ' highlight' : '';
+      const anchor = targetMishna === shiur.mishna ? ' id="target-mishna"' : '';
+      const sLink = sefariaLink(name, perek, shiur.mishna);
+      html += `<div class="mishna-row${hi}"${anchor}>
+        <div class="mishna-head">
+          <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
+          ${sLink ? `<a class="text-link" href="${sLink}" target="_blank" rel="noopener">📖 עיין בטקסט</a>` : ''}
+          ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
+        </div>
+        <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
+      </div>`;
+    }
+    app.innerHTML = html;
+    document.getElementById('backBtn').addEventListener('click', () => {
+      view = { type: 'masechet', name: name };
+      render();
+    });
     const target = document.getElementById('target-mishna');
     if (target){
       setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
@@ -883,7 +986,7 @@
       const files = await fetchFileList();
       buildIndex(files);
       saveCache(files);
-      view = view.type === 'masechet' ? view : { type: 'shelf' };
+      view = (view.type === 'masechet' || view.type === 'seder' || view.type === 'perek') ? view : { type: 'shelf' };
       render();
     } catch (e){
       // ניסיון חוזר אוטומטי פעם אחת אחרי כשל זמני (למשל הגבלת קצב של GitHub)
@@ -895,7 +998,7 @@
       const cached = loadCache();
       if (cached){
         buildIndex(cached);
-        view = view.type === 'masechet' ? view : { type: 'shelf' };
+        view = (view.type === 'masechet' || view.type === 'seder' || view.type === 'perek') ? view : { type: 'shelf' };
         render();
         return;
       }
@@ -913,6 +1016,32 @@
       render();
       return;
     }
+    // אם החיפוש מזהה מסכת אחת ברורה - נכנסים ישר לחלון שלה
+    const parsed = parseSearchQuery(searchQuery);
+    let masechet = (parsed.masechet && index[parsed.masechet]) ? parsed.masechet : null;
+    if (!masechet && parsed.masechetPartial){
+      const q = normalize(parsed.masechetPartial);
+      const cands = Object.keys(index).filter(m => normalize(m).includes(q));
+      if (cands.length === 1) masechet = cands[0];
+    }
+    if (masechet){
+      const perakim = index[masechet] || {};
+      const rows = parsed.perek ? perakim[parsed.perek] : null;
+      if (parsed.perek && parsed.mishna && rows && rows.some(r => r.mishna === parsed.mishna)){
+        // בוקשה משנה מסוימת שקיימת - נכנסים לחלון הפרק ומדגישים אותה
+        view = { type: 'perek', name: masechet, perek: parsed.perek, mishna: parsed.mishna };
+      } else if (parsed.perek){
+        // בוקש פרק - חלון המסכת עם הפרק מודגש (גם אם טרם הוקלט)
+        view = { type: 'masechet', name: masechet, perek: parsed.perek };
+      } else {
+        // רק שם מסכת - חלון המסכת עם רשימת הפרקים
+        view = { type: 'masechet', name: masechet };
+      }
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    // לא זוהתה מסכת אחת ברורה - דף תוצאות רגיל
     view = { type: 'results' };
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
