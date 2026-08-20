@@ -59,9 +59,9 @@
   /* ---------- Header ---------- */
 
   header.hero {
-    padding: 96px 20px 64px;
+    padding: 32px 20px 24px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .hero h1 {
@@ -71,12 +71,8 @@
     margin: 0 0 10px;
     color: #f6ecd3;
     letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: color .15s ease;
     text-shadow: 0 2px 12px rgba(20,14,8,0.45);
   }
-
-  .hero h1:hover { color: var(--brass-light); }
 
   .hero .tagline {
     font-family: 'Frank Ruhl Libre', serif;
@@ -1331,11 +1327,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  document.getElementById('siteTitle').addEventListener('click', () => {
-    view = { type: 'shelf' };
-    render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
 
   searchBtn.addEventListener('click', runSearch);
   searchInput.addEventListener('keydown', (e) => {
