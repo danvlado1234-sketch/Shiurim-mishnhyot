@@ -231,31 +231,41 @@
   .breadcrumb button {
     all: unset;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     color: var(--wine);
     font-weight: 700;
-    border-bottom: 1px solid var(--wine);
+    background: #F6EFDD;
+    border: 1px solid var(--paper-deep);
+    border-radius: 20px;
+    padding: 7px 14px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow .15s ease, border-color .15s ease;
+  }
+
+  .breadcrumb button:hover {
+    border-color: var(--wine);
+    box-shadow: var(--shadow-md);
   }
 
   .breadcrumb button:focus-visible {
     outline: 2px solid var(--brass);
+    outline-offset: 2px;
   }
 
   .breadcrumb .home-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
     color: var(--ink-soft);
-    border-bottom: 1px solid var(--paper-deep);
     font-weight: 500;
   }
 
   .breadcrumb .home-link:hover {
     color: var(--wine);
-    border-bottom-color: var(--wine);
+    border-color: var(--wine);
   }
 
   .breadcrumb-sep {
-    color: var(--ghost);
+    color: var(--ink-soft);
     font-size: 12px;
   }
 
@@ -414,9 +424,11 @@
     gap: 8px;
     font-size: 13px;
     color: var(--wine);
+    background: #F6EFDD;
     border: 1px solid var(--wine);
     padding: 6px 14px;
     border-radius: 20px;
+    box-shadow: var(--shadow-sm);
     transition: background .15s ease, color .15s ease, box-shadow .15s ease;
   }
 
