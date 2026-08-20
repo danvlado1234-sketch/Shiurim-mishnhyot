@@ -38,8 +38,13 @@
 
   body {
     background-image:
-      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(255,255,255,0.4), transparent 60%),
-      repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px);
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(255,255,255,0.1), transparent 60%),
+      linear-gradient(180deg, rgba(36,31,22,0.72) 0%, rgba(85,28,27,0.6) 45%, rgba(237,227,204,0.94) 100%),
+      url('bg-rabbi.jpg');
+    background-size: auto, cover, cover;
+    background-position: top, 42% 32%, 42% 32%;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-attachment: scroll, fixed, fixed;
     min-height: 100vh;
   }
 
@@ -54,9 +59,8 @@
   /* ---------- Header ---------- */
 
   header.hero {
-    padding: 56px 20px 40px;
+    padding: 96px 20px 64px;
     text-align: center;
-    border-bottom: 1px solid var(--paper-deep);
     margin-bottom: 40px;
   }
 
@@ -65,39 +69,41 @@
     font-weight: 900;
     font-size: clamp(32px, 6vw, 52px);
     margin: 0 0 10px;
-    color: var(--ink);
+    color: #f6ecd3;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: color .15s ease;
+    text-shadow: 0 2px 12px rgba(20,14,8,0.45);
   }
 
-  .hero h1:hover { color: var(--wine); }
+  .hero h1:hover { color: var(--brass-light); }
 
   .hero .tagline {
     font-family: 'Frank Ruhl Libre', serif;
     font-weight: 400;
     font-style: normal;
-    color: var(--wine);
+    color: var(--brass-light);
     font-size: clamp(16px, 2.6vw, 20px);
     margin: 0 0 18px;
+    text-shadow: 0 1px 8px rgba(20,14,8,0.4);
   }
 
   .ornament {
     display: flex;
     justify-content: center;
-    color: var(--brass);
-    opacity: .8;
+    color: var(--brass-light);
+    opacity: .9;
     margin: 2px 0 18px;
   }
 
   .hero .meta {
     font-size: 14px;
-    color: var(--ink-soft);
+    color: #ece0c4;
     font-weight: 300;
   }
 
   .hero .meta strong {
-    color: var(--brass);
+    color: var(--brass-light);
     font-weight: 700;
   }
 
