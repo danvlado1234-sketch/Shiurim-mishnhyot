@@ -19,6 +19,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- אפליקציה: האפליקציה המאוחדת "שיעורי הרב" - ה-manifest וה-service worker יושבים בדף השער
+     (scope "/"), כך שהתקנה מכאן מתקינה אפליקציה אחת לכל השיעורים -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/mishna-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="שיעורי הרב">
 <script>
   // מצב יום / לילה: קודם מה שהמשתמש בחר בכפתור ☀/☾ (נשמר במכשיר); בלי בחירה -
   // כהה כשפתוח כאפליקציה מותקנת, בהיר באתר בדפדפן. רץ לפני שהדף מצויר.
@@ -107,6 +113,16 @@
   .theme-btn { all:unset; cursor:pointer; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:var(--surface2); color:var(--text); }
   .theme-btn:focus-visible { outline:2px solid var(--gold); }
   .avatar { width:40px; height:40px; border-radius:50%; flex-shrink:0; border:2px solid var(--gold); background:url('bg-rabbi.jpg') 55% 30% / cover; }
+  .all-link { display:inline-flex; align-items:center; gap:3px; margin:12px 18px 0; padding:6px 12px 6px 11px; border-radius:999px;
+    background:var(--surface2); color:var(--text2); font-size:13px; font-weight:600; text-decoration:none; }
+  .all-link + .home-top { padding-top:10px; }
+  .install { display:flex; align-items:center; gap:12px; margin:14px 18px 0; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-radius:14px; }
+  .install img { width:42px; height:42px; border-radius:10px; flex-shrink:0; }
+  .install-gr { flex:1; min-width:0; }
+  .install-t { font-weight:700; font-size:14.5px; }
+  .install-s { font-size:12.5px; color:var(--muted); margin-top:1px; line-height:1.4; }
+  .install-go { background:var(--btn); color:var(--btn-ink); border:0; border-radius:18px; padding:7px 14px; font-weight:700; font-size:13.5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
+  .install-x { background:none; border:0; color:var(--muted); cursor:pointer; padding:4px; flex-shrink:0; display:inline-flex; }
   .search-fake { all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; gap:9px; width:calc(100% - 36px); margin:14px 18px 0;
     background:var(--surface2); border-radius:12px; padding:12px 14px; font-size:14.5px; color:var(--muted); }
 
@@ -616,6 +632,8 @@
   const ICON_AUDIO_DL = svg(17, '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3z"/><path d="M3 19a2 2 0 0 0 2 2h1v-6H3z"/><path d="M12 9v7"/><path d="m9 13 3 3 3-3"/>');
   const ICON_BOOK  = svg(17, '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>');
   const ICON_BACK  = svg(20, '<path d="m9 6 6 6-6 6"/>', 'fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"');
+  const ICON_UP    = svg(15, '<path d="m9 6 6 6-6 6"/>', 'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"');
+  const ICON_CLOSE = svg(18, '<path d="M6 6l12 12M18 6 6 18"/>', 'fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"');
   const ICON_CHEV  = svg(16, '<path d="m15 6-6 6 6 6"/>', 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
   const ICON_SEARCH = svg(17, '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
   const ICON_SHARE = svg(21, '<path d="M4 12v7h16v-7"/><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/>');
@@ -1224,7 +1242,8 @@
 
   // ---- בית ----
   function renderShelf(){
-    let html = `<div class="home-top"><div><div class="greet">${greeting()}</div>
+    let html = `<a class="all-link" href="/">${ICON_UP}כל השיעורים</a>
+      <div class="home-top"><div><div class="greet">${greeting()}</div>
         <div class="greet-s">שיעורי משנה<br>${RABBI}</div></div>
         <span class="home-side">${themeBtnHtml()}<span class="avatar" aria-hidden="true"></span></span></div>
       <button class="search-fake" data-go="search">${ICON_SEARCH}חיפוש: ברכות ב ג · מסכת פאה</button>`;
@@ -1262,6 +1281,8 @@
         html += `<button class="now-line" data-now="${escAttr(now.s.path)}"><span class="now-dot"></span>השיעור עכשיו: <b>${shortRef(now.s)}</b> · עלתה ${dayLabel(now.date)}</button>`;
       }
     }
+
+    html += `<div id="installSlot">${installHtml()}</div>`;
 
     // המסכתות שלי - שיש בהן התקדמות, לפי הפעילות האחרונה
     const act = {};
@@ -1489,6 +1510,8 @@
   app.addEventListener('click', (e) => {
     const t = e.target;
     if (t.closest('#themeBtn')){ toggleTheme(); return; }
+    if (t.closest('#installGo')){ doInstall(); return; }
+    if (t.closest('#installX')){ dismissInstall(); return; }
     if (t.closest('#playBig')){
       const m = view.name;
       if (current && current.s.masechet === m) togglePlay();
@@ -1522,6 +1545,44 @@
     // לחיצה על שורת משנה (לא על כפתור/קישור) - מנגנת
     const row = t.closest('.shiur-row'); if (row && !t.closest('a,button')){ playShiur(row.dataset.path); return; }
   });
+
+  // ====== האפליקציה המאוחדת ======
+  // אפליקציה אחת לכל השיעורים ("שיעורי הרב"), שנפתחת בדף השער. כשפתוחים
+  // כאפליקציה מסמנים את החלון - כדי שאתר הפרשות יידע שהוא בתוכה ולא באפליקציית
+  // הפרשות הישנה. ?app=1 מגיע מקיצורי הדרך של האייקון - מסירים אותו מהכתובת.
+  const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (isStandalone()){
+    try { sessionStorage.setItem('shiurim:app', '1'); localStorage.setItem('shiurim:unified', '1'); } catch (e) {}
+  }
+  if (new URLSearchParams(location.search).has('app')){
+    const u = new URL(location.href); u.searchParams.delete('app');
+    history.replaceState(null, '', u.pathname + u.search);
+  }
+
+  // התקנה: אנדרואיד/מחשב (כרום) - כפתור (beforeinstallprompt); אייפון - הסבר קצר.
+  // לא מוצג כשכבר פתוחים כאפליקציה, או אחרי שסגרו את ההצעה (כאן או בדף השער).
+  let installEvt = null;
+  const INSTALL_KEY = 'shiurim:installDismissed';
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function installDismissed(){ try { return !!localStorage.getItem(INSTALL_KEY); } catch (e) { return false; } }
+  function installHtml(){
+    if (isStandalone() || installDismissed() || !(installEvt || isIOS)) return '';
+    const sub = installEvt ? 'משניות ופרשות במקום אחד, ממסך הבית' : 'בספארי: כפתור השיתוף ⎋ ואז "הוסף למסך הבית"';
+    return `<div class="install"><img src="/icons/icon-192.png" alt="">
+      <div class="install-gr"><div class="install-t">התקינו את האפליקציה</div><div class="install-s">${sub}</div></div>
+      ${installEvt ? '<button class="install-go" id="installGo">התקנה</button>' : ''}
+      <button class="install-x" id="installX" aria-label="סגור">${ICON_CLOSE}</button></div>`;
+  }
+  function refreshInstall(){ const slot = document.getElementById('installSlot'); if (slot) slot.innerHTML = installHtml(); }
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; refreshInstall(); });
+  window.addEventListener('appinstalled', () => { installEvt = null; refreshInstall(); showToast('האפליקציה הותקנה'); });
+  function doInstall(){
+    if (!installEvt) return;
+    installEvt.prompt();
+    installEvt.userChoice.finally(() => { installEvt = null; refreshInstall(); });
+  }
+  function dismissInstall(){ try { localStorage.setItem(INSTALL_KEY, '1'); } catch (e) {} refreshInstall(); }
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js', { scope:'/' }).catch(() => {});
 
   // ====== טעינה ======
   const LIST_CACHE = 'mishna:listCache';
