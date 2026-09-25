@@ -2,620 +2,430 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>שיעורי משנה · מאת הרה"ג רבי יצחק ולדומירסקי שליט"א</title>
-<meta name="description" content="שיעורי משנה יומיים מפי הרה&quot;ג רבי יצחק ולדומירסקי שליט&quot;א — האזנה חינם לפי סדר, מסכת, פרק ומשנה, עם קישור לטקסט המשנה.">
+<meta name="description" content="שיעורי משנה יומיים מפי הרה&quot;ג רבי יצחק ולדומירסקי שליט&quot;א — האזנה חינם לפי סדר, מסכת, פרק ומשנה, עם טקסט המשנה.">
 <meta name="google-site-verification" content="zLVos3P_y084162czc-B3hqaWzkfjU33pjh7KxvIyCQ" />
+<!-- תצוגה מקדימה כשמשתפים קישור (וואטסאפ, טלגרם) - הכתובות חייבות להיות מלאות -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="שיעורי משנה">
+<meta property="og:title" content="שיעורי משנה · הרה&quot;ג רבי יצחק ולדומירסקי שליט&quot;א">
+<meta property="og:description" content="שיעורי משנה יומיים, לפי סדר, מסכת, פרק ומשנה.">
+<meta property="og:url" content="https://danvlado1234-sketch.github.io/Shiurim-mishnhyot/">
+<meta property="og:image" content="https://danvlado1234-sketch.github.io/Shiurim-mishnhyot/bg-rabbi.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#170f10">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- אפליקציה: האפליקציה המאוחדת "שיעורי הרב" - ה-manifest וה-service worker יושבים בדף השער
+     (scope "/"), כך שהתקנה מכאן מתקינה אפליקציה אחת לכל השיעורים -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/mishna-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="שיעורי הרב">
+<script>
+  // מצב יום / לילה: קודם מה שהמשתמש בחר בכפתור ☀/☾ (נשמר במכשיר); בלי בחירה -
+  // כהה כשפתוח כאפליקציה מותקנת, בהיר באתר בדפדפן. רץ לפני שהדף מצויר.
+  (function(){
+    var pref = null;
+    try { pref = localStorage.getItem('mishna:theme'); } catch (e) {}
+    var app = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+    var theme = (pref === 'light' || pref === 'dark') ? pref : (app ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', theme === 'light' ? '#f6efe4' : '#170f10');
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#EDE3CC;
-    --paper-deep:#E1D3B2;
-    --ink:#241F16;
-    --ink-soft:#463C2C;
-    --wine:#7A2A28;
-    --wine-deep:#551C1B;
-    --brass:#A9812F;
-    --brass-light:#C9A653;
-    --ghost:#8C8370;
-    --ghost-bg:#E7DCC2;
-    --shadow-sm: 0 1px 3px rgba(36,31,22,0.08);
-    --shadow-md: 0 6px 16px rgba(36,31,22,0.14);
-    --shadow-wine: 0 8px 18px rgba(85,28,27,0.28);
-  }
-
-  * { box-sizing: border-box; }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Heebo', sans-serif;
-  }
-
-  body {
-    background-image:
-      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(255,255,255,0.08), transparent 60%),
-      linear-gradient(180deg, rgba(18,13,9,0.55) 0%, rgba(24,17,12,0.4) 45%, rgba(237,227,204,0.95) 100%),
-      url('bg-rabbi.jpg');
-    background-size: auto, cover, cover;
-    background-position: top, 42% 32%, 42% 32%;
-    background-repeat: no-repeat, no-repeat, no-repeat;
-    background-attachment: scroll, fixed, fixed;
-    min-height: 100vh;
-  }
-
-  a { color: inherit; }
-
-  .wrap {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 0 20px 80px;
-  }
-
-  /* ---------- Header ---------- */
-
-  header.hero {
-    padding: 32px 20px 24px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .hero h1 {
-    font-family: 'Frank Ruhl Libre', serif;
-    font-weight: 900;
-    font-size: clamp(32px, 6vw, 52px);
-    margin: 0 0 10px;
-    color: #f6ecd3;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 12px rgba(20,14,8,0.45);
-  }
-
-  .hero .tagline {
-    font-family: 'Frank Ruhl Libre', serif;
-    font-weight: 400;
-    font-style: normal;
-    color: var(--brass-light);
-    font-size: clamp(16px, 2.6vw, 20px);
-    margin: 0 0 18px;
-    text-shadow: 0 1px 8px rgba(20,14,8,0.4);
-  }
-
-  .ornament {
-    display: flex;
-    justify-content: center;
-    color: var(--brass-light);
-    opacity: .9;
-    margin: 2px 0 18px;
-  }
-
-  .hero .meta {
-    font-size: 14px;
-    color: #ece0c4;
-    font-weight: 300;
-  }
-
-  .hero .meta strong {
-    color: var(--brass-light);
-    font-weight: 700;
-  }
-
-  /* ---------- Shelf view ---------- */
-
-  .seder-block {
-    margin-bottom: 34px;
-  }
-
-  .seder-label {
-    font-family: 'Frank Ruhl Libre', serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--ink-soft);
-    letter-spacing: 2px;
-    margin: 0 0 10px 2px;
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-
-  .seder-label::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--paper-deep);
-  }
-
-  .shelf {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .volume {
-    all: unset;
-    cursor: pointer;
-    font-family: 'Frank Ruhl Libre', serif;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
-    padding: 14px 10px 12px;
-    min-width: 96px;
-    flex: 1 1 96px;
-    max-width: 140px;
-    border-radius: 3px;
-    position: relative;
-    transition: transform 0.18s cubic-bezier(.22,.8,.25,1), box-shadow 0.18s ease;
-    animation: volumeIn .32s cubic-bezier(.22,.8,.25,1) both;
-  }
-
-  @keyframes volumeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes rowIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeSlideIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  #app.fade-in { animation: fadeSlideIn .28s ease both; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .volume, .mishna-row, #app.fade-in, .refresh-spin { animation: none !important; transition: none !important; }
-  }
-
-  .volume:focus-visible {
-    outline: 3px solid var(--brass);
-    outline-offset: 2px;
-  }
-
-  .volume.has-shiur {
-    background: linear-gradient(155deg, var(--wine) 0%, var(--wine-deep) 100%);
-    color: var(--brass-light);
-    box-shadow: 0 2px 0 var(--wine-deep), 0 6px 12px rgba(30,15,10,0.2), inset 0 1px 0 rgba(255,255,255,0.07);
-    border-top: 3px double var(--brass);
-    border-bottom: 3px double var(--brass);
-  }
-
-  .volume.has-shiur:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 6px 0 var(--wine-deep), var(--shadow-wine), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-
-  .volume.empty {
-    background: var(--ghost-bg);
-    color: var(--ink-soft);
-    border: 1px solid var(--paper-deep);
-    border-top: 3px double var(--paper-deep);
-    border-bottom: 3px double var(--paper-deep);
-  }
-
-  .volume.empty:hover {
-    background: #ded2ae;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .volume .count {
-    display: block;
-    font-family: 'Heebo', sans-serif;
-    font-weight: 400;
-    font-size: 11px;
-    margin-top: 4px;
-    opacity: 0.85;
-  }
-
-  /* ---------- Detail view ---------- */
-
-  .breadcrumb {
-    font-size: 14px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .breadcrumb button {
-    all: unset;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--wine);
-    font-weight: 700;
-    background: #F6EFDD;
-    border: 1px solid var(--paper-deep);
-    border-radius: 20px;
-    padding: 7px 14px;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow .15s ease, border-color .15s ease;
-  }
-
-  .breadcrumb button:hover {
-    border-color: var(--wine);
-    box-shadow: var(--shadow-md);
-  }
-
-  .breadcrumb button:focus-visible {
-    outline: 2px solid var(--brass);
-    outline-offset: 2px;
-  }
-
-  .breadcrumb .home-link {
-    color: var(--ink-soft);
-    font-weight: 500;
-  }
-
-  .breadcrumb .home-link:hover {
-    color: var(--wine);
-    border-color: var(--wine);
-  }
-
-  .breadcrumb-sep {
-    color: var(--ink-soft);
-    font-size: 12px;
-  }
-
-  .masechet-title {
-    font-family: 'Frank Ruhl Libre', serif;
-    font-size: clamp(26px, 5vw, 38px);
-    font-weight: 900;
-    margin: 0 0 4px;
-    color: #f6ecd3;
-    text-shadow: 0 2px 10px rgba(20,14,8,0.5);
-  }
-
-  .masechet-sub {
-    color: #e7dcc0;
-    font-size: 14px;
-    margin-bottom: 30px;
-    text-shadow: 0 1px 6px rgba(20,14,8,0.4);
-  }
-
-  .perek-block {
-    margin-bottom: 28px;
-  }
-
-  .perek-heading {
-    font-family: 'Frank Ruhl Libre', serif;
-    font-weight: 700;
-    font-size: 19px;
-    color: var(--wine);
-    margin: 0 0 12px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--paper-deep);
-  }
-
-  .mishna-row {
-    background: #F6EFDD;
-    border: 1px solid var(--paper-deep);
-    border-right: 4px solid var(--brass);
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow .18s ease, border-color .18s ease;
-    animation: rowIn .3s ease both;
-  }
-
-  .mishna-row:hover {
-    box-shadow: var(--shadow-md);
-    border-right-color: var(--wine);
-  }
-
-  .mishna-row .mishna-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .mishna-row .mishna-num {
-    font-family: 'Frank Ruhl Libre', serif;
-    font-weight: 700;
-    font-size: 16px;
-  }
-
-  .mishna-row .mishna-date {
-    font-size: 12px;
-    color: var(--ghost);
-    font-weight: 300;
-  }
-
-  .share-btn {
-    all: unset;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    color: var(--ghost);
-    padding: 4px;
-    border-radius: 4px;
-    transition: color .15s ease, background .15s ease;
-  }
-
-  .share-btn:hover { color: var(--wine); background: rgba(122,42,40,0.08); }
-  .share-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
-
-  .mishna-row .text-link {
-    font-size: 12px;
-    color: var(--accent, #7A2A28);
-    text-decoration: none;
-    border: 1px solid var(--accent, #7A2A28);
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-weight: 400;
-    white-space: nowrap;
-    transition: background .15s, color .15s;
-  }
-  .mishna-row .text-link:hover {
-    background: var(--accent, #7A2A28);
-    color: #fff;
-  }
-
-  audio {
-    width: 100%;
-    height: 36px;
-  }
-
-  .empty-state {
-    background: var(--ghost-bg);
-    border: 1px dashed var(--ghost);
-    border-radius: 4px;
-    padding: 28px;
-    text-align: center;
-    color: var(--ink-soft);
-  }
-
-  /* ---------- Setup / errors ---------- */
-
-  .notice {
-    background: #F6EFDD;
-    border: 1px solid var(--brass);
-    border-radius: 4px;
-    padding: 22px 24px;
-    line-height: 1.8;
-  }
-
-  .notice h2 {
-    font-family: 'Frank Ruhl Libre', serif;
-    margin-top: 0;
-  }
-
-  .notice code {
-    background: var(--paper-deep);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 13px;
-  }
-
-  .unmatched {
-    margin-top: 40px;
-    font-size: 13px;
-    color: var(--ghost);
-  }
-
-  .unmatched summary {
-    cursor: pointer;
-    font-weight: 700;
-  }
-
-  .refresh-row {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-
-  .refresh-btn {
-    all: unset;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--wine);
-    background: #F6EFDD;
-    border: 1px solid var(--wine);
-    padding: 6px 14px;
-    border-radius: 20px;
-    box-shadow: var(--shadow-sm);
-    transition: background .15s ease, color .15s ease, box-shadow .15s ease;
-  }
-
-  .refresh-btn:hover { background: var(--wine); color: var(--paper); box-shadow: var(--shadow-sm); }
-  .refresh-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
-  .refresh-btn.is-loading { cursor: default; opacity: .85; }
-
-  .refresh-spin {
-    width: 12px;
-    height: 12px;
-    border: 2px solid currentColor;
-    border-top-color: transparent;
-    border-radius: 50%;
-    display: none;
-    flex-shrink: 0;
-  }
-
-  .refresh-btn.is-loading .refresh-spin {
-    display: inline-block;
-    animation: spin .7s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .toast {
-    position: fixed;
-    bottom: 26px;
-    left: 50%;
-    transform: translateX(-50%) translateY(16px);
-    background: var(--ink);
-    color: var(--paper);
-    padding: 11px 22px;
-    border-radius: 22px;
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s ease, transform .25s ease;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.28);
-    z-index: 50;
-    max-width: calc(100vw - 40px);
-    text-align: center;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .search-row {
-    margin-bottom: 24px;
-    display: flex;
-    gap: 10px;
-  }
-
-  .search-field {
-    position: relative;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .search-icon {
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    color: var(--ghost);
-    pointer-events: none;
-  }
-
-  .search-input {
-    width: 100%;
-    box-sizing: border-box;
-    font-family: 'Heebo', sans-serif;
-    font-size: 16px;
-    padding: 12px 44px 12px 16px;
-    border: 1px solid var(--paper-deep);
-    border-radius: 20px;
-    background: #F6EFDD;
-    color: var(--ink);
-    transition: box-shadow .15s ease, border-color .15s ease;
-  }
-
-  .search-input:focus-visible {
-    border-color: var(--brass);
-  }
-
-  .search-input::placeholder { color: var(--ghost); }
-
-  .search-input:focus-visible {
-    outline: 2px solid var(--brass);
-    outline-offset: 1px;
-  }
-
-  .search-btn {
-    font-family: 'Heebo', sans-serif;
-    font-size: 15px;
-    padding: 12px 22px;
-    border: 1px solid var(--wine);
-    border-radius: 20px;
-    background: var(--wine);
-    color: var(--paper);
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .search-btn:hover { opacity: .9; }
-  .search-btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
-
-  .no-results {
-    text-align: center;
-    color: var(--ghost);
-    padding: 30px 10px;
-    font-size: 14px;
-  }
-
-  .perek-block.highlight .perek-heading {
-    color: var(--wine);
-  }
-
-  .volume.highlight {
-    box-shadow: 0 0 0 3px var(--brass);
-  }
-
-  .mishna-row.highlight {
-    border-color: var(--brass);
-    box-shadow: 0 0 0 2px var(--brass);
-    background: #FBF6E9;
-  }
-
-  footer {
-    text-align: center;
-    font-size: 12px;
-    color: var(--ghost);
-    padding: 30px 20px;
+  /* ====== שפת העיצוב המשותפת לאתרי השיעורים (כמו אתר הפרשות), בצבע היין
+     של המשניות. שתי ערכות צבעים: כהה ובהירה (data-theme על html). הנגנים
+     והכרטיס "הלימוד היומי" תמיד כהים. ====== */
+  :root, .sheet, .mini, .daily {
+    --bg:#170f10; --surface:#221516; --surface2:#2e1e1f; --line:#3a2728;
+    --text:#f3e7d6; --text2:#e0cfc0; --muted:#b59d95; --muted2:#8f7870;
+    --gold:#e3c27a; --gold-ink:#2a1210; --done:#7fcf9f;
+    --hl:#e3c27a; --save:#e3c27a;
+    --btn:#e3c27a; --btn-ink:#2a1210;
+    --badge:#e3c27a; --badge-ink:#2a1210;
+    --hover:rgba(255,255,255,.05); --glass:rgba(0,0,0,.25);
+    --track:rgba(255,255,255,.12); --prog:#e3c27a;
+    --menu:#33211f; --field:#f3e7d6; --field-ink:#170f10;
+    --tabs-bg:linear-gradient(180deg, rgba(23,15,16,.6), rgba(23,15,16,.97) 40%); --tabs-line:transparent;
+    --tabs-desk:rgba(23,15,16,.93);
+    color-scheme:dark;
+  }
+  html[data-theme="light"] {
+    --bg:#f6efe4; --surface:#fffaf3; --surface2:#efe3d3; --line:#e6d6c3;
+    --text:#2a1d1b; --text2:#4a3530; --muted:#8c776e; --muted2:#a8958c;
+    --done:#2e7d4f;
+    --hl:#7a2a28; --save:#b07a22;
+    --btn:#7a2a28; --btn-ink:#fff;
+    --badge:#7a2a28; --badge-ink:#fff;
+    --hover:rgba(42,29,27,.05); --glass:rgba(42,29,27,.07);
+    --track:#eadfcf; --prog:#7a2a28;
+    --menu:#fffaf3; --field:#fff; --field-ink:#2a1d1b;
+    --tabs-bg:rgba(246,239,228,.96); --tabs-line:#e6d6c3;
+    --tabs-desk:rgba(246,239,228,.95);
+    color-scheme:light;
+  }
+  :root {
+    --ca:#8a7a2e; --cb:#4f4415;   /* צבעי הסדר הנוכחי (משתנים לפי הדף/השיעור) */
+    --tabs-h: 66px; --mini-h: 0px;
+    --safe-b: env(safe-area-inset-bottom, 0px); --safe-t: env(safe-area-inset-top, 0px);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  [hidden] { display:none !important; }
+  /* בלי הגדלה (צביטה / הקשה כפולה) - התנהגות של אפליקציה */
+  html { background:var(--bg); touch-action:pan-x pan-y; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body { font-family:'Heebo',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; -webkit-tap-highlight-color:transparent;
+    padding-bottom:calc(var(--tabs-h) + var(--mini-h) + var(--safe-b) + 24px); }
+  body.has-player { --mini-h: 66px; }
+  button { font-family:inherit; color:inherit; }
+  a { color:inherit; }
+  .wrap { max-width:760px; margin:0 auto; position:relative; }
+  #app { padding-top:var(--safe-t); position:relative; }
+  #app.fade-in { animation: fadeIn .22s ease both; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion: reduce) { #app.fade-in, .sheet, .toast { animation:none !important; transition:none !important; } }
+  :focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+  html.theme-anim, html.theme-anim body, html.theme-anim .tabs { transition:background-color .3s ease, color .3s ease; }
+
+  /* ====== עטיפה (לכל סדר צבע משלו) ====== */
+  .cover { position:relative; overflow:hidden; flex-shrink:0; border-radius:12px; color:#fff;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:10px; background:linear-gradient(150deg, var(--ca), var(--cb)); }
+  .cover::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 80% 0%, rgba(255,255,255,.22), transparent 58%); }
+  .cover::after { content:''; position:absolute; top:10px; left:10px; width:15px; height:15px; border:1.5px solid rgba(255,255,255,.5); border-radius:50%; }
+  .cover b { position:relative; font-family:'Frank Ruhl Libre',serif; font-weight:900; line-height:1.02; font-size:var(--fs, 22px); text-shadow:0 2px 8px rgba(0,0,0,.25); }
+  .cover i { position:relative; font-style:normal; font-size:10.5px; opacity:.82; margin-top:3px; }
+  .cover.plain { padding:0; }
+  .cover.plain::after, .cover.sm::after { display:none; }
+
+  /* ====== דף הבית ====== */
+  .home-top { display:flex; justify-content:space-between; align-items:center; padding:16px 18px 0; }
+  .greet { font-family:'Frank Ruhl Libre',serif; font-weight:900; font-size:27px; line-height:1.1; }
+  .greet-s { font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45; }
+  .home-side { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .theme-btn { all:unset; cursor:pointer; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:var(--surface2); color:var(--text); }
+  .theme-btn:focus-visible { outline:2px solid var(--gold); }
+  .avatar { width:40px; height:40px; border-radius:50%; flex-shrink:0; border:2px solid var(--gold); background:url('bg-rabbi.jpg') 55% 30% / cover; }
+  .all-link { display:inline-flex; align-items:center; gap:3px; margin:12px 18px 0; padding:6px 12px 6px 11px; border-radius:999px;
+    background:var(--surface2); color:var(--text2); font-size:13px; font-weight:600; text-decoration:none; }
+  .all-link + .home-top { padding-top:10px; }
+  .install { display:flex; align-items:center; gap:12px; margin:14px 18px 0; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-radius:14px; }
+  .install img { width:42px; height:42px; border-radius:10px; flex-shrink:0; }
+  .install-gr { flex:1; min-width:0; }
+  .install-t { font-weight:700; font-size:14.5px; }
+  .install-s { font-size:12.5px; color:var(--muted); margin-top:1px; line-height:1.4; }
+  .install-go { background:var(--btn); color:var(--btn-ink); border:0; border-radius:18px; padding:7px 14px; font-weight:700; font-size:13.5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
+  .install-x { background:none; border:0; color:var(--muted); cursor:pointer; padding:4px; flex-shrink:0; display:inline-flex; }
+  .search-fake { all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; gap:9px; width:calc(100% - 36px); margin:14px 18px 0;
+    background:var(--surface2); border-radius:12px; padding:12px 14px; font-size:14.5px; color:var(--muted); }
+
+  .daily { position:relative; margin:14px 18px 0; border-radius:18px; padding:16px; overflow:hidden; color:var(--text); cursor:pointer;
+    background:linear-gradient(135deg, #7a2a28, #3d1414); box-shadow:0 10px 26px rgba(0,0,0,.22); }
+  .daily::after { content:''; position:absolute; left:-34px; top:-34px; width:150px; height:150px; border-radius:50%; border:18px solid rgba(227,194,122,.12); pointer-events:none; }
+  .daily-tag { font-size:11px; font-weight:800; color:var(--gold); letter-spacing:.5px; }
+  .daily-t { font-family:'Frank Ruhl Libre',serif; font-weight:900; font-size:23px; margin-top:4px; line-height:1.2; }
+  .daily-s { font-size:12.5px; color:rgba(243,231,214,.82); margin-top:3px; }
+  .daily-row { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-top:14px; position:relative; z-index:1; }
+  .daily-bar { height:5px; border-radius:3px; background:rgba(255,255,255,.15); width:100%; max-width:220px; overflow:hidden; }
+  .daily-bar i { display:block; height:100%; background:var(--gold); border-radius:3px; }
+  .daily-bs { font-size:11px; color:rgba(243,231,214,.75); margin-top:5px; }
+  .daily .play-btn { width:52px; height:52px; background:var(--gold); color:var(--gold-ink); box-shadow:0 6px 16px rgba(0,0,0,.35); }
+  .now-line { all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; gap:8px; width:calc(100% - 36px); margin:10px 18px 0;
+    font-size:12.5px; color:var(--muted); }
+  .now-line b { color:var(--text); font-weight:700; }
+  .now-dot { width:8px; height:8px; border-radius:50%; background:#d9534f; box-shadow:0 0 0 3px rgba(217,83,79,.2); flex-shrink:0; }
+
+  .sec { display:flex; justify-content:space-between; align-items:baseline; margin:24px 18px 11px; }
+  .sec h3 { font-weight:800; font-size:18px; }
+  .sec .link { font-size:13px; color:var(--muted); font-weight:600; background:none; border:0; cursor:pointer; }
+
+  .shelf { display:flex; gap:12px; padding:0 18px 4px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; }
+  .shelf::-webkit-scrollbar { display:none; }
+  .tile { all:unset; flex:0 0 122px; scroll-snap-align:start; cursor:pointer; }
+  .tile .cover { width:122px; height:122px; }
+  .tile-t { font-weight:700; font-size:14px; margin-top:8px; }
+  .tile-s { font-size:11.5px; color:var(--muted); margin-top:2px; }
+  .mini-bar { height:3px; border-radius:2px; background:var(--track); margin-top:6px; overflow:hidden; }
+  .mini-bar i { display:block; height:100%; background:var(--prog); }
+
+  .arch { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 18px; }
+  .vol { all:unset; cursor:pointer; display:flex; align-items:center; gap:11px; height:58px; overflow:hidden; border-radius:10px; background:var(--surface); }
+  .vol:hover { background:var(--surface2); }
+  .vol .cover { width:58px; height:58px; border-radius:0; }
+  .vol-n { font-weight:700; font-size:14.5px; }
+  .vol-c { font-size:11.5px; color:var(--muted); }
+  .vol.empty { opacity:.5; }
+  html[data-theme="light"] .vol, html[data-theme="light"] .empty-box, html[data-theme="light"] .pk { border:1px solid var(--line); }
+
+  .unmatched { margin:22px 18px 0; font-size:13px; color:var(--muted); }
+  .unmatched summary { cursor:pointer; }
+  .unmatched ul { margin:8px 18px 0 0; }
+  .unmatched p { margin-top:8px; }
+  .dedic { text-align:center; font-size:12.5px; color:var(--muted2); margin:34px 18px 0; font-family:'Frank Ruhl Libre',serif; }
+
+  /* ====== דפים פנימיים ====== */
+  .tint { position:absolute; top:0; left:0; right:0; height:400px; pointer-events:none;
+    background:linear-gradient(180deg, var(--ca) 0%, color-mix(in srgb, var(--cb) 70%, var(--bg)) 45%, var(--bg) 100%); opacity:.9; }
+  html[data-theme="light"] .tint { background:linear-gradient(180deg, color-mix(in srgb, var(--ca) 50%, var(--bg)) 0%, color-mix(in srgb, var(--ca) 16%, var(--bg)) 45%, var(--bg) 100%); opacity:1; }
+  .page { position:relative; }
+  .topbar { display:flex; align-items:center; gap:10px; padding:12px 12px 4px; }
+  .back-btn { all:unset; cursor:pointer; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:var(--glass); }
+  .crumb { font-size:13px; color:var(--muted); }
+  .hdr { display:flex; gap:16px; align-items:flex-end; padding:10px 18px 0; }
+  .hdr .cover { width:124px; height:124px; box-shadow:0 14px 34px rgba(0,0,0,.4); }
+  .hdr-t { font-family:'Frank Ruhl Libre',serif; font-weight:900; font-size:clamp(25px,7vw,30px); line-height:1.1; }
+  .hdr-s { font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.45; }
+  .ptitle { font-family:'Frank Ruhl Libre',serif; font-weight:900; font-size:clamp(26px,7.5vw,31px); padding:10px 18px 0; line-height:1.15; }
+  .psub { font-size:13px; color:var(--muted); padding:4px 18px 0; }
+  .page-top { padding-top:18px; }
+  .page-top .psub { padding-bottom:6px; }
+  .prog-row { display:flex; align-items:center; gap:12px; margin:16px 18px 0; font-size:12px; color:var(--muted); }
+  .prog-row .bar { flex:1; height:5px; border-radius:3px; background:var(--track); overflow:hidden; }
+  .prog-row .bar i { display:block; height:100%; background:var(--prog); border-radius:3px; }
+  .ctl { display:flex; justify-content:space-between; align-items:center; padding:14px 18px 6px; gap:10px; }
+  .ctl-l { display:flex; gap:4px; }
+  .ctl .icon-btn { width:42px; height:42px; }
+  .ctl-r { display:flex; align-items:center; gap:10px; }
+  .next-l { font-size:12px; color:var(--muted); text-align:left; line-height:1.35; }
+  .next-l b { color:var(--text); }
+  .big-play { width:56px; height:56px; border-radius:50%; border:0; cursor:pointer; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;
+    background:var(--btn); color:var(--btn-ink); box-shadow:0 8px 20px rgba(0,0,0,.25); transition:transform .12s ease; }
+  .big-play:hover { transform:scale(1.05); }
+  .acts-row { display:flex; gap:8px; padding:14px 18px 6px; flex-wrap:wrap; }
+  .pill-btn { display:inline-flex; align-items:center; gap:6px; cursor:pointer; flex-shrink:0; background:var(--btn); color:var(--btn-ink); border:0; border-radius:20px; padding:8px 15px; font-weight:700; font-size:13.5px; text-decoration:none; }
+  .pill-out { display:inline-flex; align-items:center; gap:6px; cursor:pointer; flex-shrink:0; background:none; color:var(--text2); border:1.5px solid var(--line); border-radius:20px; padding:7px 14px; font-weight:600; font-size:13px; text-decoration:none; }
+  .sub-h { font-weight:800; font-size:17px; margin:22px 18px 8px; }
+  .list-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:22px 18px 8px; }
+  .list-head .sub-h { margin:0; }
+
+  /* רשת הפרקים עם טבעות התקדמות */
+  .pgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:12px 18px; }
+  .pk { all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 6px 10px; border-radius:14px; background:var(--surface); }
+  .pk:hover { background:var(--surface2); }
+  .pk.cur { outline:1.5px solid var(--gold); }
+  html[data-theme="light"] .pk.cur { outline-color:var(--hl); }
+  .pk-n { font-family:'Frank Ruhl Libre',serif; font-weight:700; font-size:16px; }
+  .pk-c { font-size:11px; color:var(--muted); }
+  .pk.off { opacity:.4; }
+  .ring { width:44px; height:44px; }
+  .ring .trk { stroke:var(--track); }
+  .ring .val { stroke:var(--gold); }
+  html[data-theme="light"] .ring .val { stroke:var(--hl); }
+  .ring .ok { stroke:var(--done); }
+  .ring text { fill:var(--text); font-family:'Heebo',sans-serif; }
+
+  /* שורות מסכת/סדר */
+  .plist { display:flex; flex-direction:column; gap:2px; margin:6px 8px 0; }
+  .prow { all:unset; cursor:pointer; display:flex; align-items:center; gap:12px; padding:8px 10px; border-radius:10px; }
+  .prow:hover { background:var(--hover); }
+  .prow .cover { width:50px; height:50px; border-radius:8px; }
+  .prow-gr { flex:1; min-width:0; }
+  .prow-n { font-weight:700; font-size:15.5px; }
+  .prow-s { font-size:12px; color:var(--muted); margin-top:1px; }
+  .prow-c { color:var(--muted2); display:inline-flex; }
+  .prow.empty { opacity:.45; }
+
+  /* ====== שורת משנה ====== */
+  .shiur-row { display:flex; align-items:center; gap:12px; padding:10px 18px; cursor:pointer; position:relative; border-bottom:1px solid var(--line); }
+  .shiur-row:hover { background:var(--hover); }
+  .shiur-row.hl { background:color-mix(in srgb, var(--hl) 10%, transparent); }
+  .shiur-row .cover { width:48px; height:48px; border-radius:8px; }
+  .shiur-gr { flex:1; min-width:0; }
+  .shiur-title { font-weight:700; font-size:15.5px; line-height:1.3; text-wrap:balance; }
+  .shiur-row.playing .shiur-title { color:var(--hl); }
+  .snip { font-family:'Frank Ruhl Libre',serif; font-size:13.5px; color:var(--text2); opacity:.85; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .snip:empty { display:none; }
+  .shiur-sub { display:flex; align-items:center; gap:8px; margin-top:2px; flex-wrap:wrap; }
+  .shiur-meta { font-size:12px; color:var(--muted); }
+  .shiur-meta .done { color:var(--done); font-weight:700; }
+  .shiur-bar { height:3px; background:var(--track); border-radius:2px; margin-top:6px; max-width:220px; overflow:hidden; }
+  .shiur-bar i { display:block; height:100%; width:0; background:var(--prog); transition:width .3s linear; }
+  .shiur-row:not(.started) .shiur-bar { display:none; }
+  .shiur-row.is-done .shiur-bar i { background:var(--done); opacity:.6; }
+  .shiur-acts { display:flex; align-items:center; flex-shrink:0; }
+  /* עיגול המספר של המשנה = כפתור הניגון (אות / ✓ / השהיה) */
+  .num { width:38px; height:38px; border-radius:50%; border:0; cursor:pointer; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;
+    background:var(--surface2); color:var(--hl); font-family:'Frank Ruhl Libre',serif; font-weight:700; font-size:15px; }
+  .shiur-row.is-done .num { background:color-mix(in srgb, var(--done) 18%, transparent); color:var(--done); }
+  .shiur-row.playing .num { background:var(--btn); color:var(--btn-ink); }
+  .play-btn { width:40px; height:40px; border-radius:50%; border:0; cursor:pointer; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; background:var(--surface2); color:var(--text); }
+  .shiur-row.playing .play-btn { background:var(--btn); color:var(--btn-ink); }
+  .icon-btn { all:unset; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; color:var(--muted); }
+  .icon-btn:hover, .icon-btn[aria-expanded="true"] { color:var(--text); background:var(--hover); }
+  .icon-btn:focus-visible { outline:2px solid var(--gold); }
+  .save-btn.on { color:var(--save); }
+  .empty-box { margin:10px 18px; padding:26px 20px; text-align:center; color:var(--muted); font-size:15px; line-height:1.7; background:var(--surface); border-radius:16px; }
+  .empty-box svg { vertical-align:-4px; }
+
+  /* ====== חיפוש ====== */
+  .search-box { position:relative; margin:12px 18px 6px; }
+  .search-box svg { position:absolute; top:50%; right:15px; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
+  .search-input { width:100%; font-family:'Heebo',sans-serif; font-size:16px; padding:14px 44px 14px 16px; border:1px solid var(--line); border-radius:12px; background:var(--field); color:var(--field-ink); }
+  .search-input:focus { outline:2px solid var(--gold); outline-offset:1px; }
+  .search-hint { font-size:12.5px; color:var(--muted); padding:0 18px 8px; }
+
+  /* ====== תפריט ⋮ ====== */
+  .menu { position:absolute; z-index:45; min-width:215px; padding:6px 0; background:var(--menu); border:1px solid var(--line); border-radius:12px; box-shadow:0 16px 36px rgba(0,0,0,.45); }
+  .menu a, .menu button { display:flex; align-items:center; gap:11px; width:100%; padding:12px 16px; font-size:15px; color:var(--text); text-decoration:none; text-align:right; background:none; border:0; cursor:pointer; }
+  .menu a:hover, .menu button:hover, .menu a:focus-visible, .menu button:focus-visible { background:var(--hover); outline:none; }
+  .menu svg { color:var(--hl); flex-shrink:0; }
+
+  /* ====== לשוניות ====== */
+  .tabs { position:fixed; left:0; right:0; bottom:0; z-index:30; height:calc(var(--tabs-h) + var(--safe-b)); padding-bottom:var(--safe-b);
+    display:flex; justify-content:space-around; align-items:center; background:var(--tabs-bg); border-top:1px solid var(--tabs-line);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  .tab { all:unset; cursor:pointer; position:relative; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:11.5px; font-weight:600; color:var(--muted2); padding:6px 12px; border-radius:12px; }
+  .tab.on { color:var(--text); }
+  .tab:focus-visible { outline:2px solid var(--gold); }
+  .badge { position:absolute; top:0; left:4px; min-width:17px; height:17px; padding:0 5px; border-radius:9px; background:var(--badge); color:var(--badge-ink); font-size:10.5px; font-weight:800; line-height:17px; text-align:center; }
+
+  /* ====== נגן קטן ====== */
+  .mini { position:fixed; left:8px; right:8px; z-index:35; bottom:calc(var(--tabs-h) + var(--safe-b) + 6px); height:58px; display:flex; align-items:center; gap:2px; padding:0 6px 0 4px; overflow:hidden;
+    background:color-mix(in srgb, var(--cb) 65%, #1a0708); color:var(--text); border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,.4); }
+  .mini-open { all:unset; cursor:pointer; flex:1; min-width:0; display:flex; align-items:center; gap:10px; padding:5px; }
+  .mini .cover { width:42px; height:42px; border-radius:6px; }
+  .mini-gr { min-width:0; display:flex; flex-direction:column; }
+  .mini-t { font-weight:700; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mini-s { font-size:11.5px; opacity:.72; font-variant-numeric:tabular-nums; }
+  .mini-btn { all:unset; cursor:pointer; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .mini-btn:hover { background:rgba(255,255,255,.1); }
+  .mini-prog { position:absolute; bottom:0; right:8px; left:8px; height:2px; background:rgba(255,255,255,.2); }
+  .mini-prog i { position:absolute; top:0; bottom:0; right:0; width:0; background:var(--text); }
+
+  /* ====== נגן מלא, עם טקסט המשנה ====== */
+  .sheet { position:fixed; inset:0; z-index:50; color:var(--text); background:linear-gradient(180deg, var(--ca), color-mix(in srgb, var(--cb) 55%, var(--bg)) 40%, var(--bg) 72%);
+    display:flex; justify-content:center; overflow-y:auto; animation:sheetUp .28s cubic-bezier(.22,.8,.25,1) both; }
+  @keyframes sheetUp { from { transform:translateY(100%); } to { transform:none; } }
+  .sheet-in { width:100%; max-width:460px; padding:calc(10px + var(--safe-t)) 22px calc(22px + var(--safe-b)); display:flex; flex-direction:column; }
+  .sheet-top { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; opacity:.9; margin-bottom:14px; }
+  .sheet-top button { all:unset; cursor:pointer; width:40px; height:40px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; }
+  .sheet-top button:hover { background:rgba(255,255,255,.1); }
+  .sheet-hd { display:flex; gap:14px; align-items:center; }
+  .sheet-hd .cover { width:76px; height:76px; }
+  .sheet-title { all:unset; cursor:pointer; display:block; font-family:'Frank Ruhl Libre',serif; font-weight:900; font-size:22px; line-height:1.18; }
+  .sheet-title:hover { text-decoration:underline; text-underline-offset:4px; }
+  .sheet-sub { font-size:12.5px; opacity:.72; margin-top:3px; }
+  .text-box { margin-top:16px; background:rgba(0,0,0,.28); border-radius:16px; padding:16px 16px 12px; }
+  .text-body { font-family:'Frank Ruhl Libre',serif; font-size:var(--txt, 19px); line-height:1.8; max-height:34vh; overflow-y:auto; }
+  .text-body.loading { opacity:.6; font-size:14px; font-family:'Heebo',sans-serif; }
+  .text-foot { display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; opacity:.7; }
+  .text-foot a { text-decoration:none; }
+  .text-foot a:hover { text-decoration:underline; }
+  .txt-size { display:inline-flex; gap:4px; }
+  .txt-size button { all:unset; cursor:pointer; padding:2px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.25); font-family:'Frank Ruhl Libre',serif; font-weight:700; }
+  .sheet-seek { width:100%; margin-top:16px; accent-color:var(--text); cursor:pointer; height:22px; }
+  .sheet-times { display:flex; justify-content:space-between; font-size:12px; opacity:.7; font-variant-numeric:tabular-nums; }
+  .sheet-times span { direction:ltr; }
+  .sheet-ctrl { display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding:0 8px; }
+  .sheet-ctrl button { all:unset; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; }
+  .sheet-ctrl .skip { width:54px; height:54px; }
+  .sheet-ctrl .skip:hover { background:rgba(255,255,255,.08); }
+  .sheet-ctrl .big { width:68px; height:68px; background:var(--text); color:var(--bg); box-shadow:0 8px 20px rgba(0,0,0,.3); }
+  .sheet-next { all:unset; box-sizing:border-box; cursor:pointer; margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:rgba(227,194,122,.13); border:1px solid rgba(227,194,122,.35); border-radius:14px; padding:10px 14px; font-size:13px; }
+  .sheet-next b { color:var(--gold); }
+  .sheet-next > span { min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sheet-bot { display:flex; justify-content:space-around; margin-top:14px; }
+  .sheet-bot > * { all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:11.5px; opacity:.88; padding:6px 8px; border-radius:10px; min-width:54px; }
+  .sheet-bot > *:hover { background:rgba(255,255,255,.08); opacity:1; }
+  .sheet-bot .spd { border:1.5px solid rgba(243,231,214,.6); border-radius:10px; padding:1px 8px; font-weight:700; font-size:13px; direction:ltr; }
+  .sheet-bot .on { color:var(--gold); }
+  .sheet :focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+
+  .toast { position:fixed; left:50%; bottom:calc(var(--tabs-h) + var(--mini-h) + var(--safe-b) + 18px); transform:translateX(-50%) translateY(12px); z-index:60;
+    background:var(--text); color:var(--bg); padding:10px 20px; border-radius:22px; font-size:14px; font-weight:700; opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease; box-shadow:0 10px 24px rgba(0,0,0,.4); max-width:calc(100vw - 40px); text-align:center; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ====== מחשב: הלשוניות למעלה, התוכן ממורכז ====== */
+  @media (min-width: 900px) {
+    :root { --tabs-h: 0px; }
+    body { padding-bottom:calc(var(--mini-h) + 40px); }
+    html { overflow-x:clip; }
+    .tabs { position:sticky; top:0; bottom:auto; height:auto; padding:10px 0; justify-content:center; gap:8px; background:var(--tabs-desk); border-top:0; border-bottom:1px solid var(--line); }
+    .tab { flex-direction:row; gap:8px; font-size:14.5px; padding:9px 18px; }
+    .tab.on { background:var(--surface2); }
+    .tab svg { width:20px; height:20px; }
+    .badge { position:static; }
+    .mini { left:50%; right:auto; width:720px; transform:translateX(-50%); bottom:16px; }
+    .sheet { background:rgba(8,3,4,.6); align-items:center; animation:fadeIn .2s ease both; }
+    .sheet-in { background:linear-gradient(180deg, var(--ca), color-mix(in srgb, var(--cb) 55%, var(--bg)) 40%, var(--bg) 72%); border-radius:24px; margin:20px; padding:16px 26px 24px; box-shadow:0 30px 60px rgba(0,0,0,.5); }
+    .tint { left:calc(50% - 50vw); right:calc(50% - 50vw); }
+    .pgrid { grid-template-columns:repeat(5,1fr); }
+    .arch { grid-template-columns:1fr 1fr 1fr; }
   }
 </style>
 </head>
 <body>
+<nav class="tabs" id="tabs" aria-label="ניווט ראשי">
+  <button class="tab" data-tab="home"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10"/></svg>בית</button>
+  <button class="tab" data-tab="recent"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>חדש<span class="badge" id="badgeNew" hidden></span></button>
+  <button class="tab" data-tab="search"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>חיפוש</button>
+  <button class="tab" data-tab="list"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h11M4 12h11M4 18h7M17 14v6l4.5-3z"/></svg>הרשימה שלי<span class="badge" id="badgeList" hidden></span></button>
+</nav>
 
-<header class="hero">
-  <h1 id="siteTitle">שיעורי משנה</h1>
-  <p class="tagline">מאת הרה"ג רבי יצחק ולדומירסקי שליט"א</p>
-  <div class="ornament" aria-hidden="true">
-    <svg viewBox="0 0 220 20" width="180" height="18">
-      <line x1="0" y1="10" x2="85" y2="10" stroke="currentColor" stroke-width="1"></line>
-      <path d="M110 1 L119 10 L110 19 L101 10 Z" fill="currentColor"></path>
-      <line x1="135" y1="10" x2="220" y2="10" stroke="currentColor" stroke-width="1"></line>
-    </svg>
-  </div>
-  <p class="meta" id="headerMeta">טוען…</p>
-</header>
-
-<div class="wrap">
-  <div class="refresh-row">
-    <button class="refresh-btn" id="refreshBtn">
-      <span class="refresh-spin" aria-hidden="true"></span>
-      <span id="refreshLabel">בדוק שיעורים חדשים</span>
-    </button>
-  </div>
-  <div class="search-row">
-    <div class="search-field">
-      <svg class="search-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" class="search-input" id="searchInput" placeholder="חיפוש: ברכות · ברכות פרק א · ברכות פרק א משנה ב">
-    </div>
-    <button class="search-btn" id="searchBtn">חפש</button>
-  </div>
-  <main id="app"></main>
-</div>
+<main class="wrap"><div id="app"></div></main>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="menu" id="shiurMenu" role="menu" hidden></div>
 
-<footer>נבנה באהבה עבור אאמו"ר הרה"ג רבי יצחק ולדומירסקי</footer>
+<div class="mini" id="mini" hidden>
+  <button class="mini-open" id="miniOpen" aria-label="פתח את הנגן">
+    <span id="miniCover"></span>
+    <span class="mini-gr"><span class="mini-t" id="miniTitle"></span><span class="mini-s" id="miniTime">0:00</span></span>
+  </button>
+  <button class="mini-btn" id="miniBack" aria-label="15 שניות אחורה"></button>
+  <button class="mini-btn" id="miniPlay" aria-label="נגן / השהה"></button>
+  <span class="mini-prog"><i id="miniProg"></i></span>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="נגן" hidden>
+  <div class="sheet-in">
+    <div class="sheet-top">
+      <button id="sheetDown" aria-label="הקטן את הנגן"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+      <span id="sheetSrc"></span>
+      <button id="sheetClose" aria-label="עצור וסגור את הנגן"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="sheet-hd"><span id="sheetArt"></span><div><button class="sheet-title" id="sheetTitle" title="לדף הפרק"></button><div class="sheet-sub" id="sheetSub"></div></div></div>
+    <div class="text-box">
+      <div class="text-body" id="textBody"></div>
+      <div class="text-foot"><a id="textSrc" target="_blank" rel="noopener">הטקסט מספריא ↗</a>
+        <span class="txt-size"><button id="txtMinus" aria-label="הקטן טקסט">א-</button><button id="txtPlus" aria-label="הגדל טקסט">א+</button></span></div>
+    </div>
+    <input type="range" class="sheet-seek" id="seek" min="0" max="1000" value="0" aria-label="מיקום בשיעור">
+    <div class="sheet-times"><span id="curT">0:00</span><span id="remT">-0:00</span></div>
+    <div class="sheet-ctrl">
+      <button class="skip" id="back15" aria-label="15 שניות אחורה"></button>
+      <button class="big" id="bigPlay" aria-label="נגן / השהה"></button>
+      <button class="skip" id="fwd15" aria-label="15 שניות קדימה"></button>
+    </div>
+    <button class="sheet-next" id="sheetNext" hidden></button>
+    <div class="sheet-bot">
+      <button id="speedBtn" aria-label="מהירות השמעה"><span class="spd" id="speedVal">1×</span>מהירות</button>
+      <button id="autoBtn"></button>
+      <button id="sheetSave"></button>
+    </div>
+  </div>
+</div>
+<audio id="audio" preload="none"></audio>
 
 <script>
 (function(){
-
   // ============================================================
-  // הגדרות - יש לערוך פעם אחת אחרי יצירת המאגר ב-GitHub
+  // הגדרות
   // ============================================================
   const CONFIG = {
-    owner: "danvlado1234-sketch",     // שם המשתמש שלך ב-GitHub
-    repo: "Shiurim-mishnhyot",        // שם המאגר (repository)
-    branch: "main",                   // בדרך כלל "main"
-    folder: "shiurim",                // תיקיית השיעורים הישנים ב-GitHub (לא לשנות)
+    folder: "shiurim",   // תיקיית השיעורים הישנים ב-GitHub (לא לשנות)
     audioBase: "https://pub-ebfc0fe34f6e49f5a45ba2d358d2ae0d.r2.dev"  // אחסון R2 - כאן נמצאות ההקלטות
   };
-  // ============================================================
+  const RABBI = 'הרה"ג רבי יצחק ולדומירסקי שליט"א';
 
   const SEDARIM = [
     { name: "זרעים", masechtot: ["ברכות","פאה","דמאי","כלאים","שביעית","תרומות","מעשרות","מעשר שני","חלה","ערלה","ביכורים"] },
@@ -641,7 +451,7 @@
     "זבים":5,"טבול יום":4,"ידים":4,"עוקצין":3
   };
 
-  // מיפוי שם המסכת (עברית) -> שם ספריא (תעתיק אנגלי), לבניית קישור לטקסט המשנה
+  // מיפוי שם המסכת (עברית) -> שם ספריא (תעתיק אנגלי), לקישור ולטקסט המשנה
   const SEFARIA_NAMES = {
     "ברכות":"Berakhot","פאה":"Peah","דמאי":"Demai","כלאים":"Kilayim","שביעית":"Sheviit",
     "תרומות":"Terumot","מעשרות":"Maasrot","מעשר שני":"Maaser Sheni","חלה":"Challah",
@@ -659,71 +469,18 @@
     "טבול יום":"Tevul Yom","ידים":"Yadayim","עוקצין":"Oktzin"
   };
 
-  const ICON_BOOK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>';
-  const ICON_HOME = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10v9.5a1 1 0 0 0 1 1H9.5v-6h5v6H17.5a1 1 0 0 0 1-1V10"></path></svg>';
-  const BREADCRUMB_HOME = `<button class="home-link" id="homeBtn">${ICON_HOME} לדף הבית</button><span class="breadcrumb-sep">·</span>`;
+  // צבעי העטיפה של כל סדר
+  const SEDER_COLORS = {
+    'זרעים':['#8a7a2e','#4f4415'], 'מועד':['#2d4a7c','#18294a'], 'נשים':['#8a3a5a','#4e1d33'],
+    'נזיקין':['#4d5a66','#2a323a'], 'קדשים':['#8a2a2e','#4f1519'], 'טהרות':['#2c6a6a','#153838']
+  };
+  const sederOf = {};       // מסכת -> סדר
+  const masechetOrder = {}; // מסכת -> מקום בסדר הכללי של המשנה
+  let ord = 0;
+  for (const s of SEDARIM) for (const m of s.masechtot){ sederOf[m] = s.name; masechetOrder[m] = ord++; }
+  function colorVars(seder){ const c = SEDER_COLORS[seder] || SEDER_COLORS['זרעים']; return `--ca:${c[0]};--cb:${c[1]}`; }
 
-  // בונה קישור לספריא לטקסט המשנה. מחזיר null אם המסכת לא במיפוי.
-  function sefariaLink(masechet, perek, mishna){
-    const name = SEFARIA_NAMES[masechet];
-    if (!name) return null;
-    const slug = name.replace(/ /g, '_');
-    return `https://www.sefaria.org.il/Mishnah_${slug}.${perek}.${mishna}`;
-  }
-
-  const ICON_LINK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
-
-  // בונה קישור ישיר למשנה מסוימת - חוזר על אותה שאילתה שהיה אפשר להקליד בחיפוש
-  function directLink(masechet, perek, mishna){
-    const base = location.origin + location.pathname;
-    const q = `${masechet} פרק ${perek} משנה ${mishna}`;
-    return `${base}?q=${encodeURIComponent(q)}`;
-  }
-
-  function escAttr(s){ return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
-
-  function fallbackCopy(url){
-    const ta = document.createElement('textarea');
-    ta.value = url;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); showToast('הקישור הועתק'); }
-    catch (e){ showToast('לא הצלחנו להעתיק — נסו שוב'); }
-    document.body.removeChild(ta);
-  }
-
-  function copyLink(url){
-    if (navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(url).then(() => showToast('הקישור הועתק'), () => fallbackCopy(url));
-    } else {
-      fallbackCopy(url);
-    }
-  }
-
-  const app = document.getElementById('app');
-  const headerMeta = document.getElementById('headerMeta');
-
-  // כפתורי שיתוף מטופלים בהאצלת אירוע יחידה על app, כי app.innerHTML
-  // מוחלף בכל רינדור - כך לא צריך לחבר מחדש מאזין לכל כפתור בנפרד.
-  app.addEventListener('click', (e) => {
-    const btn = e.target.closest('.share-btn');
-    if (btn) copyLink(btn.dataset.link);
-  });
-  const refreshBtn = document.getElementById('refreshBtn');
-  const searchInput = document.getElementById('searchInput');
-  const searchBtn = document.getElementById('searchBtn');
-
-  let index = {};      // { masechet: { perek: [ {mishna, date, url, filename} ] } }
-  let unmatched = [];
-  let view = { type: 'shelf' };
-  let searchQuery = '';
-
-  function normalize(s){
-    return (s||'').replace(/[\u0591-\u05C7]/g,'').replace(/\s+/g,'').trim();
-  }
-
+  // ====== מספרים עבריים ======
   // ממיר מספר לאותיות גימטריה (1 -> א, 15 -> טו, 21 -> כא)
   function toHebrewNumeral(num){
     if (!num || num < 1) return String(num);
@@ -736,40 +493,31 @@
     // טיפול מיוחד ב-15 (טו) ו-16 (טז) כדי לא לכתוב שם השם
     if (n === 15) { out += 'טו'; n = 0; }
     else if (n === 16) { out += 'טז'; n = 0; }
-    else {
-      out += tens[Math.floor(n/10)] || '';
-      n = n % 10;
-      out += ones[n] || '';
-    }
+    else { out += tens[Math.floor(n/10)] || ''; n = n % 10; out += ones[n] || ''; }
     return out;
   }
+  const heb = toHebrewNumeral;
 
-  // ממיר אות גימטריה או מספר-כתוב-במילים למספר. מחזיר null אם לא מספר.
+  // ממיר אות גימטריה או מספר למספר. מחזיר null אם לא מספר.
   const HEB_VALUES = {'א':1,'ב':2,'ג':3,'ד':4,'ה':5,'ו':6,'ז':7,'ח':8,'ט':9,
                       'י':10,'כ':20,'ל':30,'מ':40,'נ':50,'ס':60,'ע':70,'פ':80,'צ':90,
                       'ק':100,'ר':200,'ש':300,'ת':400,'ך':20,'ם':40,'ן':50,'ף':80,'ץ':90};
   function parseHebrewNumber(token){
     if (!token) return null;
-    if (/^\d+$/.test(token)) return parseInt(token, 10); // מספר רגיל
-    // אות/אותיות גימטריה
+    if (/^\d+$/.test(token)) return parseInt(token, 10);
     if (/^[א-ת]+$/.test(token)){
       let sum = 0;
-      for (const ch of token){
-        if (!(ch in HEB_VALUES)) return null;
-        sum += HEB_VALUES[ch];
-      }
+      for (const ch of token){ if (!(ch in HEB_VALUES)) return null; sum += HEB_VALUES[ch]; }
       return sum > 0 ? sum : null;
     }
     return null;
   }
 
+  function normalize(s){ return (s||'').replace(/[֑-ׇ]/g,'').replace(/\s+/g,'').trim(); }
+
   function findCanonical(name){
     const n = normalize(name);
-    for (const seder of SEDARIM){
-      for (const m of seder.masechtot){
-        if (normalize(m) === n) return m;
-      }
-    }
+    for (const seder of SEDARIM) for (const m of seder.masechtot) if (normalize(m) === n) return m;
     return null;
   }
 
@@ -778,19 +526,14 @@
   function parseSearchQuery(raw){
     const result = { masechet: null, perek: null, mishna: null, masechetPartial: '' };
     if (!raw) return result;
-    // מסירים את מילות המפתch "פרק" ו"משנה" ומפרקים למילים
-    let tokens = raw.replace(/[\u0591-\u05C7]/g,'').split(/\s+/).filter(Boolean);
-    const numbers = [];
-    const words = [];
+    let tokens = raw.replace(/[֑-ׇ"'״׳]/g,'').split(/\s+/).filter(Boolean);
+    const numbers = [], words = [];
     for (const t of tokens){
-      if (t === 'פרק' || t === 'משנה' || t === "פ'" || t === "מ'") continue; // מילות עזר
+      if (t === 'פרק' || t === 'משנה' || t === 'פ' || t === 'מ' || t === 'מסכת') continue; // מילות עזר
       const num = parseHebrewNumber(t);
       // מילה שהיא כולה מספר/אות בודדת -> מספר. אחרת -> חלק משם המסכת
-      if (num !== null && (/^\d+$/.test(t) || t.length <= 2) && words.length > 0){
-        numbers.push(num);
-      } else {
-        words.push(t);
-      }
+      if (num !== null && (/^\d+$/.test(t) || t.length <= 2) && words.length > 0) numbers.push(num);
+      else words.push(t);
     }
     const masechetText = words.join(' ');
     result.masechetPartial = masechetText;
@@ -801,46 +544,31 @@
   }
 
   // מפענח ערך משנה שעשוי להיות בודד ('ג') או מאוחד ('ג,ד' / 'ג-ד' / 'ג_ד').
-  // מחזיר { num, extra, label } - num למיון, label לתצוגה. null אם לא זוהה.
   function parseMishnaValue(parts, startIdx){
-    // אוסף את כל האסימונים מ-startIdx והלאה, מנקה פסיקים/מקפים, ומפרק לאותיות
     const raw = parts.slice(startIdx).join('_');
     const pieces = raw.split(/[,\-_]+/).map(s => s.trim()).filter(Boolean);
     if (!pieces.length) return null;
     const nums = [];
-    for (const p of pieces){
-      const n = parseHebrewNumber(p);
-      if (n === null) return null;   // אם משהו לא מספר - נכשל
-      nums.push(n);
-    }
-    const label = nums.map(toHebrewNumeral).join('-');  // 'ג-ד'
-    return { num: nums[0], extra: nums.slice(1), label };
+    for (const p of pieces){ const n = parseHebrewNumber(p); if (n === null) return null; nums.push(n); }
+    return { num: nums[0], extra: nums.slice(1), label: nums.map(toHebrewNumeral).join('-') };
   }
 
   // מפענח שם קובץ בשני פורמטים:
   //   פורמט א' (של אבא): מסכת_פרק_א_משנה_יא.m4a  (אותיות גימטריה; תומך גם במשנה מאוחדת: משנה_ג,_ד)
   //   פורמט ב' (ישן):    מסכת_1_11_תאריך.mp3     (מספרים, עם או בלי תאריך)
   function parseFilename(filename){
-    const nameOnly = filename.split('/').pop();  // תמיכה בקבצים בתוך תיקיות ב-R2
-    const base = nameOnly
-      .replace(/\.(mp3|m4a)$/i, '')
-      .replace(/^_+|_+$/g, '');            // מתעלמים מקווים תחתונים בתחילת/סוף השם
-    const parts = base.split('_').filter(Boolean); // מתעלמים מקווים כפולים
-
-    // --- פורמט א': מכיל את המילים "פרק" ו"משנה" ---
+    const nameOnly = filename.split('/').pop();
+    const base = nameOnly.replace(/\.(mp3|m4a)$/i, '').replace(/^_+|_+$/g, '');
+    const parts = base.split('_').filter(Boolean);
     const iPerek = parts.indexOf('פרק');
     const iMishna = parts.indexOf('משנה');
     if (iPerek > 0 && iMishna > iPerek && parts[iPerek + 1] && parts[iMishna + 1]){
       const masechet = findCanonical(parts.slice(0, iPerek).join(' '));
       const perek = parseHebrewNumber(parts[iPerek + 1]);
-      const mv = parseMishnaValue(parts, iMishna + 1);   // תומך גם במשנה מאוחדת
-      if (masechet && perek && mv){
-        return { masechet, perek, mishna: mv.num, mishnaLabel: mv.label, date: '', source: 'r2' };
-      }
+      const mv = parseMishnaValue(parts, iMishna + 1);
+      if (masechet && perek && mv) return { masechet, perek, mishna: mv.num, extra: mv.extra, label: mv.label, date: '', source: 'r2' };
       return null;
     }
-
-    // --- פורמט ב': מסכת ואחריה שני מספרים (ואולי תאריך) ---
     const iNum = parts.findIndex(p => /^\d+$/.test(p));
     if (iNum > 0 && iNum + 1 < parts.length && /^\d+$/.test(parts[iNum + 1])){
       const masechet = findCanonical(parts.slice(0, iNum).join(' '));
@@ -849,511 +577,1055 @@
       const date = parts.slice(iNum + 2).join('_');
       if (masechet && !isNaN(perek) && !isNaN(mishna)){
         // קבצים ישנים עם תאריך יושבים ב-GitHub; קבצים בלי תאריך - ב-R2
-        return { masechet, perek, mishna, mishnaLabel: toHebrewNumeral(mishna), date, source: date ? 'github' : 'r2' };
+        return { masechet, perek, mishna, extra: [], label: toHebrewNumeral(mishna), date, source: date ? 'github' : 'r2' };
       }
     }
     return null;
   }
 
+  function fileUrl(path, source){
+    if (source === 'github') return `${CONFIG.folder}/${encodeURIComponent(path)}`;
+    return `${CONFIG.audioBase}/${path.split('/').map(encodeURIComponent).join('/')}`;
+  }
+
+  // ====== מצב ======
+  let index = {};        // מסכת -> פרק -> [משנה,...]
+  let byPath = {};       // נתיב -> משנה
+  let seq = [];          // כל המשניות לפי סדר המשנה (סדר, מסכת, פרק, משנה)
+  let unmatched = [];
+  let uploadDates = {};  // נתיב -> תאריך העלאה (uploads.json)
+  let view = { type:'shelf' };
+  const app = document.getElementById('app');
+
+  function buildIndex(paths){
+    index = {}; byPath = {}; unmatched = []; seq = [];
+    for (const path of paths){
+      if (!/\.(mp3|m4a)$/i.test(path)) continue;
+      const p = parseFilename(path);
+      if (!p){ unmatched.push(path); continue; }
+      const s = Object.assign(p, { path, filename: path.split('/').pop(), seder: sederOf[p.masechet], url: fileUrl(path, p.source) });
+      index[s.masechet] = index[s.masechet] || {};
+      (index[s.masechet][s.perek] = index[s.masechet][s.perek] || []).push(s);
+      byPath[path] = s;
+      seq.push(s);
+    }
+    seq.sort((a, b) => masechetOrder[a.masechet] - masechetOrder[b.masechet] || a.perek - b.perek || a.mishna - b.mishna);
+    seq.forEach((s, i) => s.seq = i);
+    for (const m in index) for (const p in index[m]) index[m][p].sort((a, b) => a.mishna - b.mishna);
+  }
+  function totalCount(){ return seq.length; }
+  function inMasechet(m){ return seq.filter(s => s.masechet === m); }
+  function nShiurim(n){ return n === 1 ? 'שיעור אחד' : n + ' שיעורים'; }
+  function nMishnayot(n){ return n === 1 ? 'משנה אחת' : n + ' משניות'; }
+
+  // ====== אייקונים ======
+  function svg(size, body, extra){ return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" ${extra == null ? 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"' : extra}>${body}</svg>`; }
+  const iconPlay  = n => svg(n, '<path d="M8 5v14l11-7z" fill="currentColor"/>', '');
+  const iconPause = n => svg(n, '<path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/>', '');
+  const iconBack15 = n => svg(n, '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><text x="12" y="15.5" font-size="7.5" font-family="Heebo,sans-serif" font-weight="700" fill="currentColor" stroke="none" text-anchor="middle">15</text>', 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"');
+  const iconFwd15  = n => svg(n, '<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/><text x="12" y="15.5" font-size="7.5" font-family="Heebo,sans-serif" font-weight="700" fill="currentColor" stroke="none" text-anchor="middle">15</text>', 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"');
+  const ICON_BM    = svg(20, '<path d="M6 3h12v18l-6-4-6 4z"/>');
+  const ICON_BM_ON = svg(20, '<path d="M6 3h12v18l-6-4-6 4z" fill="currentColor"/>');
+  const ICON_MORE  = svg(20, '<circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/>', 'fill="currentColor"');
+  const ICON_LINK  = svg(17, '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>');
+  const ICON_CHECK = svg(17, '<circle cx="12" cy="12" r="9.5"/><path d="m7.5 12.5 3 3 6-6.5"/>');
+  const ICON_AUDIO_DL = svg(17, '<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3z"/><path d="M3 19a2 2 0 0 0 2 2h1v-6H3z"/><path d="M12 9v7"/><path d="m9 13 3 3 3-3"/>');
+  const ICON_BOOK  = svg(17, '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>');
+  const ICON_BACK  = svg(20, '<path d="m9 6 6 6-6 6"/>', 'fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"');
+  const ICON_UP    = svg(15, '<path d="m9 6 6 6-6 6"/>', 'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"');
+  const ICON_CLOSE = svg(18, '<path d="M6 6l12 12M18 6 6 18"/>', 'fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"');
+  const ICON_CHEV  = svg(16, '<path d="m15 6-6 6 6 6"/>', 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"');
+  const ICON_SEARCH = svg(17, '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>');
+  const ICON_SHARE = svg(21, '<path d="M4 12v7h16v-7"/><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/>');
+  const ICON_NEXT  = svg(20, '<path d="M6 5v14l10-7z"/><path d="M18 5v14"/>');
+  const ICON_LOOP  = svg(21, '<path d="M17 2l4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>');
+  const ICON_SUN  = svg(20, '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/>');
+  const ICON_MOON = svg(20, '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>');
+
+  function escAttr(s){ return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+  function escHtml(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  // ====== עטיפות ======
+  function coverHtml(seder, text, sub, cls, base, id){
+    const len = Math.max(String(text || '').length, 1);
+    const fs = Math.round((base || 22) * Math.max(0.5, Math.min(1, 6 / len)));
+    return `<span class="cover${cls ? ' ' + cls : ''}"${id ? ` id="${id}"` : ''} style="${colorVars(seder)};--fs:${fs}px">${text ? `<b>${text}</b>` : ''}${sub ? `<i>${sub}</i>` : ''}</span>`;
+  }
+  const masechetCover = (m, cls, base, sub, id) => coverHtml(sederOf[m], m, sub == null ? 'סדר ' + sederOf[m] : sub, cls, base, id);
+
+  // ====== כותרות וקישורים ======
+  function shiurTitle(s){ return `${s.masechet} · פרק ${heb(s.perek)} · משנה ${s.label}`; }
+  function shortRef(s){ return `${s.masechet} ${heb(s.perek)} ${s.label}`; }
+  function directLink(s){ return `${location.origin}${location.pathname}?m=${encodeURIComponent(s.masechet)}&p=${s.perek}&n=${s.mishna}`; }
+  function sefariaLink(masechet, perek, mishna){
+    const name = SEFARIA_NAMES[masechet];
+    if (!name) return null;
+    return `https://www.sefaria.org.il/Mishnah_${name.replace(/ /g, '_')}${perek ? '.' + perek : ''}${mishna ? '.' + mishna : ''}`;
+  }
   function formatDate(d){
     const parts = (d||'').split('-');
     if (parts.length !== 3) return d || '';
-    const [y,m,day] = parts;
-    return `${day}.${m}.${y}`;
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+  }
+  function parseDay(d){ const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d || ''); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; }
+  function dayLabel(d){
+    const day = parseDay(d); if (!day) return '';
+    const now = new Date(); const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const diff = Math.round((today - day) / 86400000);
+    return diff === 0 ? 'היום' : diff === 1 ? 'אתמול' : 'ב-' + day.toLocaleDateString('he-IL', { day:'numeric', month:'long' });
   }
 
-  async function fetchFileList(){
-    // קריאת רשימת השיעורים מקובץ list.json שנבנה אוטומטית ע"י GitHub Action.
-    // הקובץ מוגש מאותו דומיין של האתר (GitHub Pages) - בלי הגבלות קצב ובלי תלות בשרתים חיצוניים.
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000); // מבטל אחרי 8 שניות אם תקוע
+  function fallbackCopy(url){
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast('הקישור הועתק'); } catch (e){ showToast('לא הצלחנו להעתיק — נסו שוב'); }
+    document.body.removeChild(ta);
+  }
+  function copyLink(url){
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(() => showToast('הקישור הועתק'), () => fallbackCopy(url));
+    else fallbackCopy(url);
+  }
+
+  // ====== טקסט המשנה (ספריא) ======
+  // נטען פרק שלם בבת אחת ונשמר במכשיר (הטקסט לא משתנה). קודם בקשה רגילה;
+  // אם הדפדפן חוסם אותה - דרך JSONP (ספריא תומכת ב-callback). אם גם זה
+  // נכשל (אין אינטרנט) - מציגים קישור לספריא במקום הטקסט.
+  const TXT_PREFIX = 'mishna:txt:';
+  const txtMem = {};
+  function sefRef(masechet, perek){ const n = SEFARIA_NAMES[masechet]; return n ? `Mishnah_${n.replace(/ /g, '_')}.${perek}` : null; }
+  function cleanText(t){ return String(t || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim(); }
+  function jsonp(url){
+    return new Promise((resolve, reject) => {
+      const cb = '__sef' + Math.random().toString(36).slice(2);
+      const sc = document.createElement('script');
+      const t = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 9000);
+      function cleanup(){ clearTimeout(t); delete window[cb]; sc.remove(); }
+      window[cb] = (d) => { cleanup(); resolve(d); };
+      sc.onerror = () => { cleanup(); reject(new Error('jsonp')); };
+      sc.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + cb;
+      document.head.appendChild(sc);
+    });
+  }
+  function getPerekText(masechet, perek){
+    const ref = sefRef(masechet, perek);
+    if (!ref) return Promise.resolve(null);
+    if (txtMem[ref]) return txtMem[ref];
+    try { const c = localStorage.getItem(TXT_PREFIX + ref); if (c) return (txtMem[ref] = Promise.resolve(JSON.parse(c))); } catch (e) {}
+    const ctrl = ('AbortController' in window) ? new AbortController() : null;
+    const timer = setTimeout(() => ctrl && ctrl.abort(), 9000);
+    const p = fetch(`https://www.sefaria.org/api/v3/texts/${ref}?version=hebrew&return_format=text_only`, ctrl ? { signal: ctrl.signal } : {})
+      .then(r => { if (!r.ok) throw new Error('http'); return r.json(); })
+      .then(d => { const v = d && d.versions && d.versions[0]; if (!v || !Array.isArray(v.text)) throw new Error('fmt'); return v.text; })
+      .catch(() => jsonp(`https://www.sefaria.org/api/texts/${ref}?context=0&commentary=0&pad=0`).then(d => { if (!d || !Array.isArray(d.he)) throw new Error('fmt'); return d.he; }))
+      .then(arr => {
+        const clean = arr.map(cleanText);
+        try { localStorage.setItem(TXT_PREFIX + ref, JSON.stringify(clean)); } catch (e) {}
+        return clean;
+      })
+      .catch(() => { delete txtMem[ref]; return null; })
+      .finally(() => clearTimeout(timer));
+    return (txtMem[ref] = p);
+  }
+  // טקסט של משנה (כולל משנה מאוחדת, למשל ג-ד)
+  function mishnaText(arr, s){ if (!arr || !s) return null; const nums = [s.mishna].concat(s.extra || []); const t = nums.map(n => arr[n - 1]).filter(Boolean); return t.length ? t.join(' ') : null; }
+  function snippet(t){ return t ? t.replace(/[֑-ׇ]/g, '').split(' ').slice(0, 8).join(' ') + '…' : ''; }
+
+  // ====== זיכרון האזנה (התקדמות, נשמע, הרשימה שלי) ======
+  // נשמר בדפדפן של המכשיר בלבד. המפתחות מתחילים ב-"mishna:" כי אתר הפרשות
+  // יושב באותה כתובת וחולק את אותו אחסון (שם: "parasha:"). כל הגישה דרך
+  // getProg/setProg - לחיבור עתידי להרשמה.
+  const STORE_KEY = 'mishna:progress';
+  let progress = {};
+  try { progress = JSON.parse(localStorage.getItem(STORE_KEY) || '{}') || {}; } catch (e) { progress = {}; }
+  let saveTimer = null;
+  // שמירה עם מיזוג: אם בינתיים נשמר משהו חדש יותר (בלשונית אחרת, או באפליקציה
+  // ובדפדפן במקביל) - לכל משנה נשמר המצב העדכני ביותר, ולא דורסים אותו.
+  function saveProgress(){
+    clearTimeout(saveTimer); saveTimer = null;
     try {
-      const res = await fetch(`list.json?_=${Date.now()}`, { cache: 'no-store', signal: controller.signal });
-      clearTimeout(timeout);
-      if (!res.ok) throw new Error('list-not-found');
-      const names = await res.json();
-      if (!Array.isArray(names)) return [];
-      return names
-        .filter(n => /\.(mp3|m4a)$/i.test(n))
-        .map(n => ({ name: n }));
-    } finally {
-      clearTimeout(timeout);
-    }
+      const disk = JSON.parse(localStorage.getItem(STORE_KEY) || '{}') || {};
+      for (const k in disk) if (!progress[k] || (disk[k].at || 0) > (progress[k].at || 0)) progress[k] = disk[k];
+      localStorage.setItem(STORE_KEY, JSON.stringify(progress));
+    } catch (e) {}
+  }
+  function saveSoon(){ if (!saveTimer) saveTimer = setTimeout(saveProgress, 4000); }
+  function getProg(path){ return progress[path] || null; }
+  const isDone = path => !!(progress[path] && progress[path].done);
+  function setProg(path, patch){
+    const prev = progress[path] || {};
+    const next = Object.assign({}, prev, patch, { at: Date.now() });
+    const becameDone = next.done && !prev.done;
+    if (becameDone){ next.doneAt = Date.now(); next.saved = false; }
+    progress[path] = next;
+    saveSoon();
+    if (becameDone) setTimeout(() => celebrate(path), 400);
+  }
+  // סיום פרק / מסכת - הודעה קטנה
+  function celebrate(path){
+    const s = byPath[path]; if (!s) return;
+    const perekAll = (index[s.masechet] || {})[s.perek] || [];
+    const mAll = inMasechet(s.masechet);
+    const fullyRecorded = Object.keys(index[s.masechet] || {}).length >= (PEREK_COUNTS[s.masechet] || 0);
+    if (fullyRecorded && mAll.every(x => isDone(x.path))) showToast(`סיימת את מסכת ${s.masechet}! 🎉`);
+    else if (perekAll.length > 1 && perekAll.every(x => isDone(x.path))) showToast(`סיימת את פרק ${heb(s.perek)} במסכת ${s.masechet} 🎉`);
   }
 
-  function fileUrl(file, parsed){
-    // קבצים חדשים (הפורמט של אבא / בלי תאריך) מנוגנים מ-R2.
-    // 8 השיעורים הישנים (עם תאריך בשם) נשארים ב-GitHub עד שיועברו.
-    if (parsed.source === 'github'){
-      return `${CONFIG.folder}/${encodeURIComponent(file.name)}`;
+  function listOf(pred, sortKey, desc){
+    return Object.keys(progress).filter(path => byPath[path] && pred(progress[path]))
+      .sort((a, b) => ((progress[a][sortKey] || 0) - (progress[b][sortKey] || 0)) * (desc ? -1 : 1)).map(path => byPath[path]);
+  }
+  function savedList(){ return listOf(p => p.saved && !p.done, 'savedAt', false); }
+  function continueList(){ return listOf(p => !p.saved && !p.done && p.t > 5, 'at', true).slice(0, 10); }
+  function heardList(){ return listOf(p => p.done, 'doneAt', true).slice(0, 12); }
+
+  function toggleSaved(path){
+    const p = getProg(path) || {};
+    setProg(path, p.saved ? { saved: false } : Object.assign({ saved: true, savedAt: Date.now() }, p.done ? { done: false, t: 0 } : {}));
+    saveProgress(); refreshCards(path); updateBadges(); updateSheet();
+    showToast(p.saved ? 'הוסר מהרשימה שלי' : 'נוסף לרשימה שלי');
+  }
+  function toggleHeard(path){
+    const p = getProg(path) || {};
+    setProg(path, p.done ? { done: false, t: 0 } : { done: true });
+    saveProgress(); refreshCards(path); updateBadges();
+  }
+  const DONE_RATIO = 0.9;   // מ-90% המשנה נחשבת "נשמעה"
+
+  // ====== הלימוד: איפה השיעור עומד, ואיפה אני ======
+  // "השיעור עכשיו" = המשנה האחרונה שהועלתה (העלאה רגילה; השלמות לא נרשמות).
+  // כשמתחילים מסכת חדשה - זה מתעדכן לבד, בלי שום הגדרה.
+  function shiurNow(){
+    let best = null, bestD = '';
+    for (const path in uploadDates){
+      const s = byPath[path]; if (!s) continue;
+      const d = uploadDates[path];
+      if (d > bestD || (d === bestD && s.seq > best.seq)){ best = s; bestD = d; }
     }
-    // קידוד כל חלק בנפרד כדי לשמר לוכסנים של תיקיות (כלאים/קובץ.m4a)
-    const encoded = file.name.split('/').map(encodeURIComponent).join('/');
-    return `${CONFIG.audioBase}/${encoded}`;
+    return best ? { s: best, date: bestD } : null;
+  }
+  // "הלימוד שלי" = ממשיכים מהמשנה האחרונה ששמעתי: אם לא סיימתי אותה - היא;
+  // אחרת - המשנה הבאה אחריה לפי הסדר שעוד לא שמעתי.
+  function myNext(){
+    let last = null, lastAt = 0;
+    for (const path in progress){ const p = progress[path]; if (byPath[path] && (p.t > 5 || p.done) && (p.at || 0) > lastAt){ last = byPath[path]; lastAt = p.at; } }
+    if (!last) return null;
+    if (!isDone(last.path)) return last;
+    for (let i = last.seq + 1; i < seq.length; i++) if (!isDone(seq[i].path)) return seq[i];
+    return null;
+  }
+  function nextInSeq(s){ return seq[s.seq + 1] || null; }
+  // נקודת ההמשך במסכת: המשנה האחרונה ששמעתי בה (או הבאה אחריה שלא שמעתי); אחרת - הראשונה שלא נשמעה
+  function resumeIn(masechet){
+    const list = inMasechet(masechet);
+    let last = -1, lastAt = 0;
+    list.forEach((s, i) => { const p = progress[s.path]; if (p && (p.t > 5 || p.done) && (p.at || 0) > lastAt){ last = i; lastAt = p.at; } });
+    if (last >= 0) for (let i = last; i < list.length; i++) if (!isDone(list[i].path)) return list[i];
+    return list.find(s => !isDone(s.path)) || null;
+  }
+  function heardCount(list){ return list.filter(s => isDone(s.path)).length; }
+
+  // ====== מצב שורה/כרטיס לפי ההאזנה ======
+  function fmtTime(sec){
+    sec = Math.max(0, Math.floor(sec || 0));
+    const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), ss = String(sec % 60).padStart(2, '0');
+    return h ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
+  }
+  function mins(sec){ return Math.max(1, Math.round(sec / 60)); }
+  function cardState(path){
+    const p = getProg(path) || {};
+    const isCur = current && current.path === path;
+    const playing = isCur && !audio.paused;
+    const d = p.d || 0, t = p.t || 0;
+    let meta = '';
+    if (playing) meta = 'מתנגן' + (d ? ` · ${mins(t)} מתוך ${mins(d)} דק'` : '');
+    else if (p.done) meta = `<span class="done">✓ נשמע</span>${d ? ` · ${mins(d)} דק'` : ''}`;
+    else if (t > 5 && d) meta = `נשמעו ${mins(t)} מתוך ${mins(d)} דק'`;
+    else if (d) meta = `${mins(d)} דק'`;
+    const pct = p.done ? 100 : (d ? Math.min(100, t / d * 100) : 0);
+    return { meta, pct, done: !!p.done, saved: !!p.saved && !p.done, isCur, playing };
+  }
+  function refreshCards(path){
+    app.querySelectorAll('[data-path]').forEach(el => {
+      if (path && el.dataset.path !== path) return;
+      const st = cardState(el.dataset.path);
+      const meta = el.querySelector('.shiur-meta'); if (meta) meta.innerHTML = st.meta + (el.dataset.date ? (st.meta ? ' · ' : '') + el.dataset.date : '');
+      const bar = el.querySelector('.shiur-bar i'); if (bar) bar.style.width = st.pct + '%';
+      el.classList.toggle('is-done', st.done);
+      el.classList.toggle('playing', st.isCur);
+      el.classList.toggle('started', st.pct > 0);
+      const sb = el.querySelector('.save-btn');
+      if (sb){ sb.classList.toggle('on', st.saved); sb.innerHTML = st.saved ? ICON_BM_ON : ICON_BM; sb.title = st.saved ? 'הסר מהרשימה שלי' : 'שמור לרשימה שלי'; }
+      const nb = el.querySelector('.num'); if (nb){ nb.innerHTML = st.playing ? iconPause(15) : st.done ? '✓' : nb.dataset.label; nb.setAttribute('aria-label', st.playing ? 'השהה' : 'נגן'); }
+      const pb = el.querySelector('.play-btn'); if (pb){ const n = el.classList.contains('daily') ? 22 : 18; pb.innerHTML = st.playing ? iconPause(n) : iconPlay(n); pb.setAttribute('aria-label', st.playing ? 'השהה' : 'נגן'); }
+    });
+    const bp = document.getElementById('playBig');
+    if (bp) bp.innerHTML = current && !audio.paused && bp.dataset.masechet === current.s.masechet ? iconPause(26) : iconPlay(26);
   }
 
-  function buildIndex(files){
-    index = {};
-    unmatched = [];
-    for (const f of files){
-      const parsed = parseFilename(f.name);
-      if (!parsed){
-        unmatched.push(f.name);
-        continue;
-      }
-      if (!index[parsed.masechet]) index[parsed.masechet] = {};
-      if (!index[parsed.masechet][parsed.perek]) index[parsed.masechet][parsed.perek] = [];
-      index[parsed.masechet][parsed.perek].push({
-        mishna: parsed.mishna,
-        mishnaLabel: parsed.mishnaLabel,
-        date: parsed.date,
-        url: fileUrl(f, parsed),
-        filename: f.name
+  // ====== תפריט ⋮ ======
+  const menuEl = document.getElementById('shiurMenu');
+  let menuFor = null;
+  function bottomChrome(){
+    const tabsTop = document.getElementById('tabs').getBoundingClientRect().top;
+    const mini = document.body.classList.contains('has-player') ? 70 : 0;
+    return tabsTop > window.innerHeight / 2 ? window.innerHeight - tabsTop + mini : mini;
+  }
+  function openMenu(btn){
+    const path = btn.closest('[data-path]').dataset.path;
+    if (menuFor && menuFor.path === path){ closeMenu(); return; }
+    closeMenu();
+    const s = byPath[path]; if (!s) return;
+    const sl = sefariaLink(s.masechet, s.perek, s.mishna);
+    menuEl.innerHTML = `
+      <a role="menuitem" href="${s.url}" download="${escAttr(s.filename)}" target="_blank" rel="noopener">${ICON_AUDIO_DL}<span>הורד את השיעור</span></a>
+      ${sl ? `<a role="menuitem" href="${sl}" target="_blank" rel="noopener">${ICON_BOOK}<span>המשנה בספריא</span></a>` : ''}
+      <button role="menuitem" data-act="copy">${ICON_LINK}<span>העתק קישור למשנה</span></button>
+      <button role="menuitem" data-act="heard">${ICON_CHECK}<span>${isDone(path) ? 'בטל סימון "נשמע"' : 'סמן כנשמע'}</span></button>`;
+    menuFor = { path, btn };
+    menuEl.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    const r = btn.getBoundingClientRect(), m = menuEl.getBoundingClientRect();
+    const below = r.bottom + 6 + m.height < window.innerHeight - bottomChrome();
+    menuEl.style.top = (window.scrollY + (below ? r.bottom + 6 : r.top - 6 - m.height)) + 'px';
+    menuEl.style.left = Math.max(8, Math.min(r.left, window.innerWidth - m.width - 8)) + 'px';
+    const first = menuEl.querySelector('a,button'); if (first) first.focus({ preventScroll:true });
+  }
+  function closeMenu(){ if (!menuFor) return; menuEl.hidden = true; menuFor.btn.setAttribute('aria-expanded', 'false'); menuFor = null; }
+  menuEl.addEventListener('click', (e) => {
+    const item = e.target.closest('a,button'); if (!item || !menuFor) return;
+    const s = byPath[menuFor.path];
+    if (item.dataset.act === 'copy') copyLink(directLink(s));
+    if (item.dataset.act === 'heard') toggleHeard(menuFor.path);
+    closeMenu();
+  });
+  document.addEventListener('click', (e) => { if (menuFor && !menuEl.contains(e.target) && !e.target.closest('.more-btn')) closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (menuFor) closeMenu(); else if (sheetOpen) history.back(); });
+  window.addEventListener('scroll', closeMenu, { passive:true });
+  window.addEventListener('resize', closeMenu);
+
+  // ====== הנגן ======
+  // נגן אחד לכל האתר, מחוץ לאזור שמתחלף בניווט - ממשיך להתנגן במעבר בין דפים.
+  // במשניות לומדים ברצף: בסוף משנה עוברים לבאה אחריה (אפשר לכבות "ניגון רציף").
+  const audio = document.getElementById('audio');
+  const miniEl = document.getElementById('mini');
+  const sheetEl = document.getElementById('sheet');
+  const seekEl = document.getElementById('seek');
+  let current = null;   // { path, s, fromList }
+  let seeking = false, sheetOpen = false;
+
+  const SPEEDS = [1, 1.25, 1.5, 1.75, 2];
+  let speed = 1, autoNext = true, txtSize = 19;
+  try {
+    const sp = parseFloat(localStorage.getItem('mishna:speed')); if (SPEEDS.includes(sp)) speed = sp;
+    autoNext = localStorage.getItem('mishna:autoNext') !== '0';
+    const ts = parseInt(localStorage.getItem('mishna:textSize'), 10); if (ts >= 14 && ts <= 30) txtSize = ts;
+  } catch (e) {}
+  function applySpeed(){ audio.defaultPlaybackRate = speed; audio.playbackRate = speed; }
+  function updateSpeedBtn(){ document.getElementById('speedVal').textContent = speed + '×'; }
+  document.getElementById('speedBtn').addEventListener('click', () => {
+    speed = SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length];
+    try { localStorage.setItem('mishna:speed', String(speed)); } catch (e) {}
+    applySpeed(); updateSpeedBtn();
+  });
+  function updateAutoBtn(){
+    const b = document.getElementById('autoBtn');
+    b.innerHTML = ICON_LOOP + (autoNext ? 'ניגון רציף' : 'עצור בסוף');
+    b.classList.toggle('on', autoNext);
+    b.setAttribute('aria-label', autoNext ? 'ניגון רציף פעיל - לחצו כדי לעצור בסוף כל משנה' : 'עצירה בסוף כל משנה - לחצו לניגון רציף');
+  }
+  function setAutoNext(v, toast){
+    autoNext = v;
+    try { localStorage.setItem('mishna:autoNext', v ? '1' : '0'); } catch (e) {}
+    updateAutoBtn(); updateSheet();
+    if (toast) showToast(v ? 'ניגון רציף: ממשיכים למשנה הבאה' : 'עצירה בסוף כל משנה');
+  }
+  document.getElementById('autoBtn').addEventListener('click', () => setAutoNext(!autoNext, true));
+  function applyTxtSize(){ document.getElementById('textBody').style.setProperty('--txt', txtSize + 'px'); }
+  function setTxtSize(d){ txtSize = Math.max(14, Math.min(30, txtSize + d)); try { localStorage.setItem('mishna:textSize', String(txtSize)); } catch (e) {} applyTxtSize(); }
+  document.getElementById('txtMinus').addEventListener('click', () => setTxtSize(-2));
+  document.getElementById('txtPlus').addEventListener('click', () => setTxtSize(2));
+  updateSpeedBtn(); updateAutoBtn(); applyTxtSize();
+  document.getElementById('miniPlay').innerHTML = iconPlay(28);
+  document.getElementById('bigPlay').innerHTML = iconPlay(32);
+  document.getElementById('miniBack').innerHTML = iconBack15(26);
+  document.getElementById('back15').innerHTML = iconBack15(34);
+  document.getElementById('fwd15').innerHTML = iconFwd15(34);
+
+  function playShiur(path, fromList){
+    if (current && current.path === path){ audio.paused ? audio.play() : audio.pause(); return; }
+    const s = byPath[path]; if (!s) return;
+    if (current) rememberPosition();
+    const p = getProg(path) || {};
+    // ממשיכים מאיפה שעצרו - אלא אם נשמעה כבר, או שנשארו רק שניות בודדות
+    const start = (!p.done && p.t > 5 && !(p.d && p.d - p.t < 10)) ? Math.floor(p.t) : 0;
+    current = { path, s, fromList: fromList != null ? fromList : (!!p.saved && !p.done) };
+    audio.src = s.url + (start ? '#t=' + start : '');
+    applySpeed();
+    document.getElementById('miniTitle').textContent = shiurTitle(s);
+    miniEl.setAttribute('style', colorVars(s.seder));
+    sheetEl.setAttribute('style', colorVars(s.seder));
+    document.getElementById('miniCover').outerHTML = coverHtml(s.seder, '', '', 'plain', 0, 'miniCover');
+    miniEl.hidden = false;
+    document.body.classList.add('has-player');
+    updateTimes(start, p.d || 0);
+    updateSheet();
+    setMediaSession();
+    audio.play().catch(() => {});
+    refreshCards();
+  }
+  function rememberPosition(){
+    if (!current || !audio.duration || !isFinite(audio.duration)) return;
+    const t = audio.currentTime, d = audio.duration, patch = { t, d };
+    if (t / d >= DONE_RATIO) patch.done = true;
+    setProg(current.path, patch);
+  }
+  function updateTimes(t, d){
+    document.getElementById('miniTime').textContent = d ? `${fmtTime(t)} / ${fmtTime(d)}` : fmtTime(t);
+    document.getElementById('curT').textContent = fmtTime(t);
+    document.getElementById('remT').textContent = '-' + fmtTime(Math.max(0, d - t));
+    const pct = d ? Math.min(100, t / d * 100) : 0;
+    document.getElementById('miniProg').style.width = pct + '%';
+    if (!seeking) seekEl.value = Math.round(pct * 10);
+  }
+  // מה מתנגן אחרי המשנה הזו: הבאה ברשימה (אם הופעלה משם), או הבאה לפי הסדר באותה מסכת
+  function upNext(){
+    if (!current) return null;
+    if (current.fromList) return savedList().find(x => x.path !== current.path) || null;
+    if (!autoNext) return null;
+    const n = nextInSeq(current.s);
+    return n && n.masechet === current.s.masechet ? n : null;
+  }
+  function updateSheet(){
+    if (!current) return;
+    const s = current.s, p = getProg(current.path) || {};
+    document.getElementById('sheetSrc').textContent = current.fromList ? 'מתנגן מתוך: הרשימה שלי' : (autoNext ? 'לימוד רציף' : 'לימוד') + ' · מסכת ' + s.masechet;
+    document.getElementById('sheetArt').outerHTML = masechetCover(s.masechet, '', 17, '', 'sheetArt');
+    document.getElementById('sheetTitle').innerHTML = `${s.masechet} · פרק ${heb(s.perek)}<br>משנה ${s.label}`;
+    document.getElementById('sheetSub').textContent = RABBI;
+    const saved = !!p.saved && !p.done;
+    const sv = document.getElementById('sheetSave');
+    sv.innerHTML = (saved ? ICON_BM_ON : ICON_BM) + (saved ? 'שמור' : 'שמירה');
+    sv.classList.toggle('on', saved);
+    const sl = sefariaLink(s.masechet, s.perek, s.mishna);
+    document.getElementById('textSrc').href = sl || '#';
+    const body = document.getElementById('textBody');
+    if (body.dataset.path !== s.path){
+      body.dataset.path = s.path;
+      body.className = 'text-body loading'; body.textContent = 'טוען את טקסט המשנה…';
+      getPerekText(s.masechet, s.perek).then(arr => {
+        if (body.dataset.path !== s.path) return;
+        const t = mishnaText(arr, s);
+        body.className = 'text-body';
+        body.innerHTML = t ? escHtml(t) : `הטקסט לא נטען כרגע. <a href="${sl}" target="_blank" rel="noopener">לפתוח את המשנה בספריא ↗</a>`;
       });
     }
-    // מיון
-    for (const masechet in index){
-      for (const perek in index[masechet]){
-        index[masechet][perek].sort((a,b) => a.mishna - b.mishna);
-      }
+    const nx = upNext(), nb = document.getElementById('sheetNext');
+    nb.hidden = !nx;
+    if (nx){
+      nb.dataset.path = nx.path;
+      nb.innerHTML = `<span>אחרי זה: <b>${nx.masechet === s.masechet && nx.perek === s.perek ? 'משנה ' + nx.label : shortRef(nx)}</b><span id="nextSnip"></span></span>${ICON_NEXT}`;
+      getPerekText(nx.masechet, nx.perek).then(arr => { const el = document.getElementById('nextSnip'); const t = mishnaText(arr, nx); if (el && t && nb.dataset.path === nx.path) el.textContent = ' · ' + snippet(t); });
     }
   }
+  document.getElementById('sheetNext').addEventListener('click', () => { const nx = upNext(); if (nx){ rememberPosition(); playShiur(nx.path, current.fromList); } });
 
-  function totalCount(){
-    let n = 0;
-    for (const masechet in index){
-      for (const perek in index[masechet]){
-        n += index[masechet][perek].length;
-      }
-    }
-    return n;
+  let lastUi = 0;
+  audio.addEventListener('timeupdate', () => {
+    if (!current) return;
+    const d = audio.duration, t = audio.currentTime;
+    if (d && isFinite(d)) updateTimes(t, d);
+    const now = Date.now();
+    if (now - lastUi < 1000) return;
+    lastUi = now;
+    const wasDone = isDone(current.path);
+    rememberPosition();
+    refreshCards(current.path);
+    if (!wasDone && isDone(current.path)){ updateBadges(); updateSheet(); }
+  });
+  audio.addEventListener('loadedmetadata', () => { if (!current) return; updateTimes(audio.currentTime, audio.duration); rememberPosition(); refreshCards(current.path); });
+  function onPlayState(){
+    document.getElementById('miniPlay').innerHTML = audio.paused ? iconPlay(28) : iconPause(28);
+    document.getElementById('bigPlay').innerHTML = audio.paused ? iconPlay(32) : iconPause(32);
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = audio.paused ? 'paused' : 'playing';
+    if (current){ rememberPosition(); saveProgress(); refreshCards(); }
+  }
+  audio.addEventListener('play', onPlayState);
+  audio.addEventListener('pause', onPlayState);
+  audio.addEventListener('ended', () => {
+    const nx = upNext();
+    if (current){ setProg(current.path, { done: true, t: audio.duration || 0 }); saveProgress(); updateBadges(); }
+    onPlayState();
+    if (!current) return;
+    if (nx){ playShiur(nx.path, current.fromList); showToast('ממשיכים: ' + shortRef(nx)); }
+    else if (current.fromList) showToast('סיימת את הרשימה');
+    else if (autoNext && !nextInSeq(current.s)) showToast('הגעת לסוף השיעורים שהוקלטו');
+    else if (autoNext) showToast(`הגעת לסוף השיעורים במסכת ${current.s.masechet}`);
+  });
+  audio.addEventListener('error', () => { if (current && audio.getAttribute('src')) showToast('לא הצלחנו לטעון את השיעור — נסו שוב'); });
+  seekEl.addEventListener('input', () => { seeking = true; if (audio.duration) document.getElementById('curT').textContent = fmtTime(seekEl.value / 1000 * audio.duration); });
+  seekEl.addEventListener('change', () => { seeking = false; if (audio.duration && isFinite(audio.duration)) audio.currentTime = seekEl.value / 1000 * audio.duration; });
+  function skip(sec){ if (!audio.duration) return; audio.currentTime = Math.min(Math.max(0, audio.currentTime + sec), audio.duration - 0.5); }
+  function togglePlay(){ if (current) audio.paused ? audio.play() : audio.pause(); }
+  document.getElementById('miniBack').addEventListener('click', () => skip(-15));
+  document.getElementById('back15').addEventListener('click', () => skip(-15));
+  document.getElementById('fwd15').addEventListener('click', () => skip(15));
+  document.getElementById('miniPlay').addEventListener('click', togglePlay);
+  document.getElementById('bigPlay').addEventListener('click', togglePlay);
+  document.getElementById('sheetSave').addEventListener('click', () => { if (current) toggleSaved(current.path); });
+
+  // נגן מלא: נפתח כ"דף" בהיסטוריה, כך שכפתור "חזור" של הטלפון סוגר אותו
+  function openSheet(){
+    if (!current || sheetOpen) return;
+    sheetOpen = true; updateSheet(); sheetEl.hidden = false; document.body.style.overflow = 'hidden';
+    history.pushState({ sheet:true }, '', location.href);
+    document.getElementById('bigPlay').focus({ preventScroll:true });
+  }
+  function hideSheet(){ sheetOpen = false; sheetEl.hidden = true; document.body.style.overflow = ''; }
+  document.getElementById('miniOpen').addEventListener('click', openSheet);
+  document.getElementById('sheetDown').addEventListener('click', () => history.back());
+  document.getElementById('sheetClose').addEventListener('click', () => {
+    rememberPosition(); saveProgress();
+    audio.pause(); current = null; audio.removeAttribute('src'); audio.load();
+    miniEl.hidden = true; document.body.classList.remove('has-player');
+    refreshCards(); history.back();
+  });
+  document.getElementById('sheetTitle').addEventListener('click', () => {
+    if (!current) return;
+    const s = current.s;
+    history.back();
+    setTimeout(() => go({ type:'perek', name:s.masechet, perek:s.perek, mishna:s.mishna }), 60);
+  });
+
+  // מסך הנעילה / אוזניות / שעון
+  function setMediaSession(){
+    if (!('mediaSession' in navigator) || !current) return;
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: shiurTitle(current.s), artist: RABBI, album: 'שיעורי משנה',
+        artwork: [{ src: new URL('bg-rabbi.jpg', location.href).href, sizes: '2000x1500', type: 'image/jpeg' }]
+      });
+      const ms = navigator.mediaSession;
+      ms.setActionHandler('play', () => audio.play());
+      ms.setActionHandler('pause', () => audio.pause());
+      ms.setActionHandler('seekbackward', () => skip(-15));
+      ms.setActionHandler('seekforward', () => skip(15));
+      ms.setActionHandler('seekto', (e) => { if (e.seekTime != null) audio.currentTime = e.seekTime; });
+      ms.setActionHandler('nexttrack', () => { const nx = upNext() || (current && nextInSeq(current.s)); if (nx){ rememberPosition(); playShiur(nx.path, current.fromList); } });
+    } catch (e) {}
+  }
+  window.addEventListener('pagehide', () => { rememberPosition(); saveProgress(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden){ rememberPosition(); saveProgress(); } });
+
+  // ====== מצב יום / לילה ======
+  const curTheme = () => document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  function themeBtnHtml(){
+    const light = curTheme() === 'light';
+    return `<button class="theme-btn" id="themeBtn" title="${light ? 'מעבר למצב לילה' : 'מעבר למצב יום'}" aria-label="${light ? 'מעבר למצב לילה' : 'מעבר למצב יום'}">${light ? ICON_MOON : ICON_SUN}</button>`;
+  }
+  function toggleTheme(){
+    const next = curTheme() === 'light' ? 'dark' : 'light';
+    const root = document.documentElement;
+    root.classList.add('theme-anim'); root.setAttribute('data-theme', next);
+    setTimeout(() => root.classList.remove('theme-anim'), 400);
+    try { localStorage.setItem('mishna:theme', next); } catch (e) {}
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', next === 'light' ? '#f6efe4' : '#170f10');
+    const b = document.getElementById('themeBtn'); if (b) b.outerHTML = themeBtnHtml();
+    showToast(next === 'light' ? 'מצב יום' : 'מצב לילה');
   }
 
+  // ====== לשוניות ומונים ======
+  const TAB_OF = { shelf:'home', seder:'home', masechet:'home', perek:'home', error:'home', recent:'recent', search:'search', list:'list' };
+  document.getElementById('tabs').addEventListener('click', (e) => {
+    const tab = e.target.closest('.tab'); if (!tab) return;
+    go({ type: tab.dataset.tab === 'home' ? 'shelf' : tab.dataset.tab });
+  });
+  function updateTabs(){
+    const active = TAB_OF[view.type] || 'home';
+    document.querySelectorAll('.tab').forEach(b => { const on = b.dataset.tab === active; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  }
+  function recentGroups(){
+    const groups = {};
+    for (const path in uploadDates){ const s = byPath[path], d = (uploadDates[path] || '').slice(0, 10); if (s && parseDay(d)) (groups[d] = groups[d] || []).push(s); }
+    const dates = Object.keys(groups).sort().reverse();
+    if (!dates.length) return { dates: [], groups, thisWeek: false };
+    const now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekAgo = new Date(today.getTime() - 6 * 86400000);
+    const week = dates.filter(d => parseDay(d) >= weekAgo);
+    return week.length ? { dates: week, groups, thisWeek: true } : { dates: [dates[0]], groups, thisWeek: false };
+  }
+  function newUnheard(){
+    const r = recentGroups(); if (!r.thisWeek) return 0;
+    return r.dates.reduce((n, d) => n + r.groups[d].filter(s => !isDone(s.path)).length, 0);
+  }
+  function updateBadges(){
+    const setBadge = (id, n) => { const b = document.getElementById(id); b.hidden = !n; b.textContent = n || ''; };
+    setBadge('badgeNew', newUnheard());
+    setBadge('badgeList', savedList().length);
+  }
+
+  // ====== כתובת הדף משקפת את התצוגה ======
+  // ?seder=זרעים · ?m=ברכות · ?m=ברכות&p=2 (&n=3 - הדגשת משנה) · ?new=1 · ?list=1 · ?search=1
+  // קישורים ישנים בצורת ?q=ברכות+פרק+א+משנה+ב ממשיכים לעבוד (resolveQuery).
+  function viewFromUrl(){
+    const q = new URLSearchParams(location.search);
+    if (q.has('new')) return { type:'recent' };
+    if (q.has('list')) return { type:'list' };
+    if (q.has('search')) return { type:'search' };
+    if (q.has('q')) return resolveQuery(q.get('q')) || { type:'search', query:q.get('q') };
+    const m = q.get('m');
+    if (m && sederOf[m]){
+      const p = parseInt(q.get('p'), 10), n = parseInt(q.get('n'), 10);
+      return p ? { type:'perek', name:m, perek:p, mishna: n || null } : { type:'masechet', name:m };
+    }
+    const sd = q.get('seder');
+    if (sd && SEDER_COLORS[sd]) return { type:'seder', name:sd };
+    return { type:'shelf' };
+  }
+  function urlOf(v){
+    const q = new URLSearchParams();
+    if (v.type === 'recent') q.set('new', '1');
+    if (v.type === 'list') q.set('list', '1');
+    if (v.type === 'search') q.set('search', '1');
+    if (v.type === 'seder') q.set('seder', v.name);
+    if (v.type === 'masechet' || v.type === 'perek') q.set('m', v.name);
+    if (v.type === 'perek'){ q.set('p', v.perek); if (v.mishna) q.set('n', v.mishna); }
+    const s = q.toString();
+    return location.pathname + (s ? '?' + s : '');
+  }
+  function sameView(a, b){
+    return a.type === b.type && (a.name || null) === (b.name || null) && (a.perek || null) === (b.perek || null) && (a.mishna || null) === (b.mishna || null);
+  }
+  window.addEventListener('popstate', () => {
+    if (sheetOpen){ hideSheet(); return; }
+    if (view.type === 'error') return;
+    view = viewFromUrl(); render(); window.scrollTo(0, 0);
+  });
+  function go(v){ view = v; render(); window.scrollTo({ top:0 }); }
+  function backTarget(){
+    if (view.type === 'perek') return { type:'masechet', name:view.name };
+    if (view.type === 'masechet') return { type:'seder', name:sederOf[view.name] };
+    return { type:'shelf' };
+  }
+
+  // מחיפוש/קישור ישן לתצוגה: משנה מסוימת -> הפרק עם הדגשה; פרק -> הפרק; מסכת -> המסכת
+  function resolveQuery(raw){
+    const parsed = parseSearchQuery(raw);
+    let m = parsed.masechet;
+    if (!m && parsed.masechetPartial){
+      const qn = normalize(parsed.masechetPartial);
+      const cands = Object.keys(index).filter(x => normalize(x).includes(qn));
+      if (cands.length === 1) m = cands[0];
+    }
+    if (!m) return null;
+    if (parsed.perek) return { type:'perek', name:m, perek:parsed.perek, mishna:parsed.mishna || null };
+    return { type:'masechet', name:m };
+  }
+
+  // ====== תצוגות ======
   function render(){
-    if (view.type === 'setup') renderSetup();
-    else if (view.type === 'error') renderError();
+    closeMenu();
+    if (view.type !== 'error' && !sameView(view, viewFromUrl())) history.pushState(null, '', urlOf(view));
+    if (view.type === 'error') renderError();
     else if (view.type === 'seder') renderSeder(view.name);
     else if (view.type === 'masechet') renderMasechet(view.name);
     else if (view.type === 'perek') renderPerek(view.name, view.perek);
-    else if (view.type === 'results') renderResults();
+    else if (view.type === 'recent') renderRecent();
+    else if (view.type === 'list') renderList();
+    else if (view.type === 'search') renderSearch();
     else renderShelf();
-
-    // אנימציית כניסה: הדף כולו נכנס בעדינות, והכרטיסים בתוכו נכנסים במפל קל
-    app.classList.remove('fade-in');
-    void app.offsetWidth; // מאלץ רינדור מחדש כדי שהאנימציה תרוץ שוב בכל render
-    app.classList.add('fade-in');
-    app.querySelectorAll('.shelf .volume').forEach((el, i) => {
-      el.style.animationDelay = Math.min(i * 25, 400) + 'ms';
-    });
-    app.querySelectorAll('.mishna-row').forEach((el, i) => {
-      el.style.animationDelay = Math.min(i * 40, 400) + 'ms';
-    });
+    updateTabs();
+    app.classList.remove('fade-in'); void app.offsetWidth; app.classList.add('fade-in');
   }
+  function topbar(crumb){ return `<div class="topbar"><button class="back-btn" aria-label="חזרה">${ICON_BACK}</button><span class="crumb">${crumb || ''}</span></div>`; }
+  function greeting(){ const h = new Date().getHours(); return h >= 5 && h < 12 ? 'בוקר טוב' : h >= 12 && h < 17 ? 'צהריים טובים' : h >= 17 && h < 21 ? 'ערב טוב' : 'לילה טוב'; }
 
-  // כמה שיעורים במסכת
-  function countMasechet(m){
-    const perakim = index[m];
-    if (!perakim) return 0;
-    let n = 0;
-    for (const p in perakim) n += perakim[p].length;
-    return n;
-  }
-
-  // כמה שיעורים בסדר שלם
-  function countSeder(seder){
-    let n = 0;
-    for (const m of seder.masechtot) n += countMasechet(m);
-    return n;
-  }
-
-  // כפתור "לדף הבית" בפירורי הלחם - מחזיר לארון הספרים מכל עומק ניווט בקליק אחד
-  function bindHomeBtn(){
-    const btn = document.getElementById('homeBtn');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      view = { type: 'shelf' };
-      render();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  // חלון ראשון: ששת הסדרים
+  // ---- בית ----
   function renderShelf(){
-    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    let html = '<div class="shelf">';
-    for (const seder of SEDARIM){
-      const count = countSeder(seder);
-      html += `<button class="volume ${count ? 'has-shiur' : 'empty'}" data-seder="${seder.name}">
-        סדר ${seder.name}<span class="count">${count ? count + ' שיעורים' : 'טרם הוקלט'}</span>
-      </button>`;
-    }
-    html += '</div>';
-    if (unmatched.length){
-      html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>`;
-      for (const u of unmatched) html += `<li>${u}</li>`;
-      html += `</ul><p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_א_משנה_ב.m4a (שם המסכת חייב להתאים לשמות שבארון)</p></details>`;
-    }
-    app.innerHTML = html;
-    app.querySelectorAll('.volume').forEach(btn => {
-      btn.addEventListener('click', () => {
-        view = { type: 'seder', name: btn.dataset.seder };
-        render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-  }
+    let html = `<a class="all-link" href="/">${ICON_UP}כל השיעורים</a>
+      <div class="home-top"><div><div class="greet">${greeting()}</div>
+        <div class="greet-s">שיעורי משנה<br>${RABBI}</div></div>
+        <span class="home-side">${themeBtnHtml()}<span class="avatar" aria-hidden="true"></span></span></div>
+      <button class="search-fake" data-go="search">${ICON_SEARCH}חיפוש: ברכות ב ג · מסכת פאה</button>`;
 
-  // חלון שני: המסכתות שבסדר
-  function renderSeder(name){
-    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    const seder = SEDARIM.find(s => s.name === name);
-    let html = `<div class="breadcrumb">${BREADCRUMB_HOME}<button id="backBtn">→ חזרה לסדרים</button></div>
-      <h2 class="masechet-title">סדר ${name}</h2>
-      <p class="masechet-sub">בחרו מסכת</p><div class="shelf">`;
-    for (const m of seder.masechtot){
-      const count = countMasechet(m);
-      html += `<button class="volume ${count ? 'has-shiur' : 'empty'}" data-masechet="${m}">
-        ${m}<span class="count">${count ? count + ' שיעורים' : 'טרם הוקלט'}</span>
-      </button>`;
+    // הלימוד היומי: ממשיכים מהמקום שלי; מי שעוד לא התחיל - מצטרף למקום של השיעור
+    const now = shiurNow(), mine = myNext();
+    const target = mine || (now && now.s);
+    // שמע הכל עד המקום של השיעור - מחכים למשנה הבאה
+    const caughtUp = !mine && now && isDone(now.s.path);
+    if (caughtUp){
+      html += `<div class="daily" data-path="${escAttr(now.s.path)}">
+        <div class="daily-tag">הלימוד היומי שלך</div>
+        <div class="daily-t">✓ אתה מעודכן עם השיעור</div>
+        <div class="daily-s">שמעת עד ${shortRef(now.s)}, המשנה האחרונה שעלתה (${dayLabel(now.date)}). המשנה הבאה תופיע כאן כשתעלה.</div>
+      </div>`;
+    } else if (target){
+      const st = cardState(target.path);
+      const mAll = inMasechet(target.masechet), h = heardCount(mAll);
+      let sub;
+      if (mine && now && mine.masechet === now.s.masechet){
+        let behind = 0;
+        for (let i = mine.seq; i <= now.s.seq; i++) if (!isDone(seq[i].path)) behind++;
+        sub = behind === 0 ? '✓ אתה מעודכן עם השיעור' : behind === 1 ? 'זו המשנה האחרונה שעלתה' : `אתה ${behind} משניות אחרי השיעור`;
+      } else if (mine) sub = st.meta ? st.meta.replace(/<[^>]+>/g, '') : 'המשנה הבאה שלך לפי הסדר';
+      else sub = 'המשנה האחרונה שעלתה' + (now ? ' · ' + dayLabel(now.date) : '');
+      html += `<div class="daily" data-path="${escAttr(target.path)}">
+        <div class="daily-tag">${mine ? 'הלימוד היומי שלך' : 'הצטרפו לשיעור'}</div>
+        <div class="daily-t">${shiurTitle(target)}</div>
+        <div class="daily-s">${sub}</div>
+        <div class="daily-row"><div style="flex:1;min-width:0"><div class="daily-bar"><i style="width:${mAll.length ? h / mAll.length * 100 : 0}%"></i></div>
+          <div class="daily-bs">מסכת ${target.masechet} · ${h} מתוך ${nMishnayot(mAll.length)} נשמעו</div></div>
+          <button class="play-btn" aria-label="${st.playing ? 'השהה' : 'נגן'}">${st.playing ? iconPause(22) : iconPlay(22)}</button></div>
+      </div>`;
+      if (mine && now && now.s.path !== target.path){
+        html += `<button class="now-line" data-now="${escAttr(now.s.path)}"><span class="now-dot"></span>השיעור עכשיו: <b>${shortRef(now.s)}</b> · עלתה ${dayLabel(now.date)}</button>`;
+      }
     }
-    html += '</div>';
-    app.innerHTML = html;
-    bindHomeBtn();
-    document.getElementById('backBtn').addEventListener('click', () => {
-      view = { type: 'shelf' };
-      render();
-    });
-    app.querySelectorAll('.volume').forEach(btn => {
-      btn.addEventListener('click', () => {
-        view = { type: 'masechet', name: btn.dataset.masechet };
-        render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-  }
 
-  // חלון שלישי: רשימת הפרקים של המסכת
-  function renderMasechet(name){
-    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    const seder = SEDARIM.find(s => s.masechtot.includes(name));
-    let html = `<div class="breadcrumb">${BREADCRUMB_HOME}<button id="backBtn">→ חזרה לסדר ${seder ? seder.name : ''}</button></div>
-      <h2 class="masechet-title">מסכת ${name}</h2>
-      <p class="masechet-sub">סדר ${seder ? seder.name : ''}</p>`;
+    html += `<div id="installSlot">${installHtml()}</div>`;
 
-    const perakim = index[name] || {};
-    // מציגים את כל פרקי המסכת - גם אלה שטרם הוקלטו
-    const total = PEREK_COUNTS[name] || 0;
-    const nums = [];
-    for (let i = 1; i <= total; i++) nums.push(i);
-    for (const p of Object.keys(perakim).map(Number)){   // ליתר ביטחון: פרק שקיים בקבצים ולא בטבלה
-      if (!nums.includes(p)) nums.push(p);
-    }
-    nums.sort((a,b) => a-b);
-    if (!nums.length){
-      html += `<div class="empty-state">עדיין לא הוקלטו שיעורים במסכת זו — יום אחד בבוא הזמן ⁠תמצא אותם כאן.</div>`;
-    } else {
-      html += '<div class="shelf">';
-      const targetPerek = view.perek || null;
-      for (const p of nums){
-        const n = perakim[p] ? perakim[p].length : 0;
-        const hi = targetPerek === p ? ' highlight' : '';
-        const anchor = targetPerek === p ? ' id="target-perek"' : '';
-        html += `<button class="volume ${n ? 'has-shiur' : 'empty'}${hi}" data-perek="${p}"${anchor}>
-          פרק ${toHebrewNumeral(p)}<span class="count">${n ? n + ' משניות' : 'טרם הוקלט'}</span>
-        </button>`;
+    // המסכתות שלי - שיש בהן התקדמות, לפי הפעילות האחרונה
+    const act = {};
+    for (const path in progress){ const s = byPath[path]; if (s && (progress[path].t > 5 || progress[path].done)) act[s.masechet] = Math.max(act[s.masechet] || 0, progress[path].at || 0); }
+    const myM = Object.keys(act).sort((a, b) => act[b] - act[a]);
+    if (myM.length){
+      html += `<div class="sec"><h3>המסכתות שלי</h3></div><div class="shelf">`;
+      for (const m of myM){
+        const all = inMasechet(m), h = heardCount(all), nx = resumeIn(m);
+        html += `<button class="tile" data-masechet="${m}">${masechetCover(m, '', 22)}<div class="tile-t">${m}</div>
+          <div class="mini-bar"><i style="width:${all.length ? h / all.length * 100 : 0}%"></i></div>
+          <div class="tile-s">${h}/${all.length}${nx ? ' · פרק ' + heb(nx.perek) : ' · ✓'}</div></button>`;
       }
       html += '</div>';
     }
-    app.innerHTML = html;
-    bindHomeBtn();
-    document.getElementById('backBtn').addEventListener('click', () => {
-      view = seder ? { type: 'seder', name: seder.name } : { type: 'shelf' };
-      render();
-    });
-    app.querySelectorAll('.volume').forEach(btn => {
-      btn.addEventListener('click', () => {
-        view = { type: 'perek', name: name, perek: Number(btn.dataset.perek) };
-        render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-    // גלילה אל הפרק שנמצא בחיפוש
-    const targetEl = document.getElementById('target-perek');
-    if (targetEl){
-      setTimeout(() => targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+
+    const r = recentGroups();
+    const items = [].concat(...r.dates.map(d => r.groups[d])).sort((a, b) => b.seq - a.seq).slice(0, 4);
+    if (items.length){
+      html += `<div class="sec"><h3>${r.thisWeek ? 'חדש השבוע' : 'העלאות אחרונות'}</h3><button class="link" data-go="recent">הכל</button></div>`;
+      for (const s of items) html += shiurRowHtml(s, { withName:true, date: uploadDates[s.path] });
     }
+
+    html += `<div class="sec"><h3>ששה סדרי משנה</h3><span class="link">${nShiurim(totalCount())}</span></div><div class="arch">`;
+    for (const sd of SEDARIM){
+      const n = sd.masechtot.reduce((a, m) => a + inMasechet(m).length, 0);
+      html += `<button class="vol${n ? '' : ' empty'}" data-seder="${sd.name}">${coverHtml(sd.name, '', '', 'plain')}
+        <span><div class="vol-n">סדר ${sd.name}</div><div class="vol-c">${n ? nShiurim(n) : 'טרם הוקלט'}</div></span></button>`;
+    }
+    html += '</div>';
+    if (unmatched.length){
+      html += `<details class="unmatched"><summary>קבצים שלא זוהו (${unmatched.length})</summary><ul>${unmatched.map(u => `<li>${escHtml(u)}</li>`).join('')}</ul>
+        <p>בדקו ששם הקובץ בנוי כך: מסכת_פרק_א_משנה_ב.m4a (שם המסכת חייב להתאים לשמות שבארון)</p></details>`;
+    }
+    html += `<p class="dedic">נבנה באהבה עבור אאמו"ר הרה"ג רבי יצחק ולדומירסקי</p>`;
+    app.innerHTML = html;
   }
 
-  // חלון רביעי: המשניות של הפרק, עם הנגנים
+  // ---- סדר ----
+  function renderSeder(name){
+    const sd = SEDARIM.find(x => x.name === name);
+    const total = sd.masechtot.reduce((a, m) => a + inMasechet(m).length, 0);
+    let html = `<div class="page" style="${colorVars(name)}"><div class="tint"></div><div style="position:relative">${topbar('ששה סדרי משנה')}
+      <div class="hdr">${coverHtml(name, name, 'סדר', '', 30)}<div><div class="hdr-t">סדר ${name}</div><div class="hdr-s">${sd.masechtot.length} מסכתות · ${total ? nShiurim(total) : 'טרם הוקלט'}</div></div></div>
+      <div class="plist" style="margin-top:14px">`;
+    for (const m of sd.masechtot){
+      const all = inMasechet(m), h = heardCount(all);
+      html += `<button class="prow${all.length ? '' : ' empty'}" data-masechet="${m}">${masechetCover(m, 'sm', 15, '')}
+        <span class="prow-gr"><div class="prow-n">מסכת ${m}</div><div class="prow-s">${all.length ? `${nShiurim(all.length)}${h ? ` · נשמעו ${h}` : ''}` : 'טרם הוקלט'}</div></span>
+        ${all.length ? `<span class="prow-c">${ICON_CHEV}</span>` : ''}</button>`;
+    }
+    app.innerHTML = html + '</div></div></div>';
+  }
+
+  // ---- מסכת: פרקים עם טבעות התקדמות ----
+  function ringSvg(heard, rec){
+    const C = 113.1;
+    if (!rec) return `<svg class="ring" viewBox="0 0 44 44"><circle class="trk" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-dasharray="3 4"/></svg>`;
+    if (heard >= rec) return `<svg class="ring" viewBox="0 0 44 44"><circle class="ok" cx="22" cy="22" r="18" fill="none" stroke-width="4"/><text x="22" y="27" text-anchor="middle" font-size="15" style="fill:var(--done)">✓</text></svg>`;
+    return `<svg class="ring" viewBox="0 0 44 44"><circle class="trk" cx="22" cy="22" r="18" fill="none" stroke-width="4"/>${heard ? `<circle class="val" cx="22" cy="22" r="18" fill="none" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(heard / rec * C).toFixed(1)} ${C}" transform="rotate(-90 22 22)"/>` : ''}<text x="22" y="26.5" text-anchor="middle" font-size="12" font-weight="700">${heard}/${rec}</text></svg>`;
+  }
+  function renderMasechet(name){
+    const sd = sederOf[name];
+    const all = inMasechet(name), h = heardCount(all);
+    const perakim = index[name] || {};
+    const total = PEREK_COUNTS[name] || 0;
+    const nums = []; for (let i = 1; i <= total; i++) nums.push(i);
+    for (const p of Object.keys(perakim).map(Number)) if (!nums.includes(p)) nums.push(p);
+    nums.sort((a, b) => a - b);
+    const nx = resumeIn(name);
+    let html = `<div class="page" style="${colorVars(sd)}"><div class="tint"></div><div style="position:relative">${topbar('סדר ' + sd)}
+      <div class="hdr">${masechetCover(name, '', 28)}<div><div class="hdr-t">מסכת ${name}</div><div class="hdr-s">סדר ${sd} · ${total} פרקים · ${all.length ? nShiurim(all.length) : 'טרם הוקלט'}</div></div></div>`;
+    if (all.length){
+      html += `<div class="prog-row"><span class="bar"><i style="width:${h / all.length * 100}%"></i></span><span>${h} מתוך ${all.length} נשמעו</span></div>
+        <div class="ctl"><div class="ctl-l">
+          <a class="icon-btn" href="${sefariaLink(name)}" target="_blank" rel="noopener" title="המסכת בספריא" aria-label="המסכת בספריא">${ICON_BOOK}</a>
+          <button class="icon-btn" data-share="${escAttr(location.origin + location.pathname + '?m=' + encodeURIComponent(name))}" title="העתק קישור" aria-label="העתק קישור למסכת">${ICON_SHARE}</button></div>
+          <div class="ctl-r">${nx ? `<div class="next-l">${h ? 'המשך:' : 'התחלה:'}<br><b>פרק ${heb(nx.perek)} משנה ${nx.label}</b></div>` : `<div class="next-l">✓ שמעת את כל<br>השיעורים במסכת</div>`}
+          <button class="big-play" id="playBig" data-masechet="${name}" aria-label="המשך לימוד במסכת">${iconPlay(26)}</button></div></div>`;
+    }
+    if (!nums.length) html += `<div class="empty-box">עדיין לא הוקלטו שיעורים במסכת זו</div>`;
+    html += '<div class="pgrid">';
+    for (const p of nums){
+      const rows = perakim[p] || [], hp = heardCount(rows);
+      const cur = nx && nx.perek === p;
+      html += `<button class="pk${rows.length ? '' : ' off'}${cur ? ' cur' : ''}" data-perek="${p}">${ringSvg(hp, rows.length)}
+        <span class="pk-n">פרק ${heb(p)}</span><span class="pk-c">${!rows.length ? 'טרם הוקלט' : hp >= rows.length ? 'סיימת' : cur ? 'לומדים עכשיו' : nMishnayot(rows.length)}</span></button>`;
+    }
+    app.innerHTML = html + '</div></div></div>';
+    if (current) refreshCards();
+  }
+
+  // ---- פרק: שורה לכל משנה, עם תחילת הטקסט ----
   function renderPerek(name, perek){
-    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    const targetMishna = view.mishna || null;
-    const rows = (index[name] && index[name][perek]) ? index[name][perek] : [];
-    let html = `<div class="breadcrumb">${BREADCRUMB_HOME}<button id="backBtn">→ חזרה למסכת ${name}</button></div>
-      <h2 class="masechet-title">מסכת ${name} · פרק ${toHebrewNumeral(perek)}</h2>
-      <p class="masechet-sub">${rows.length} שיעורים בפרק</p>`;
-    if (!rows.length){
-      html += `<div class="empty-state">עדיין לא הוקלטו שיעורים בפרק זה.</div>`;
+    const sd = sederOf[name];
+    const rows = (index[name] && index[name][perek]) || [];
+    const h = heardCount(rows);
+    let html = `<div class="page" style="${colorVars(sd)}">${topbar(`סדר ${sd} · מסכת ${name}`)}
+      <h2 class="ptitle">${name} · פרק ${heb(perek)}</h2>
+      <p class="psub">${rows.length ? `${nMishnayot(rows.length)}${h ? ` · נשמעו ${h}` : ''}` : 'טרם הוקלט'}</p>
+      <div class="acts-row">${rows.length ? `<button class="pill-btn" id="playPerek">${iconPlay(15)} נגן את כל הפרק</button>` : ''}
+        ${sefariaLink(name, perek) ? `<a class="pill-out" href="${sefariaLink(name, perek)}" target="_blank" rel="noopener">${ICON_BOOK} הפרק בספריא</a>` : ''}</div>`;
+    if (!rows.length) html += `<div class="empty-box">עדיין לא הוקלטו שיעורים בפרק זה.</div>`;
+    let marked = false;
+    for (const s of rows){
+      const hl = !!view.mishna && (s.mishna === view.mishna || (s.extra || []).includes(view.mishna));
+      html += shiurRowHtml(s, { hl, target: hl && !marked, date: s.date ? 'הוקלט ב-' + formatDate(s.date) : (uploadDates[s.path] ? 'עלתה ' + dayLabel(uploadDates[s.path]) : '') });
+      if (hl) marked = true;
     }
-    for (const shiur of rows){
-      const hi = targetMishna === shiur.mishna ? ' highlight' : '';
-      const anchor = targetMishna === shiur.mishna ? ' id="target-mishna"' : '';
-      const sLink = sefariaLink(name, perek, shiur.mishna);
-      const shareUrl = directLink(name, perek, shiur.mishna);
-      html += `<div class="mishna-row${hi}"${anchor}>
-        <div class="mishna-head">
-          <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
-          <button class="share-btn" data-link="${escAttr(shareUrl)}" title="העתק קישור למשנה זו" aria-label="העתק קישור למשנה זו">${ICON_LINK}</button>
-          ${sLink ? `<a class="text-link" href="${sLink}" target="_blank" rel="noopener">${ICON_BOOK} עיין בטקסט</a>` : ''}
-          ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
-        </div>
-        <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
-      </div>`;
-    }
-    app.innerHTML = html;
-    bindHomeBtn();
-    document.getElementById('backBtn').addEventListener('click', () => {
-      view = { type: 'masechet', name: name };
-      render();
-    });
+    app.innerHTML = html + '</div>';
     const target = document.getElementById('target-mishna');
-    if (target){
-      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-    }
+    if (target) setTimeout(() => target.scrollIntoView({ behavior:'smooth', block:'center' }), 100);
+    // תחילת הטקסט של כל משנה (נטען מספריא, נשמר במכשיר)
+    getPerekText(name, perek).then(arr => {
+      if (!arr || view.type !== 'perek' || view.name !== name || view.perek !== perek) return;
+      app.querySelectorAll('.snip[data-p]').forEach(el => { el.textContent = snippet(mishnaText(arr, byPath[el.dataset.p])); });
+    });
   }
 
-  // דף תוצאות חיפוש עצמאי - מציג רק את המשניות שנמצאו, עם נגנים
-  function renderResults(){
-    headerMeta.innerHTML = `<strong>${totalCount()}</strong> שיעורים מוקלטים בארכיון`;
-    const parsed = parseSearchQuery(searchQuery);
-    let html = `<div class="breadcrumb"><button id="backBtn">→ חזרה לארון הספרים</button></div>
-      <h2 class="masechet-title">תוצאות חיפוש</h2>
-      <p class="masechet-sub">"${searchQuery}"</p>`;
+  // שורת משנה. withName - בדפים שמערבבים מסכתות (חדש, הרשימה): עטיפה ומראה מקום מלא
+  function shiurRowHtml(s, o){
+    o = o || {};
+    const st = cardState(s.path);
+    const dateTxt = o.date && o.withName ? 'עלתה ' + dayLabel(o.date) : (o.date || '');
+    const lead = o.withName ? masechetCover(s.masechet, 'sm', 14, '') : `<button class="num" data-label="${s.label}" aria-label="${st.playing ? 'השהה' : 'נגן'}">${st.playing ? iconPause(15) : st.done ? '✓' : s.label}</button>`;
+    return `<div class="shiur-row${o.hl ? ' hl' : ''}${st.done ? ' is-done' : ''}${st.isCur ? ' playing' : ''}${st.pct > 0 ? ' started' : ''}" data-path="${escAttr(s.path)}"${dateTxt ? ` data-date="${escAttr(dateTxt)}"` : ''}${o.target ? ' id="target-mishna"' : ''}>
+        ${lead}
+        <div class="shiur-gr">
+          <div class="shiur-title">${o.withName ? shiurTitle(s) : 'משנה ' + s.label}</div>
+          ${o.withName ? '' : `<div class="snip" data-p="${escAttr(s.path)}"></div>`}
+          <div class="shiur-sub"><span class="shiur-meta">${st.meta}${dateTxt ? (st.meta ? ' · ' : '') + dateTxt : ''}</span></div>
+          <div class="shiur-bar"><i style="width:${st.pct}%"></i></div>
+        </div>
+        <div class="shiur-acts">
+          <button class="icon-btn save-btn${st.saved ? ' on' : ''}" title="${st.saved ? 'הסר מהרשימה שלי' : 'שמור לרשימה שלי'}" aria-label="שמירה לרשימה שלי">${st.saved ? ICON_BM_ON : ICON_BM}</button>
+          <button class="icon-btn more-btn" title="אפשרויות נוספות" aria-label="אפשרויות נוספות" aria-haspopup="menu">${ICON_MORE}</button>
+        </div>
+        ${o.withName ? `<button class="play-btn" aria-label="${st.playing ? 'השהה' : 'נגן'}">${st.playing ? iconPause(18) : iconPlay(18)}</button>` : ''}
+      </div>`;
+  }
 
-    // מזהים מסכת: שם מלא, או שם חלקי שמתאים בדיוק למסכת אחת שיש בה שיעורים
-    let masechet = (parsed.masechet && index[parsed.masechet]) ? parsed.masechet : null;
-    let candidates = [];
-    if (!masechet && parsed.masechetPartial){
-      const q = normalize(parsed.masechetPartial);
-      candidates = Object.keys(index).filter(m => normalize(m).includes(q));
-      if (candidates.length === 1) masechet = candidates[0];
+  // ---- חדש ----
+  function renderRecent(){
+    const r = recentGroups();
+    let html = `<div class="page-top"><h2 class="ptitle">${r.thisWeek || !r.dates.length ? 'חדש השבוע' : 'העלאות אחרונות'}</h2>
+      <p class="psub">${r.thisWeek ? 'משניות שעלו לאתר בשבוע האחרון' : (r.dates.length ? 'השבוע לא עלו שיעורים חדשים - זו ההעלאה האחרונה' : '')}</p></div>`;
+    if (!r.dates.length) html += `<div class="empty-box">אין עדיין מידע על העלאות</div>`;
+    for (const d of r.dates){
+      html += `<div class="sub-h">${parseDay(d).toLocaleDateString('he-IL', { weekday:'long', day:'numeric', month:'long' })}</div>`;
+      for (const s of r.groups[d].slice().sort((a, b) => a.seq - b.seq)) html += shiurRowHtml(s, { withName:true });
     }
-
-    if (masechet){
-      const perakim = index[masechet];
-      const perekNums = Object.keys(perakim).map(Number).sort((a,b) => a-b)
-        .filter(p => !parsed.perek || p === parsed.perek);
-      let found = 0;
-      for (const p of perekNums){
-        const rows = perakim[p].filter(s => !parsed.mishna || s.mishna === parsed.mishna);
-        if (!rows.length) continue;
-        html += `<div class="perek-block"><h3 class="perek-heading">מסכת ${masechet} · פרק ${toHebrewNumeral(p)}</h3>`;
-        for (const shiur of rows){
-          found++;
-          const sLink = sefariaLink(masechet, p, shiur.mishna);
-          const shareUrl = directLink(masechet, p, shiur.mishna);
-          html += `<div class="mishna-row">
-            <div class="mishna-head">
-              <span class="mishna-num">משנה ${shiur.mishnaLabel || toHebrewNumeral(shiur.mishna)}</span>
-              <button class="share-btn" data-link="${escAttr(shareUrl)}" title="העתק קישור למשנה זו" aria-label="העתק קישור למשנה זו">${ICON_LINK}</button>
-              ${sLink ? `<a class="text-link" href="${sLink}" target="_blank" rel="noopener">${ICON_BOOK} עיין בטקסט</a>` : ''}
-              ${shiur.date ? `<span class="mishna-date">הוקלט ב-${formatDate(shiur.date)}</span>` : ''}
-            </div>
-            <audio controls preload="none"><source src="${shiur.url}" type="${/\.m4a$/i.test(shiur.filename) ? 'audio/mp4' : 'audio/mpeg'}"></audio>
-          </div>`;
-        }
-        html += `</div>`;
-      }
-      if (!found){
-        html += `<div class="no-results">נמצאה מסכת ${masechet}, אבל אין שיעור שמתאים לפרק או למשנה שביקשת</div>`;
-      }
-    } else if (candidates.length > 1){
-      html += `<p class="masechet-sub">נמצאו כמה מסכתות מתאימות — בחר אחת:</p><div class="shelf">`;
-      for (const m of candidates){
-        let count = 0;
-        for (const p in index[m]) count += index[m][p].length;
-        html += `<button class="volume has-shiur" data-masechet="${m}">${m}<span class="count">${count} שיעורים</span></button>`;
-      }
-      html += `</div>`;
-    } else {
-      html += `<div class="no-results">לא נמצאו שיעורים עבור "${searchQuery}"</div>`;
-    }
-
     app.innerHTML = html;
-    document.getElementById('backBtn').addEventListener('click', () => {
-      view = { type: 'shelf' };
-      render();
-    });
-    app.querySelectorAll('.volume').forEach(btn => {
-      btn.addEventListener('click', () => {
-        view = { type: 'masechet', name: btn.dataset.masechet };
-        render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
   }
 
-  function renderSetup(){
-    headerMeta.textContent = '';
-    app.innerHTML = `<div class="notice">
-      <h2>שלב הקמה אחרון</h2>
-      <p>האתר מוכן, אבל עדיין לא מחובר למאגר שבו יישמרו קבצי ההקלטה.</p>
-      <p>פתחו את קובץ <code>index.html</code>, חפשו את החלק שנקרא <code>CONFIG</code> בתחילת הקוד, והזינו שם את:</p>
-      <p><code>owner</code> — שם המשתמש שלכם ב-GitHub<br><code>repo</code> — שם המאגר (repository) שיצרתם</p>
-      <p>לאחר מכן שמרו והעלו מחדש. זו פעולה חד-פעמית בלבד.</p>
-    </div>`;
+  // ---- הרשימה שלי ----
+  function renderList(){
+    const saved = savedList(), cont = continueList(), heard = heardList();
+    let html = `<div class="page-top"><h2 class="ptitle">הרשימה שלי</h2><p class="psub">נשמר במכשיר הזה בלבד</p></div>`;
+    if (!saved.length && !cont.length && !heard.length) html += `<div class="empty-box">הרשימה ריקה.<br>לחצו על סימן השמירה ${ICON_BM} ליד משנה כדי להוסיף אותה לכאן.</div>`;
+    if (saved.length){
+      html += `<div class="list-head"><span class="sub-h">שמורים להמשך</span><button class="pill-btn" id="playListBtn">${iconPlay(15)} נגן את הרשימה</button></div>`;
+      for (const s of saved) html += shiurRowHtml(s, { withName:true });
+    }
+    if (cont.length){ html += `<div class="sub-h">התחלתי ולא סיימתי</div>`; for (const s of cont) html += shiurRowHtml(s, { withName:true }); }
+    if (heard.length){ html += `<div class="sub-h">נשמעו לאחרונה</div>`; for (const s of heard) html += shiurRowHtml(s, { withName:true }); }
+    app.innerHTML = html;
+  }
+
+  // ---- חיפוש ----
+  let lastQuery = '';
+  function renderSearch(){
+    if (view.query != null){ lastQuery = view.query; view.query = null; }
+    app.innerHTML = `<div class="page-top"><h2 class="ptitle">חיפוש</h2></div>
+      <div class="search-box">${ICON_SEARCH}<input type="search" class="search-input" id="searchInput" placeholder="מסכת, פרק ומשנה" autocomplete="off" enterkeyhint="search"></div>
+      <p class="search-hint">למשל: ברכות ב ג · שביעית פרק ה · מסכת פאה</p>
+      <div id="searchResults"></div>`;
+    const input = document.getElementById('searchInput');
+    input.value = lastQuery;
+    input.addEventListener('input', () => { lastQuery = input.value; searchResults(); });
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const v = resolveQuery(lastQuery);
+      if (v) go(v); else { const first = document.querySelector('#searchResults .prow'); if (first) first.click(); }
+    });
+    searchResults();
+    setTimeout(() => input.focus(), 50);
+  }
+  function searchResults(){
+    const box = document.getElementById('searchResults');
+    const q = lastQuery.trim();
+    const withContent = Object.keys(index).sort((a, b) => masechetOrder[a] - masechetOrder[b]);
+    const mRow = m => { const all = inMasechet(m), h = heardCount(all); return `<button class="prow" data-masechet="${m}">${masechetCover(m, 'sm', 15, '')}
+      <span class="prow-gr"><div class="prow-n">מסכת ${m}</div><div class="prow-s">סדר ${sederOf[m]} · ${nShiurim(all.length)}${h ? ` · נשמעו ${h}` : ''}</div></span><span class="prow-c">${ICON_CHEV}</span></button>`; };
+    if (!q){ box.innerHTML = `<div class="plist">${withContent.map(mRow).join('')}</div>`; return; }
+    const parsed = parseSearchQuery(q);
+    let m = parsed.masechet && index[parsed.masechet] ? parsed.masechet : null;
+    let cands = [];
+    if (!m && parsed.masechetPartial){
+      const qn = normalize(parsed.masechetPartial);
+      cands = withContent.filter(x => normalize(x).includes(qn));
+      if (cands.length === 1) m = cands[0];
+    }
+    if (m){
+      let html = `<div class="plist">${mRow(m)}</div>`;
+      if (parsed.perek){
+        const rows = ((index[m] || {})[parsed.perek] || []).filter(s => !parsed.mishna || s.mishna === parsed.mishna || (s.extra || []).includes(parsed.mishna));
+        html += `<div class="sub-h">פרק ${heb(parsed.perek)}${parsed.mishna ? ' · משנה ' + heb(parsed.mishna) : ''}</div>`;
+        html += rows.length ? rows.map(s => shiurRowHtml(s, {})).join('') : `<div class="empty-box">${parsed.mishna ? 'המשנה הזו' : 'הפרק הזה'} עוד לא הוקלט</div>`;
+      }
+      box.innerHTML = html;
+      if (parsed.perek) getPerekText(m, parsed.perek).then(arr => { if (!arr) return; box.querySelectorAll('.snip[data-p]').forEach(el => { el.textContent = snippet(mishnaText(arr, byPath[el.dataset.p])); }); });
+      return;
+    }
+    if (cands.length > 1){ box.innerHTML = `<div class="plist">${cands.map(mRow).join('')}</div>`; return; }
+    const known = parsed.masechet;
+    box.innerHTML = `<div class="empty-box">${known ? `מסכת ${known} עוד לא הוקלטה` : `לא נמצאה מסכת בשם "${escHtml(parsed.masechetPartial || q)}"`}</div>`;
   }
 
   function renderError(){
-    headerMeta.textContent = '';
-    app.innerHTML = `<div class="notice">
-      <h2>רשימת השיעורים עדיין לא נבנתה</h2>
-      <p>אם זו הפעם הראשונה: ודאו שקובץ ה-Action הועלה (ראו הוראות) ושהועלה לפחות שיעור אחד לתיקיית shiurim. הרשימה נבנית אוטומטית תוך כדקה מהעלאת שיעור.</p>
-      <button class="refresh-btn" id="retryBtn">נסה שוב</button>
-    </div>`;
-    document.getElementById('retryBtn').addEventListener('click', () => load());
+    app.innerHTML = `<div class="page-top"><h2 class="ptitle">שגיאה</h2></div><div class="empty-box">שגיאה בטעינת רשימת השיעורים.<br>בדקו את החיבור לאינטרנט ונסו לרענן.</div>`;
   }
 
-  const CACHE_KEY = 'shiurim-cache-v1';
-
-  function saveCache(files){
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ files, savedAt: Date.now() }));
-    } catch (e){ /* לא קריטי אם זה נכשל */ }
-  }
-
-  function loadCache(){
-    try {
-      const raw = localStorage.getItem(CACHE_KEY);
-      return raw ? JSON.parse(raw).files : null;
-    } catch (e){
-      return null;
+  // ====== לחיצות (האצלת אירוע אחת לכל הדפים) ======
+  app.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t.closest('#themeBtn')){ toggleTheme(); return; }
+    if (t.closest('#installGo')){ doInstall(); return; }
+    if (t.closest('#installX')){ dismissInstall(); return; }
+    if (t.closest('#playBig')){
+      const m = view.name;
+      if (current && current.s.masechet === m) togglePlay();
+      else { const nx = resumeIn(m) || inMasechet(m)[0]; if (nx) playShiur(nx.path, false); }
+      return;
     }
+    const play = t.closest('.play-btn, .num');
+    if (play){ playShiur(play.closest('[data-path]').dataset.path); return; }
+    const save = t.closest('.save-btn'); if (save){ toggleSaved(save.closest('[data-path]').dataset.path); return; }
+    const more = t.closest('.more-btn'); if (more){ openMenu(more); return; }
+    if (t.closest('.back-btn')){ go(backTarget()); return; }
+    const sh = t.closest('[data-share]'); if (sh){ copyLink(sh.dataset.share); return; }
+    if (t.closest('#playPerek')){
+      const rows = (index[view.name] || {})[view.perek] || [];
+      const nx = rows.find(s => !isDone(s.path)) || rows[0];
+      if (nx){ if (!autoNext) setAutoNext(true, false); playShiur(nx.path, false); }
+      return;
+    }
+    if (t.closest('#playListBtn')){
+      const l = savedList(); if (!l.length) return;
+      if (current && current.path === l[0].path){ current.fromList = true; if (audio.paused) audio.play(); updateSheet(); }
+      else playShiur(l[0].path, true);
+      return;
+    }
+    const nl = t.closest('.now-line'); if (nl){ const s = byPath[nl.dataset.now]; if (s) go({ type:'perek', name:s.masechet, perek:s.perek, mishna:s.mishna }); return; }
+    const daily = t.closest('.daily'); if (daily){ playShiur(daily.dataset.path); return; }
+    const g = t.closest('[data-go]'); if (g){ go({ type:g.dataset.go }); return; }
+    const vol = t.closest('[data-seder]'); if (vol){ go({ type:'seder', name:vol.dataset.seder }); return; }
+    const mas = t.closest('[data-masechet]'); if (mas){ go({ type:'masechet', name:mas.dataset.masechet }); return; }
+    const pk = t.closest('.pk'); if (pk){ go({ type:'perek', name:view.name, perek:+pk.dataset.perek }); return; }
+    // לחיצה על שורת משנה (לא על כפתור/קישור) - מנגנת
+    const row = t.closest('.shiur-row'); if (row && !t.closest('a,button')){ playShiur(row.dataset.path); return; }
+  });
+
+  // ====== האפליקציה המאוחדת ======
+  // אפליקציה אחת לכל השיעורים ("שיעורי הרב"), שנפתחת בדף השער. כשפתוחים
+  // כאפליקציה מסמנים את החלון - כדי שאתר הפרשות יידע שהוא בתוכה ולא באפליקציית
+  // הפרשות הישנה. ?app=1 מגיע מקיצורי הדרך של האייקון - מסירים אותו מהכתובת.
+  const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (isStandalone()){
+    try { sessionStorage.setItem('shiurim:app', '1'); localStorage.setItem('shiurim:unified', '1'); } catch (e) {}
+  }
+  if (new URLSearchParams(location.search).has('app')){
+    const u = new URL(location.href); u.searchParams.delete('app');
+    history.replaceState(null, '', u.pathname + u.search);
   }
 
-  // מחזיר true/false לפי הצלחה, כדי שקוד קורא (כמו כפתור הרענון) יוכל
-  // לדווח למשתמש בפועל מה קרה, ולא רק לרנדר בשקט.
-  async function load(retryCount){
-    retryCount = (typeof retryCount === 'number') ? retryCount : 0;
-    try {
-      const files = await fetchFileList();
-      buildIndex(files);
-      saveCache(files);
-      view = (view.type === 'masechet' || view.type === 'seder' || view.type === 'perek') ? view : { type: 'shelf' };
-      render();
-      return true;
-    } catch (e){
-      // ניסיון חוזר אוטומטי פעם אחת אחרי כשל זמני (למשל הגבלת קצב של GitHub)
-      if (retryCount < 1){
-        await new Promise(r => setTimeout(r, 3000));
-        return load(retryCount + 1);
-      }
-      // אם יש נתונים שמורים מקודם - נציג אותם במקום מסך שגיאה
-      const cached = loadCache();
-      if (cached){
-        buildIndex(cached);
-        view = (view.type === 'masechet' || view.type === 'seder' || view.type === 'perek') ? view : { type: 'shelf' };
+  // התקנה: אנדרואיד/מחשב (כרום) - כפתור (beforeinstallprompt); אייפון - הסבר קצר.
+  // לא מוצג כשכבר פתוחים כאפליקציה, או אחרי שסגרו את ההצעה (כאן או בדף השער).
+  let installEvt = null;
+  const INSTALL_KEY = 'shiurim:installDismissed';
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function installDismissed(){ try { return !!localStorage.getItem(INSTALL_KEY); } catch (e) { return false; } }
+  function installHtml(){
+    if (isStandalone() || installDismissed() || !(installEvt || isIOS)) return '';
+    const sub = installEvt ? 'משניות ופרשות במקום אחד, ממסך הבית' : 'בספארי: כפתור השיתוף ⎋ ואז "הוסף למסך הבית"';
+    return `<div class="install"><img src="/icons/icon-192.png" alt="">
+      <div class="install-gr"><div class="install-t">התקינו את האפליקציה</div><div class="install-s">${sub}</div></div>
+      ${installEvt ? '<button class="install-go" id="installGo">התקנה</button>' : ''}
+      <button class="install-x" id="installX" aria-label="סגור">${ICON_CLOSE}</button></div>`;
+  }
+  function refreshInstall(){ const slot = document.getElementById('installSlot'); if (slot) slot.innerHTML = installHtml(); }
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; refreshInstall(); });
+  window.addEventListener('appinstalled', () => { installEvt = null; refreshInstall(); showToast('האפליקציה הותקנה'); });
+  function doInstall(){
+    if (!installEvt) return;
+    installEvt.prompt();
+    installEvt.userChoice.finally(() => { installEvt = null; refreshInstall(); });
+  }
+  function dismissInstall(){ try { localStorage.setItem(INSTALL_KEY, '1'); } catch (e) {} refreshInstall(); }
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js', { scope:'/' }).catch(() => {});
+
+  // ====== טעינה ======
+  const LIST_CACHE = 'mishna:listCache';
+  function fetchJSON(url, ms){
+    const ctrl = ('AbortController' in window) ? new AbortController() : null;
+    const t = setTimeout(() => ctrl && ctrl.abort(), ms || 8000);
+    return fetch(url, Object.assign({ cache:'no-store' }, ctrl ? { signal:ctrl.signal } : {}))
+      .then(r => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); }).finally(() => clearTimeout(t));
+  }
+  function load(){
+    const uploadsReq = fetchJSON('uploads.json?t=' + Date.now()).catch(() => ({}));
+    return Promise.all([fetchJSON('list.json?t=' + Date.now()).then(list => {
+        try { localStorage.setItem(LIST_CACHE, JSON.stringify(list)); } catch (e) {}
+        return list;
+      }).catch(() => {
+        // אין רשת - מציגים את הרשימה השמורה מהביקור הקודם
+        try { const c = JSON.parse(localStorage.getItem(LIST_CACHE)); if (Array.isArray(c)) return c; } catch (e) {}
+        throw new Error('no list');
+      }), uploadsReq])
+      .then(([list, uploads]) => {
+        buildIndex(Array.isArray(list) ? list : []);
+        uploadDates = uploads || {};
+        updateBadges();
+        view = viewFromUrl();
+        // קישור ישן (?q=...) - מחליפים לכתובת החדשה בלי להוסיף להיסטוריה
+        if (new URLSearchParams(location.search).has('q') && view.type !== 'search') history.replaceState(null, '', urlOf(view));
         render();
-        return false;
-      }
-      view = { type: 'error' };
-      render();
-      return false;
-    }
+      })
+      .catch(() => { view = { type:'error' }; render(); });
   }
 
   let toastTimer;
   function showToast(msg){
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  const refreshLabel = document.getElementById('refreshLabel');
+  // ספארי באייפון מתעלם מ-user-scalable=no, אז חוסמים את מחוות הצביטה ישירות
+  ['gesturestart', 'gesturechange'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive:false }));
 
-  refreshBtn.addEventListener('click', async () => {
-    if (refreshBtn.classList.contains('is-loading')) return;
-    refreshBtn.classList.add('is-loading');
-    refreshLabel.textContent = 'בודק…';
-    const before = totalCount();
-    const ok = await load();
-    refreshBtn.classList.remove('is-loading');
-    refreshLabel.textContent = 'בדוק שיעורים חדשים';
-    if (!ok){
-      showToast('לא הצלחנו להתחבר לשרת — נסו שוב בעוד רגע');
-      return;
-    }
-    const added = totalCount() - before;
-    showToast(added > 0 ? `נמצאו ${added} שיעורים חדשים` : 'הרשימה מעודכנת — אין חדש');
-  });
-
-  function runSearch(){
-    searchQuery = searchInput.value.trim();
-    if (!searchQuery){
-      view = { type: 'shelf' };
-      render();
-      return;
-    }
-    // אם החיפוש מזהה מסכת אחת ברורה - נכנסים ישר לחלון שלה
-    const parsed = parseSearchQuery(searchQuery);
-    let masechet = (parsed.masechet && index[parsed.masechet]) ? parsed.masechet : null;
-    if (!masechet && parsed.masechetPartial){
-      const q = normalize(parsed.masechetPartial);
-      const cands = Object.keys(index).filter(m => normalize(m).includes(q));
-      if (cands.length === 1) masechet = cands[0];
-    }
-    if (masechet){
-      const perakim = index[masechet] || {};
-      const rows = parsed.perek ? perakim[parsed.perek] : null;
-      if (parsed.perek && parsed.mishna && rows && rows.some(r => r.mishna === parsed.mishna)){
-        // בוקשה משנה מסוימת שקיימת - נכנסים לחלון הפרק ומדגישים אותה
-        view = { type: 'perek', name: masechet, perek: parsed.perek, mishna: parsed.mishna };
-      } else if (parsed.perek){
-        // בוקש פרק - חלון המסכת עם הפרק מודגש (גם אם טרם הוקלט)
-        view = { type: 'masechet', name: masechet, perek: parsed.perek };
-      } else {
-        // רק שם מסכת - חלון המסכת עם רשימת הפרקים
-        view = { type: 'masechet', name: masechet };
-      }
-      render();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    // לא זוהתה מסכת אחת ברורה - דף תוצאות רגיל
-    view = { type: 'results' };
-    render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-
-  searchBtn.addEventListener('click', runSearch);
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter'){
-      e.preventDefault();
-      runSearch();
-    }
-  });
-
-  load().then(() => {
-    // קישור ישיר למשנה מסוימת: ?q=ברכות+פרק+א+משנה+ב, אותה שאילתה כמו בחיפוש הרגיל
-    const q = new URLSearchParams(location.search).get('q');
-    if (q){
-      searchInput.value = q;
-      runSearch();
-    }
-  });
+  load();
 })();
 </script>
-  <script>
-document.addEventListener('play', function(e){
-  if (e.target.tagName === 'AUDIO'){
-    document.querySelectorAll('audio').forEach(function(a){
-      if (a !== e.target) a.pause();
-    });
-  }
-}, true);
-  </script>
 </body>
 </html>
