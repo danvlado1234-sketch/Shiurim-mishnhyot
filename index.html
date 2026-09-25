@@ -343,6 +343,14 @@
     background:var(--text); color:var(--bg); padding:10px 20px; border-radius:22px; font-size:14px; font-weight:700; opacity:0; pointer-events:none;
     transition:opacity .25s ease, transform .25s ease; box-shadow:0 10px 24px rgba(0,0,0,.4); max-width:calc(100vw - 40px); text-align:center; }
   .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  /* הורדת שיעור: פס עם התקדמות, וכפתור ("שמירה" באייפון / "פתח את הקובץ" אם נכשל) */
+  .dlbar { position:fixed; left:50%; transform:translateX(-50%); bottom:calc(var(--tabs-h) + var(--mini-h) + var(--safe-b) + 18px); z-index:61;
+    display:flex; align-items:center; gap:10px; background:var(--text); color:var(--bg); padding:8px 8px 8px 16px; border-radius:22px;
+    font-size:14px; font-weight:700; box-shadow:0 10px 24px rgba(0,0,0,.4); max-width:calc(100vw - 32px); }
+  .dlbar #dlMsg { padding-right:8px; }
+  .dlbar button { font:inherit; border:0; cursor:pointer; border-radius:16px; }
+  .dlbar #dlAct { background:var(--btn); color:var(--btn-ink); padding:6px 14px; white-space:nowrap; }
+  .dlbar #dlX { background:none; color:inherit; opacity:.6; width:28px; height:28px; padding:0; }
 
   /* ====== מחשב: הלשוניות למעלה, התוכן ממורכז ====== */
   @media (min-width: 900px) {
@@ -374,6 +382,7 @@
 <main class="wrap"><div id="app"></div></main>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="dlbar" id="dlBar" role="status" aria-live="polite" hidden><span id="dlMsg"></span><button id="dlAct" hidden></button><button id="dlX" aria-label="סגור">✕</button></div>
 <div class="menu" id="shiurMenu" role="menu" hidden></div>
 
 <div class="mini" id="mini" hidden>
@@ -878,7 +887,7 @@
     const s = byPath[path]; if (!s) return;
     const sl = sefariaLink(s.masechet, s.perek, s.mishna);
     menuEl.innerHTML = `
-      <a role="menuitem" href="${s.url}" download="${escAttr(s.filename)}" target="_blank" rel="noopener">${ICON_AUDIO_DL}<span>הורד את השיעור</span></a>
+      <button role="menuitem" data-act="dl">${ICON_AUDIO_DL}<span>הורד את השיעור</span></button>
       ${sl ? `<a role="menuitem" href="${sl}" target="_blank" rel="noopener">${ICON_BOOK}<span>המשנה בספריא</span></a>` : ''}
       <button role="menuitem" data-act="copy">${ICON_LINK}<span>העתק קישור למשנה</span></button>
       <button role="menuitem" data-act="heard">${ICON_CHECK}<span>${isDone(path) ? 'בטל סימון "נשמע"' : 'סמן כנשמע'}</span></button>`;
@@ -895,6 +904,7 @@
   menuEl.addEventListener('click', (e) => {
     const item = e.target.closest('a,button'); if (!item || !menuFor) return;
     const s = byPath[menuFor.path];
+    if (item.dataset.act === 'dl') downloadShiur(s.url, s.filename);
     if (item.dataset.act === 'copy') copyLink(directLink(s));
     if (item.dataset.act === 'heard') toggleHeard(menuFor.path);
     closeMenu();
@@ -1630,6 +1640,62 @@
         render();
       })
       .catch(() => { view = { type:'error' }; render(); });
+  }
+
+  // ====== הורדת שיעור ======
+  // קישור רגיל לקובץ בענן (כתובת של אתר אחר) לא באמת מוריד: הדפדפן פותח נגן,
+  // ובאייפון - במיוחד באפליקציה המותקנת - זה נתקע. לכן האתר מוריד את הקובץ
+  // בעצמו (דורש הרשאת CORS בדלי ה-R2), ואז: באייפון - חלון השיתוף עם "שמירה
+  // בקבצים" (הוא דורש לחיצה, לכן כפתור "שמירה" כשההורדה מוכנה); בשאר -
+  // הורדה רגילה לתיקיית ההורדות. אם ההורדה נכשלת - כפתור שפותח את הקובץ כמו פעם.
+  const dlBar = document.getElementById('dlBar'), dlMsg = document.getElementById('dlMsg'), dlAct = document.getElementById('dlAct');
+  let dlBusy = false, dlAction = null, dlHideTimer;
+  function showDl(msg, actLabel, action, autoHide){
+    clearTimeout(dlHideTimer);
+    dlMsg.textContent = msg;
+    dlAction = action || null;
+    dlAct.hidden = !actLabel; dlAct.textContent = actLabel || '';
+    dlBar.hidden = false;
+    if (autoHide) dlHideTimer = setTimeout(hideDl, autoHide);
+  }
+  function hideDl(){ dlBar.hidden = true; dlAction = null; }
+  dlAct.addEventListener('click', () => { const a = dlAction; hideDl(); if (a) a(); });
+  document.getElementById('dlX').addEventListener('click', hideDl);
+  const iosDevice = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  async function downloadShiur(url, filename){
+    if (dlBusy) return;
+    dlBusy = true;
+    showDl('מוריד את השיעור…');
+    try {
+      // no-store: שלא יוחזר עותק מהמטמון של הנגן (בלי כותרות ה-CORS)
+      const r = await fetch(url, { mode:'cors', cache:'no-store' });
+      if (!r.ok) throw new Error('http ' + r.status);
+      const total = +r.headers.get('content-length') || 0;
+      let blob;
+      if (r.body && r.body.getReader && total){
+        const reader = r.body.getReader(), parts = [];
+        let got = 0, shown = -1;
+        for (;;){
+          const { done, value } = await reader.read();
+          if (done) break;
+          parts.push(value); got += value.length;
+          const pct = Math.floor(got / total * 100);
+          if (pct !== shown){ shown = pct; dlMsg.textContent = `מוריד את השיעור… ${pct}%`; }
+        }
+        blob = new Blob(parts, { type: r.headers.get('content-type') || 'audio/mp4' });
+      } else blob = await r.blob();
+      const file = new File([blob], filename, { type: blob.type || 'audio/mp4' });
+      if (iosDevice && navigator.canShare && navigator.canShare({ files:[file] })){
+        showDl('השיעור מוכן', 'שמירה', () => navigator.share({ files:[file] }).catch(() => {}));
+      } else {
+        const u = URL.createObjectURL(file), a = document.createElement('a');
+        a.href = u; a.download = filename; document.body.appendChild(a); a.click();
+        setTimeout(() => { a.remove(); URL.revokeObjectURL(u); }, 60000);
+        showDl('השיעור ירד לתיקיית ההורדות', '', null, 3500);
+      }
+    } catch (e) {
+      showDl('ההורדה לא הצליחה', 'פתח את הקובץ', () => window.open(url, '_blank', 'noopener'));
+    } finally { dlBusy = false; }
   }
 
   let toastTimer;
