@@ -121,7 +121,7 @@
   .install-gr { flex:1; min-width:0; }
   .install-t { font-weight:700; font-size:14.5px; }
   .install-s { font-size:12.5px; color:var(--muted); margin-top:1px; line-height:1.4; }
-  .install-go { background:var(--btn); color:var(--btn-ink); border:0; border-radius:18px; padding:7px 14px; font-weight:700; font-size:13.5px; cursor:pointer; flex-shrink:0; font-family:inherit; }
+  .install-go { background:var(--btn); color:var(--btn-ink); border:0; border-radius:18px; padding:7px 14px; font-weight:700; font-size:13.5px; cursor:pointer; flex-shrink:0; font-family:inherit; text-decoration:none; }
   .install-x { background:none; border:0; color:var(--muted); cursor:pointer; padding:4px; flex-shrink:0; display:inline-flex; }
   .search-fake { all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; gap:9px; width:calc(100% - 36px); margin:14px 18px 0;
     background:var(--surface2); border-radius:12px; padding:12px 14px; font-size:14.5px; color:var(--muted); }
@@ -1587,7 +1587,9 @@
     history.replaceState(null, '', u.pathname + u.search);
   }
 
-  // התקנה: אנדרואיד/מחשב (כרום) - כפתור (beforeinstallprompt); אייפון - הסבר קצר.
+  // התקנה: אנדרואיד/מחשב (כרום) - כפתור (beforeinstallprompt) שמתקין ישירות.
+  // אייפון: אין התקנה ישירה (אפל לא מאפשרת) - הכפתור מוביל לדף השער, שם נפתחת
+  // הדרכה לפי הדפדפן (ומשם גם האייקון נפתח בדף השער, ולא באתר הזה).
   // לא מוצג כשכבר פתוחים כאפליקציה, או אחרי שסגרו את ההצעה (כאן או בדף השער).
   let installEvt = null;
   const INSTALL_KEY = 'shiurim:installDismissed';
@@ -1595,10 +1597,9 @@
   function installDismissed(){ try { return !!localStorage.getItem(INSTALL_KEY); } catch (e) { return false; } }
   function installHtml(){
     if (isStandalone() || installDismissed() || !(installEvt || isIOS)) return '';
-    const sub = installEvt ? 'משניות ופרשות במקום אחד, ממסך הבית' : 'בספארי: כפתור השיתוף ⎋ ואז "הוסף למסך הבית"';
     return `<div class="install"><img src="/icons/icon-192.png" alt="">
-      <div class="install-gr"><div class="install-t">התקינו את האפליקציה</div><div class="install-s">${sub}</div></div>
-      ${installEvt ? '<button class="install-go" id="installGo">התקנה</button>' : ''}
+      <div class="install-gr"><div class="install-t">התקינו את האפליקציה</div><div class="install-s">משניות ופרשות במקום אחד, ממסך הבית</div></div>
+      ${installEvt ? '<button class="install-go" id="installGo">התקנה</button>' : '<a class="install-go" href="/?install=1">התקנה</a>'}
       <button class="install-x" id="installX" aria-label="סגור">${ICON_CLOSE}</button></div>`;
   }
   function refreshInstall(){ const slot = document.getElementById('installSlot'); if (slot) slot.innerHTML = installHtml(); }
