@@ -255,7 +255,7 @@ Write-Host "[1/3] מעלה שיעורים ל-R2..." -ForegroundColor Yellow
 $uploadFailed = @()
 foreach ($m in $masechtot) {
     Write-Host ("      -> " + $m.Name)
-    & "$root\rclone.exe" copy "$($m.FullName)" "r2:shiurim/$($m.Name)" --transfers 8 --checkers 8
+    & "$root\rclone.exe" copy "$($m.FullName)" "r2:shiurim/$($m.Name)" --ignore-case --include "*.m4a" --include "*.mp3" --transfers 8 --checkers 8
     if ($LASTEXITCODE -ne 0) { Write-Host "      !! שגיאה בהעלאת $($m.Name)" -ForegroundColor Red; $uploadFailed += $m.Name }
 }
 # העלאה שנכשלה - עוצרים כאן, בלי list.json ובלי git, כדי שהאתר לא יקשר לקובץ שלא בענן.
