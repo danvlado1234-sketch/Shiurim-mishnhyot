@@ -4,6 +4,8 @@
 
 # כלי ההעלאה נשאר מקומי
 rclone.exe
+rclone.conf
+*mail-config*.json
 
 # קבצי זבל של Windows
 Thumbs.db
