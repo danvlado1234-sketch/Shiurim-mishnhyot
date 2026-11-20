@@ -19,6 +19,9 @@ $root = $PSScriptRoot
 if (-not $root) { $root = (Get-Location).Path }
 Set-Location $root
 
+# אכיפת TLS 1.2+ בתקשורת יוצאת (חיוני ב-Windows PowerShell 5.1)
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
 Write-Host ""
 Write-Host "==============================================" -ForegroundColor Cyan
 Write-Host "     העלאת שיעורים - תהליך אוטומטי" -ForegroundColor Cyan
@@ -33,9 +36,21 @@ Write-Host ""
 # אם המשיכה נכשלת (אין אינטרנט, התנגשות) - מבטלים מיזוג חלקי, מדווחים וממשיכים:
 # ההעלאה לענן לא תלויה בזה.
 Write-Host "[0/3] מושך עדכונים מ-GitHub..." -ForegroundColor Yellow
+$headBefore = (git rev-parse HEAD)
 git pull origin main --no-rebase --no-edit
 if ($LASTEXITCODE -eq 0) {
     Write-Host "      מעודכן." -ForegroundColor Green
+    $headAfter = (git rev-parse HEAD)
+    if ($headBefore -and $headAfter -and ($headBefore -ne $headAfter)) {
+        $changedScripts = @(git diff --name-only $headBefore $headAfter | Where-Object { $_ -match '\.(ps1|bat|cmd)$' })
+        if ($changedScripts.Count -gt 0) {
+            Write-Host "      !! אזהרת אבטחה: העדכון מ-GitHub שינה סקריפטים: $($changedScripts -join ', ')" -ForegroundColor Red
+            $ans = (Read-Host "      אם ביצעתם את השינוי במודע, הקלידו 'כן' להמשך (אחרת לחצו Enter לעצירה)").Trim()
+            if ($ans -ne 'כן' -and $ans -ne 'y' -and $ans -ne 'yes') {
+                exit 1
+            }
+        }
+    }
 } else {
     # רק אם באמת נשאר מיזוג חלקי (בלי 2>$null: ב-PowerShell 5 עם Stop, פלט
     # שגיאה מופנה של git עוצר את כל הסקריפט)
@@ -84,10 +99,10 @@ if ($mp4Files -or $badNameFiles) {
         if (Test-IsAudioOnlyMp4 -Path $f.FullName) {
             $newName = $f.BaseName + '.m4a'
             $newPath = Join-Path $f.DirectoryName $newName
-            if (Test-Path $newPath) {
+            if (Test-Path -LiteralPath $newPath) {
                 Write-Host "      !! $($f.Name) - כבר קיים קובץ בשם $newName, לא הוחלף (בדקו ידנית)" -ForegroundColor Red
             } else {
-                Rename-Item -Path $f.FullName -NewName $newName
+                Rename-Item -LiteralPath $f.FullName -NewName $newName
                 Write-Host "      תוקן: $($f.Name) -> $newName" -ForegroundColor Green
             }
         } else {
@@ -102,10 +117,10 @@ if ($mp4Files -or $badNameFiles) {
     foreach ($f in $toClean) {
         $newName = (($f.BaseName -replace ' ', '_') -replace $quoteChars, '') + $f.Extension
         $newPath = Join-Path $f.DirectoryName $newName
-        if (Test-Path $newPath) {
+        if (Test-Path -LiteralPath $newPath) {
             Write-Host "      !! $($f.Name) - כבר קיים קובץ בשם $newName, לא הוחלף (בדקו ידנית)" -ForegroundColor Red
         } else {
-            Rename-Item -Path $f.FullName -NewName $newName
+            Rename-Item -LiteralPath $f.FullName -NewName $newName
             Write-Host "      תוקן: $($f.Name) -> $newName" -ForegroundColor Green
         }
     }
