@@ -6,6 +6,7 @@
 rclone.exe
 rclone.conf
 *mail-config*.json
+*mail-cred*.xml
 
 # קבצי זבל של Windows
 Thumbs.db
